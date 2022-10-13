@@ -9,14 +9,14 @@ import Foundation
 
 struct SearchResults: Codable, Hashable {
     let total: Int
-    let results: [UnsplashPhoto]
+    let results: [Photo]
 }
 
-struct UnsplashPhoto: Codable, Hashable {
+struct Photo: Codable, Hashable {
     
-    static func == (lhs: UnsplashPhoto, rhs: UnsplashPhoto) -> Bool {
-       return lhs.id == rhs.id
-    }
+//    static func == (lhs: Photo, rhs: Photo) -> Bool {
+//       return lhs.id == rhs.id
+//    }
     
     let id: String
     let width: Int

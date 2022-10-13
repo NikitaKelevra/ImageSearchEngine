@@ -12,15 +12,11 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        view.backgroundColor = .white
-        
-//        let searchPhotoVC = SearchPhotoViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        let favoritePhotoVC = FavoritePhotoViewController(collectionViewLayout: UICollectionViewFlowLayout())
-
+        view.backgroundColor = .white
         
         viewControllers = [
             generateNavigationController(rootViewController: SearchPhotoViewController(), title: "Photos", image: UIImage(systemName: "ticket")!),
-            generateNavigationController(rootViewController: FavoritePhotoViewController(), title: "Favourites", image: UIImage(systemName: "bookmark")!)
+            generateNavigationController(rootViewController: FavoritePhotoViewController(), title: "Favourites", image: UIImage(systemName: "heart")!)
         ]
     }
     
