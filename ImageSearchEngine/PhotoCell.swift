@@ -14,18 +14,29 @@ final class PhotoCell: UICollectionViewCell {
     static var reuseId: String = "PhotoCell"
     
     private let photoImageView: UIImageView = {
-       let imageView = UIImageView()
-       imageView.translatesAutoresizingMaskIntoConstraints = false
-       imageView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-       imageView.contentMode = .scaleAspectFill
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
        return imageView
    }()
+    
+    private let authorNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.highlightedTextColor = .black
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 0.8
+        label.backgroundColor = .clear.withAlphaComponent(0.5)
+        return label
+    }()
     
     // MARK: - Initiation
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupPhotoImageView()
+        setupElements()
     }
     
     required init?(coder: NSCoder) {
@@ -36,31 +47,34 @@ final class PhotoCell: UICollectionViewCell {
         super.prepareForReuse()
         photoImageView.image = nil
     }
-    
-    /// Cell configuration
+
     func configure(with photo: Photo) {
         let photoUrl = photo.urls["regular"]
         guard let imageURL = photoUrl, let url = URL(string: imageURL) else { return }
         photoImageView.sd_setImage(with: url, completed: nil)
         
-        
-//        channelTitleLabel.text = channel.nameRu
-//        channelProgramTitle.text = channel.current.title
-//        getImageFromUrl(channel.image)
-//        cellChannel = channel
-//
-//        isFavoriteContact = isFavorite
+        authorNameLabel.text = photo.user.name
     }
     
-    
-    // MARK: - Private function
-    
-    private func setupPhotoImageView() {
-        addSubview(photoImageView)
-        photoImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+    private func setupElements() {
         
+        addSubview(photoImageView)
+        addSubview(authorNameLabel)
+        
+        photoImageView.translatesAutoresizingMaskIntoConstraints = false
+        authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        photoImageView.topAnchor.constraint(equalTo: self.topAnchor),
+        photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+        photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+        
+        authorNameLabel.heightAnchor.constraint(equalToConstant: 20),
+        authorNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+        authorNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        authorNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor)
+        
+        ])
     }  
 }

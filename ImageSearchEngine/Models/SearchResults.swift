@@ -14,14 +14,12 @@ struct SearchResults: Codable, Hashable {
 
 struct Photo: Codable, Hashable {
     
-//    static func == (lhs: Photo, rhs: Photo) -> Bool {
-//       return lhs.id == rhs.id
-//    }
-    
     let id: String
+    let title: String?
     let width: Int
     let height: Int
     let urls: [URLKing.RawValue:String]
+    let user: User
     
     
     enum URLKing: String, Hashable {
@@ -31,4 +29,9 @@ struct Photo: Codable, Hashable {
         case small
         case thumb
     }
+}
+
+struct User: Codable, Hashable  {
+    let id: String
+    let name: String
 }

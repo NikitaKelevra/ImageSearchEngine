@@ -9,67 +9,91 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class FavoritePhotoViewController: UICollectionViewController {
+class FavoritePhotoViewController: UIViewController {
 
+    // MARK: - Propherties
+    typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
+    
+    private var collectionView: UICollectionView!
+    
+    private var dataSource: DataSource?
+    private var channels: [Photo] = [] {
+        didSet{
+            reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .blue
+        setupElements()
+        
 
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
     }
 
 
-    // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    // MARK: - View Controller elements setup
+    private func setupElements() {
+        
+        // `CollectionView` settings
+                collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+                collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                collectionView.backgroundColor = .clear
+                
+                collectionView.dragInteractionEnabled = true
+//                collectionView.delegate = self
+//                collectionView.dragDelegate = self
+//                collectionView.dropDelegate = self
+
+                /// Registration of cells
+        collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)
+                
+                /// Adding elements to the screen
+                view.addSubview(collectionView)
+        
+        /// Setting up the location of elements on the screen
+              collectionView.translatesAutoresizingMaskIntoConstraints = false
+              
+              let safeAreaGuide = self.view.safeAreaLayoutGuide
+              
+              NSLayoutConstraint.activate([
+                  collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+                  collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+                  collectionView.topAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+                  collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+              ])
     }
-
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-        // Configure the cell
     
-        return cell
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(86))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 8, trailing: 0)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .estimated(1))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
+            
+            return section
+        }
+        return layout
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
-    }
-    */
 
+    private func reloadData() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(channels, toSection: .main)
+        dataSource?.apply(snapshot)
+    }
 }

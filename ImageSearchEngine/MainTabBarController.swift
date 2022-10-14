@@ -12,7 +12,7 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+//        view.backgroundColor = .systemGray
         
         viewControllers = [
             generateNavigationController(rootViewController: SearchPhotoViewController(), title: "Photos", image: UIImage(systemName: "ticket")!),
