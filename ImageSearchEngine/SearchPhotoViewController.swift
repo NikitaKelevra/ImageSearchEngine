@@ -23,6 +23,10 @@ class SearchPhotoViewController: UIViewController {
         }
     }
     
+    private var favoritePhotos: [Photo] {
+        DataManager.shared.fetchPhotos()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,11 +104,11 @@ class SearchPhotoViewController: UIViewController {
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView, indexPath, photo) -> UICollectionViewCell? in
             
-//            let isFavorite = self.favoriteChannels.contains(channel)
+            let isFavorite = self.favoritePhotos.contains(photo)
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId,
                                                           for: indexPath) as? PhotoCell
-            cell?.configure(with: photo)
+            cell?.configure(with: photo, isFavorite: isFavorite)
             return cell
         })
     }

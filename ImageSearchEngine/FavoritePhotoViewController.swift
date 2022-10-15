@@ -7,18 +7,16 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
 
 class FavoritePhotoViewController: UIViewController {
-
     // MARK: - Propherties
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
     
     private var collectionView: UICollectionView!
-    
     private var dataSource: DataSource?
-    private var channels: [Photo] = [] {
+
+    private var photos: [Photo] = [] {
         didSet{
             reloadData()
         }
@@ -27,73 +25,108 @@ class FavoritePhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .blue
         setupElements()
-        
-
-
+        fetchFavoritePhotos()
     }
-
-
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchFavoritePhotos()
+    }
+    
     // MARK: - View Controller elements setup
     private func setupElements() {
+   
+        /// `CollectionView` settings
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .clear
         
-        // `CollectionView` settings
-                collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-                collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                collectionView.backgroundColor = .clear
-                
-                collectionView.dragInteractionEnabled = true
-//                collectionView.delegate = self
+        createDataSource()
+        
+        collectionView.delegate = self
+        
 //                collectionView.dragDelegate = self
 //                collectionView.dropDelegate = self
-
-                /// Registration of cells
+//        collectionView.dragInteractionEnabled = true
+        
+        /// Registration of cells
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)
-                
-                /// Adding elements to the screen
-                view.addSubview(collectionView)
+        
+        
+        /// Adding elements to the screen
+        view.addSubview(collectionView)
         
         /// Setting up the location of elements on the screen
-              collectionView.translatesAutoresizingMaskIntoConstraints = false
-              
-              let safeAreaGuide = self.view.safeAreaLayoutGuide
-              
-              NSLayoutConstraint.activate([
-                  collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-                  collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-                  collectionView.topAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
-                  collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-              ])
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let safeAreaGuide = self.view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
+        ])
+    }
+    private func fetchFavoritePhotos(){
+        photos = DataManager.shared.fetchPhotos()
     }
     
+    private func showPhotoDetailsVC(photo: Photo) {
+        let detailsVC = DetailsViewController()
+        detailsVC.photo = photo
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
     
+    // MARK: - DataSource, Snapshot and Layout settings
+    private func reloadData() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(photos, toSection: .main)
+        dataSource?.apply(snapshot)
+    }
+    
+    private func createDataSource() {
+        dataSource = DataSource(collectionView: collectionView,
+                                cellProvider: { (collectionView, indexPath, photo) -> UICollectionViewCell? in
+            
+            let isFavorite = self.photos.contains(photo)
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId,
+                                                          for: indexPath) as? PhotoCell
+            cell?.configure(with: photo, isFavorite: isFavorite)
+            return cell
+        })
+    }
+
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(86))
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                                  heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 8, trailing: 0)
+            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5, bottom: 5, trailing: 5)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .estimated(1))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                                                   heightDimension: .fractionalHeight(0.5))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
+//            section.orthogonalScrollingBehavior = .none
             section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
             
             return section
         }
         return layout
     }
-    
+}
 
-    private func reloadData() {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(channels, toSection: .main)
-        dataSource?.apply(snapshot)
+// MARK: - UICollectionViewDelegate
+extension FavoritePhotoViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        showPhotoDetailsVC(photo: photos[indexPath.row])
     }
 }
+
