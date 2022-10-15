@@ -13,25 +13,49 @@ struct SearchResults: Codable, Hashable {
 }
 
 struct Photo: Codable, Hashable {
-    
     let id: String
+    let createdAt: String
     let title: String?
-    let width: Int
-    let height: Int
-    let urls: [URLKing.RawValue:String]
-    let user: User
+    let likes: Int
+    let description: String?
+    let location: Location?
+    let urls: [PhotoSize.RawValue:String]
+    let user: UserInfo
     
-    
-    enum URLKing: String, Hashable {
-        case raw
-        case full
-        case regular
-        case small
-        case thumb
+    enum CodingKeys: String, CodingKey {
+        case id
+        case createdAt = "created_at"
+        case title
+        case likes
+        case description
+        case location
+        case urls
+        case user
+        
     }
 }
 
-struct User: Codable, Hashable  {
+enum PhotoSize: String, Codable, Hashable {
+    case raw
+    case full
+    case regular
+    case small
+    case thumb
+}
+// MARK: - UserInfo
+struct UserInfo: Codable, Hashable  {
     let id: String
     let name: String
+}
+
+
+// MARK: - Location
+struct Location: Codable, Hashable {
+    let city, country: String?
+    let position: Position?
+}
+
+// MARK: - Position
+struct Position: Codable, Hashable {
+    let latitude, longitude: Double?
 }

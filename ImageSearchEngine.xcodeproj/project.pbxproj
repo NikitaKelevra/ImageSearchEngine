@@ -20,6 +20,7 @@
 		68A4E74528F5DD1200AEF48C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74428F5DD1200AEF48C /* NetworkService.swift */; };
 		68A4E74728F5F04C00AEF48C /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74628F5F04C00AEF48C /* PhotoCell.swift */; };
 		68A4E74928F739D900AEF48C /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74828F739D900AEF48C /* NetworkDataFetcher.swift */; };
+		68A4E74B28F99ACF00AEF48C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		68A4E74428F5DD1200AEF48C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		68A4E74628F5F04C00AEF48C /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		68A4E74828F739D900AEF48C /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
+		68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearchEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 			children = (
 				68A4E73828F5D0EB00AEF48C /* MainTabBarController.swift */,
 				68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */,
+				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
 				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
 				68A4E74628F5F04C00AEF48C /* PhotoCell.swift */,
 				68A4E74328F5DCF000AEF48C /* Services */,
@@ -258,6 +261,7 @@
 				68A4E73728F5CFE600AEF48C /* SearchPhotoViewController.swift in Sources */,
 				68A4E74728F5F04C00AEF48C /* PhotoCell.swift in Sources */,
 				68A4E74228F5D9AA00AEF48C /* PhotoListSection.swift in Sources */,
+				68A4E74B28F99ACF00AEF48C /* DetailsViewController.swift in Sources */,
 				68A4E74528F5DD1200AEF48C /* NetworkService.swift in Sources */,
 				68A4E74928F739D900AEF48C /* NetworkDataFetcher.swift in Sources */,
 				68A4E73928F5D0EB00AEF48C /* MainTabBarController.swift in Sources */,

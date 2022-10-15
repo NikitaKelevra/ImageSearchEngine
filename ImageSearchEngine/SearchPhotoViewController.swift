@@ -27,7 +27,6 @@ class SearchPhotoViewController: UIViewController {
         super.viewDidLoad()
 
         setupElements()
-
         fetchRandomImages()
     }
     
@@ -50,7 +49,8 @@ class SearchPhotoViewController: UIViewController {
         
         createDataSource()
         
-//        collectionView.delegate = self
+        collectionView.delegate = self
+        
 //                collectionView.dragDelegate = self
 //                collectionView.dropDelegate = self
 //        collectionView.dragInteractionEnabled = true
@@ -80,6 +80,12 @@ class SearchPhotoViewController: UIViewController {
             guard let fetchedPhotos = searchResults else { return }
             self?.photos = fetchedPhotos
         }
+    }
+    
+    private func showPhotoDetailsVC(photo: Photo) {
+        let detailsVC = DetailsViewController()
+        detailsVC.photo = photo
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
     
     // MARK: - DataSource, Snapshot and Layout settings
@@ -125,6 +131,13 @@ class SearchPhotoViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension SearchPhotoViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        showPhotoDetailsVC(photo: photos[indexPath.row])
+    }
+}
 
 // MARK: - UISearchBarDelegate
 

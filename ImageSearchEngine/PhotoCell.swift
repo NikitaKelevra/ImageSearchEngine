@@ -74,7 +74,6 @@ final class PhotoCell: UICollectionViewCell {
         authorNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         authorNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         authorNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        
         ])
     }  
 }
