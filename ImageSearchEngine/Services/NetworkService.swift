@@ -11,17 +11,8 @@ import Foundation
 class NetworkService {
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
-    /// Построение запроса случайных фотографий
-    func ramdomPhotoRequest(completion: @escaping (Data?, Error?) -> Void)  {
-        let parameters = self.prepareParaments()
-        let url = self.urlRandomImage(params: parameters)
-        var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = prepareHeader()
-        request.httpMethod = "get"
-        let task = createDataTask(from: request, completion: completion)
-        task.resume()
-    }
-    
+
+    // MARK: - Search Request
     /// Построение запроса фотографий по вводимым данным
     func searchRequest(searchTerm: String, completion: @escaping (Data?, Error?) -> Void)  {
         let parameters = self.prepareParaments(searchTerm: searchTerm)
@@ -64,7 +55,17 @@ class NetworkService {
         }
     }
     
-    
+    // MARK: - ramdomPhotoRequest
+    /// Построение запроса случайных фотографий
+    func ramdomPhotoRequest(completion: @escaping (Data?, Error?) -> Void)  {
+        let parameters = self.prepareParaments()
+        let url = self.urlRandomImage(params: parameters)
+        var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = prepareHeader()
+        request.httpMethod = "get"
+        let task = createDataTask(from: request, completion: completion)
+        task.resume()
+    }
     
     private func prepareParaments() -> [String: String] {
         var parameters = [String: String]()

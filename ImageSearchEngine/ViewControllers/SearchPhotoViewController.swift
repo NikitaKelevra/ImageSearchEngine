@@ -17,6 +17,7 @@ class SearchPhotoViewController: UIViewController {
     private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
     
+    // Main array photo
     private var photos: [Photo] = [] {
         didSet{
             reloadData()
@@ -28,6 +29,8 @@ class SearchPhotoViewController: UIViewController {
     }
     private let allowSearchCharacters = ["#", "$", "!", "&","@"]
 
+    // MARK: - UIViewController Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupElements()
@@ -36,7 +39,8 @@ class SearchPhotoViewController: UIViewController {
     }
     
     
-    // MARK: - View Controller elements setup
+    // MARK: - Configuring ViewController Elements
+    
     private func setupElements() {
         
         /// `seacrhController` settings
@@ -86,6 +90,7 @@ class SearchPhotoViewController: UIViewController {
     }
     
     // MARK: - DataSource, Snapshot and Layout settings
+    
     private func reloadData() {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])

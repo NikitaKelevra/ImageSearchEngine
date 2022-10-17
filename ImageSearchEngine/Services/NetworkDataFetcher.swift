@@ -11,6 +11,7 @@ class NetworkDataFetcher {
     
     private var networkService = NetworkService()
     
+    // MARK: -
     func fetchRandomImages(completion: @escaping ([Photo]?) -> ()) {
         networkService.ramdomPhotoRequest{ (data, error) in
             if let error = error {
@@ -22,6 +23,7 @@ class NetworkDataFetcher {
         }
     }
     
+    // MARK: -
     func fetchSearchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
         networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
             if let error = error {

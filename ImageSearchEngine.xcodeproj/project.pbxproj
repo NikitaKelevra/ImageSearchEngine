@@ -82,9 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				68A4E73828F5D0EB00AEF48C /* MainTabBarController.swift */,
-				68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */,
-				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
-				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
+				68A4E75328FD3F5D00AEF48C /* ViewControllers */,
 				68A4E74628F5F04C00AEF48C /* PhotoCell.swift */,
 				68A4E74328F5DCF000AEF48C /* Services */,
 				68A4E73A28F5D57F00AEF48C /* Models */,
@@ -139,6 +137,16 @@
 				68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		68A4E75328FD3F5D00AEF48C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */,
+				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
+				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		E6C4F43DC4C43DDEE9581DC9 /* Frameworks */ = {
