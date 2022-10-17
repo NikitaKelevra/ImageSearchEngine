@@ -4,19 +4,19 @@
 
 
 
-`ImageSearchEngine`программа позволяет выполнять поиск фотографий по базе Unsplash.
+`ImageSearchEngine` программа позволяет искать и сохранять фотографии по базе Unsplash.
 
   ### Возможности программы:
   + Поиск фотографий по запросу; 
-  + Сохранение понравившихся фотографий на устройстве и отображение в отдельной закладке;
-  + the ability to move channels.
+  + Сохранение и просмотр понравившихся фотографий на устройстве;
+  + Возможность просмотра деталей каждой фотографии.
 
   ### Technology stack:
   + `SWIFT 5` 
   + `MVC`
-  + `UIKit`, `AVKit`  
-  + `UserDefaults` - saving a list of favorite channels
-  + `URLSession` `JSON` - data channel parsing 
+  + `UIKit`, `SDWebImage`  
+  + `UserDefaults` - сохранение любимых фотографий
+  + `URLSession` `JSON` - парсинг данных API Unsplash
   + `CollectionView` `Diffible Data Source`  
   + `Observers`  
   + `Singletone`
