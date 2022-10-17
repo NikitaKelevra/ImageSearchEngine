@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		608CBD20790C21A71347E293 /* Pods_ImageSearchEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */; };
+		689DC6C128FD733A003E4E8E /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DC6C028FD733A003E4E8E /* UILabel+Extensions.swift */; };
 		68A4E72128F5CE0000AEF48C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E72028F5CE0000AEF48C /* AppDelegate.swift */; };
 		68A4E72328F5CE0000AEF48C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E72228F5CE0000AEF48C /* SceneDelegate.swift */; };
 		68A4E72A28F5CE0100AEF48C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68A4E72928F5CE0100AEF48C /* Assets.xcassets */; };
 		68A4E72D28F5CE0100AEF48C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68A4E72B28F5CE0100AEF48C /* LaunchScreen.storyboard */; };
-		68A4E73728F5CFE600AEF48C /* SearchPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */; };
+		68A4E73728F5CFE600AEF48C /* AdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E73628F5CFE600AEF48C /* AdvancedViewController.swift */; };
 		68A4E73928F5D0EB00AEF48C /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E73828F5D0EB00AEF48C /* MainTabBarController.swift */; };
 		68A4E73C28F5D5D700AEF48C /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E73B28F5D5D700AEF48C /* SearchResults.swift */; };
 		68A4E74028F5D84E00AEF48C /* FavoritePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */; };
@@ -23,18 +24,21 @@
 		68A4E74B28F99ACF00AEF48C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */; };
 		68A4E74D28FAE93800AEF48C /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */; };
 		68A4E75028FAE9C600AEF48C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74F28FAE9C600AEF48C /* DataManager.swift */; };
+		68A4E75628FD48D500AEF48C /* AdvancedViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E75528FD48D500AEF48C /* AdvancedViewController+Extensions.swift */; };
+		68A4E75828FD535700AEF48C /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E75728FD535700AEF48C /* UIColor+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A95BC830B5008D3B0BEE15B /* Pods-ImageSearchEngine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.debug.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.debug.xcconfig"; sourceTree = "<group>"; };
 		4CDE627CFF9BD783A3268A21 /* Pods-ImageSearchEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.release.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.release.xcconfig"; sourceTree = "<group>"; };
+		689DC6C028FD733A003E4E8E /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		68A4E71D28F5CE0000AEF48C /* ImageSearchEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageSearchEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A4E72028F5CE0000AEF48C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68A4E72228F5CE0000AEF48C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		68A4E72928F5CE0100AEF48C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68A4E72C28F5CE0100AEF48C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68A4E72E28F5CE0100AEF48C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotoViewController.swift; sourceTree = "<group>"; };
+		68A4E73628F5CFE600AEF48C /* AdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewController.swift; sourceTree = "<group>"; };
 		68A4E73828F5D0EB00AEF48C /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		68A4E73B28F5D5D700AEF48C /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 		68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +49,8 @@
 		68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		68A4E74F28FAE9C600AEF48C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		68A4E75528FD48D500AEF48C /* AdvancedViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdvancedViewController+Extensions.swift"; sourceTree = "<group>"; };
+		68A4E75728FD535700AEF48C /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearchEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -135,6 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */,
+				68A4E75728FD535700AEF48C /* UIColor+Extensions.swift */,
+				689DC6C028FD733A003E4E8E /* UILabel+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -142,11 +150,20 @@
 		68A4E75328FD3F5D00AEF48C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				68A4E73628F5CFE600AEF48C /* SearchPhotoViewController.swift */,
+				68A4E75428FD480C00AEF48C /* AdvancedViewController */,
 				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
 				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		68A4E75428FD480C00AEF48C /* AdvancedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				68A4E73628F5CFE600AEF48C /* AdvancedViewController.swift */,
+				68A4E75528FD48D500AEF48C /* AdvancedViewController+Extensions.swift */,
+			);
+			path = AdvancedViewController;
 			sourceTree = "<group>";
 		};
 		E6C4F43DC4C43DDEE9581DC9 /* Frameworks */ = {
@@ -280,16 +297,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68A4E73728F5CFE600AEF48C /* SearchPhotoViewController.swift in Sources */,
+				68A4E73728F5CFE600AEF48C /* AdvancedViewController.swift in Sources */,
+				68A4E75828FD535700AEF48C /* UIColor+Extensions.swift in Sources */,
 				68A4E74D28FAE93800AEF48C /* UIButton+Extensions.swift in Sources */,
 				68A4E74728F5F04C00AEF48C /* PhotoCell.swift in Sources */,
 				68A4E74228F5D9AA00AEF48C /* PhotoListSection.swift in Sources */,
 				68A4E74B28F99ACF00AEF48C /* DetailsViewController.swift in Sources */,
 				68A4E74528F5DD1200AEF48C /* NetworkService.swift in Sources */,
+				68A4E75628FD48D500AEF48C /* AdvancedViewController+Extensions.swift in Sources */,
 				68A4E74928F739D900AEF48C /* NetworkDataFetcher.swift in Sources */,
 				68A4E73928F5D0EB00AEF48C /* MainTabBarController.swift in Sources */,
 				68A4E73C28F5D5D700AEF48C /* SearchResults.swift in Sources */,
 				68A4E72128F5CE0000AEF48C /* AppDelegate.swift in Sources */,
+				689DC6C128FD733A003E4E8E /* UILabel+Extensions.swift in Sources */,
 				68A4E72328F5CE0000AEF48C /* SceneDelegate.swift in Sources */,
 				68A4E75028FAE9C600AEF48C /* DataManager.swift in Sources */,
 				68A4E74028F5D84E00AEF48C /* FavoritePhotoViewController.swift in Sources */,

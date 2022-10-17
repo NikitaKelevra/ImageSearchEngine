@@ -7,8 +7,9 @@
 
 import UIKit
 
-class SearchPhotoViewController: UIViewController {
-    // MARK: - Propherties
+class AdvancedViewController: UIViewController {
+    // MARK: - Propherties & typealias
+    
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
     
@@ -17,19 +18,20 @@ class SearchPhotoViewController: UIViewController {
     private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
     
-    // Main array photo
+    // Main array of photo
     private var photos: [Photo] = [] {
         didSet{
             reloadData()
         }
     }
-    
+    // Array of favorite photo
     private var favoritePhotos: [Photo] {
         DataManager.shared.fetchPhotos()
     }
+    
     private let allowSearchCharacters = ["#", "$", "!", "&","@"]
 
-    // MARK: - UIViewController Lifecycle
+    // MARK: - UIViewController lifecycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,21 @@ class SearchPhotoViewController: UIViewController {
     // MARK: - Configuring ViewController Elements
     
     private func setupElements() {
+        view.backgroundColor = .viewBackgroundColor
+        
+        /// `Navigation Bar` Setup
+        title = "Photo Search Engine"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
+        navBarAppearance.backgroundColor = .clear
+        
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        
         
         /// `seacrhController` settings
         let seacrhController = UISearchController(searchResultsController: nil)
@@ -66,13 +83,13 @@ class SearchPhotoViewController: UIViewController {
         /// Setting up the location of elements on the screen
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        let safeAreaGuide = self.view.safeAreaLayoutGuide
+//        let safeAreaGuide = self.view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -111,26 +128,29 @@ class SearchPhotoViewController: UIViewController {
 
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            
+            // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5, bottom: 5, trailing: 5)
-            
+            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5,
+                                                              bottom: 5, trailing: 5)
+            // Group
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.5))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            
+                                                   heightDimension: .fractionalHeight(0.3))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitems: [item])
+            // Section
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
-            
+            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8,
+                                                                 bottom: 0, trailing: 8)
             return section
         }
-        return layout    }
+        return layout
+    }
 }
 
 // MARK: - UICollectionViewDelegate
-extension SearchPhotoViewController: UICollectionViewDelegate {
+extension AdvancedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         showPhotoDetailsVC(photo: photos[indexPath.row])
@@ -138,7 +158,7 @@ extension SearchPhotoViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UISearchBarDelegate
-extension SearchPhotoViewController: UISearchBarDelegate {
+extension AdvancedViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             
@@ -160,7 +180,7 @@ extension SearchPhotoViewController: UISearchBarDelegate {
 }
 
 // MARK: - Alert Controller
-extension SearchPhotoViewController {    
+extension AdvancedViewController {    
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in }

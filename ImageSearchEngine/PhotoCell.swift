@@ -20,6 +20,8 @@ final class PhotoCell: UICollectionViewCell {
        return imageView
    }()
     
+    private let cornerRadius: CGFloat = 10
+    
     private let authorNameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
@@ -82,7 +84,10 @@ final class PhotoCell: UICollectionViewCell {
     
     private func setupElements() {
         clipsToBounds = true
-        layer.cornerRadius = 10
+        layer.cornerRadius = cornerRadius
+        authorNameLabel.clipsToBounds = true
+        authorNameLabel.layer.cornerRadius = cornerRadius
+        
         
         isFavoritePhoto = false
         isFavoriteButton.addAction(UIAction(handler: { _ in

@@ -36,7 +36,21 @@ class FavoritePhotoViewController: UIViewController {
     
     // MARK: - View Controller elements setup
     private func setupElements() {
-   
+        view.backgroundColor = .viewBackgroundColor
+        
+        /// `Navigation Bar` Setup
+        title = "Favorites Photo Collection"
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
+        navBarAppearance.backgroundColor = .clear
+        
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        
         /// `CollectionView` settings
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

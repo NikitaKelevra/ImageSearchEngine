@@ -27,53 +27,10 @@ class DetailsViewController: UIViewController {
        return imageView
    }()
     
-    private var authorNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.highlightedTextColor = .black
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 0.8
-        label.backgroundColor = .clear.withAlphaComponent(0.5)
-        return label
-    }()
-    
-    private var creationDataLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.highlightedTextColor = .black
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 0.8
-        label.backgroundColor = .clear.withAlphaComponent(0.5)
-        return label
-    }()
-    
-    private var photoLocationLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.highlightedTextColor = .black
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 0.8
-        label.backgroundColor = .clear.withAlphaComponent(0.5)
-        return label
-    }()
-    
-    private var downloadCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.highlightedTextColor = .black
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 0.8
-        label.backgroundColor = .clear.withAlphaComponent(0.5)
-        return label
-    }()
+    private var authorNameLabel = UILabel.configurationLabel(with: 1)
+    private var creationDataLabel = UILabel.configurationLabel(with: 0.8)
+    private var photoLocationLabel = UILabel.configurationLabel(with: 0.8)
+    private var downloadCountLabel = UILabel.configurationLabel(with: 0.8)
     
     /// Общий стек информации по фотографии
     private let photoDetailsStack: UIStackView = {
