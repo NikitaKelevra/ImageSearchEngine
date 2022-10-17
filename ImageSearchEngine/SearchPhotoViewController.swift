@@ -26,12 +26,13 @@ class SearchPhotoViewController: UIViewController {
     private var favoritePhotos: [Photo] {
         DataManager.shared.fetchPhotos()
     }
-    
+    private let allowSearchCharacters = ["#", "$", "!", "&","@"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupElements()
         fetchRandomImages()
+        createDataSource()
     }
     
     
@@ -45,23 +46,15 @@ class SearchPhotoViewController: UIViewController {
         seacrhController.obscuresBackgroundDuringPresentation = false
         seacrhController.searchBar.delegate = self
         
-        
         /// `CollectionView` settings
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
-        
-        createDataSource()
-        
+
         collectionView.delegate = self
-        
-//                collectionView.dragDelegate = self
-//                collectionView.dropDelegate = self
-//        collectionView.dragInteractionEnabled = true
         
         /// Registration of cells
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)
-        
         
         /// Adding elements to the screen
         view.addSubview(collectionView)
@@ -103,9 +96,7 @@ class SearchPhotoViewController: UIViewController {
     private func createDataSource() {
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView, indexPath, photo) -> UICollectionViewCell? in
-            
             let isFavorite = self.favoritePhotos.contains(photo)
-
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId,
                                                           for: indexPath) as? PhotoCell
             cell?.configure(with: photo, isFavorite: isFavorite)
@@ -126,13 +117,11 @@ class SearchPhotoViewController: UIViewController {
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .none
             section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
             
             return section
         }
-        return layout
-    }
+        return layout    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -144,10 +133,17 @@ extension SearchPhotoViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UISearchBarDelegate
-
 extension SearchPhotoViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            
+        if searchText.contains(where: { char in
+            allowSearchCharacters.contains(String(char))
+        }) {
+            showAlert(with: "Incorrect input format",
+                      and: "Do not use the following characters: \(allowSearchCharacters)")
+            searchBar.text = ""
+        }
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.networkDataFetcher.fetchSearchImages(searchTerm: searchText) { [weak self] (searchResults) in
@@ -155,5 +151,15 @@ extension SearchPhotoViewController: UISearchBarDelegate {
                 self?.photos = fetchedPhotos.results
             }
         })
+    }
+}
+
+// MARK: - Alert Controller
+extension SearchPhotoViewController {    
+    private func showAlert(with title: String, and message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }

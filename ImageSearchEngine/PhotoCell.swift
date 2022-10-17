@@ -17,8 +17,6 @@ final class PhotoCell: UICollectionViewCell {
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
        return imageView
    }()
     
@@ -83,6 +81,9 @@ final class PhotoCell: UICollectionViewCell {
     }
     
     private func setupElements() {
+        clipsToBounds = true
+        layer.cornerRadius = 10
+        
         isFavoritePhoto = false
         isFavoriteButton.addAction(UIAction(handler: { _ in
             self.isFavoriteButtonAction()
