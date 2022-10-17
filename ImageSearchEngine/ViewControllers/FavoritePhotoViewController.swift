@@ -39,17 +39,17 @@ class FavoritePhotoViewController: UIViewController {
         view.backgroundColor = .viewBackgroundColor
         
         /// `Navigation Bar` Setup
-        title = "Favorites Photo Collection"
+        title = "Favorites Photo"
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
-        navBarAppearance.backgroundColor = .clear
-        
-        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
+//        let navBarAppearance = UINavigationBarAppearance()
+//        navBarAppearance.configureWithOpaqueBackground()
+////        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
+//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
+//        navBarAppearance.backgroundColor = .clear
+//
+//        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+//        navigationController?.navigationBar.standardAppearance = navBarAppearance
         
         /// `CollectionView` settings
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -127,7 +127,6 @@ class FavoritePhotoViewController: UIViewController {
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .none
             section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
             
             return section

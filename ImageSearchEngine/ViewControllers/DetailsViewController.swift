@@ -27,10 +27,10 @@ class DetailsViewController: UIViewController {
        return imageView
    }()
     
-    private var authorNameLabel = UILabel.configurationLabel(with: 1)
-    private var creationDataLabel = UILabel.configurationLabel(with: 0.8)
-    private var photoLocationLabel = UILabel.configurationLabel(with: 0.8)
-    private var downloadCountLabel = UILabel.configurationLabel(with: 0.8)
+    private var authorNameLabel = UILabel.configurationLabel(withTextAlpha: 1)
+    private var creationDataLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
+    private var photoLocationLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
+    private var downloadCountLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
     
     /// Общий стек информации по фотографии
     private let photoDetailsStack: UIStackView = {
@@ -55,10 +55,10 @@ class DetailsViewController: UIViewController {
         if  let tabBar = self.tabBarController?.tabBar {
            self.barFrame = tabBar.frame
             
-            UIView.animate(withDuration: 0.3) {
+            UIView.animate(withDuration: 0.5) {
                 () -> Void in
                        let newBarFrame = CGRectMake(self.barFrame!.origin.x,
-                                                    self.view.frame.size.height,
+                                                    self.view.frame.size.height + 50,
                                                     self.barFrame!.size.width,
                                                     self.barFrame!.size.height)
                        tabBar.frame = newBarFrame
@@ -110,9 +110,13 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupPhoto() {
-        guard let imageURL = photo?.urls["full"],
+        guard let imageURL = photo?.urls["regular"],
                 let url = URL(string: imageURL) else { return }
         photoImageView.sd_setImage(with: url, completed: nil)
+        
+//        guard let imageURL = photo?.urls["full"],
+//                let url = URL(string: imageURL) else { return }
+//        photoImageView.sd_setImage(with: url, completed: nil)
     }
 
     private func addSubviews() {
@@ -125,6 +129,8 @@ class DetailsViewController: UIViewController {
     }
     
     private func setupElements() {
+        view.backgroundColor = .viewBackgroundColor
+        
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoDetailsStack.translatesAutoresizingMaskIntoConstraints = false
         

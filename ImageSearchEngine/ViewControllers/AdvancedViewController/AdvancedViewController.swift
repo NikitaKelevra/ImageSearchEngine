@@ -47,18 +47,8 @@ class AdvancedViewController: UIViewController {
         view.backgroundColor = .viewBackgroundColor
         
         /// `Navigation Bar` Setup
-        title = "Photo Search Engine"
+        title = "Photo Engine"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
-        navBarAppearance.backgroundColor = .clear
-        
-        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        
         
         /// `seacrhController` settings
         let seacrhController = UISearchController(searchResultsController: nil)

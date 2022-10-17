@@ -9,7 +9,7 @@ import UIKit
 
 extension UILabel {
 
-    static func configurationLabel(with alpha: CGFloat) -> UILabel{
+    static func configurationLabel(withTextAlpha alpha: CGFloat) -> UILabel{
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 15)
         label.textColor = .white.withAlphaComponent(alpha)
