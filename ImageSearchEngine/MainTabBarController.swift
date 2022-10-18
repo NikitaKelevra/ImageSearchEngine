@@ -40,38 +40,52 @@ class MainTabBarController: UITabBarController {
         navigationVC.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationVC.navigationBar.shadowImage = UIImage()
         navigationVC.navigationBar.tintColor = .black
+        
         return navigationVC
     }
     
     private func setTabBarAppearance() {
-        
+/*
         // Setting up tabbar rounding
-        let positiononX: CGFloat = 10
-        let positionOnY: CGFloat = 14
-        let width = tabBar.bounds.width - positiononX * 2
-        let height = tabBar.bounds.height + positionOnY * 2
-         
+        let x: CGFloat = 10
+        let y: CGFloat = 14
+        let width = tabBar.bounds.width - x * 2
+        let height = tabBar.bounds.height + y * 2
+
         let roundLayer = CAShapeLayer()
-        
+
         let bezierPath = UIBezierPath(
-            roundedRect: CGRect(x: positiononX,
-                                y: tabBar.bounds.minY - positionOnY,
+            roundedRect: CGRect(x: x,
+                                y: tabBar.bounds.minY - y,
                                 width: width,
                                 height: height),
-            cornerRadius: height / 2
+            cornerRadius: height / 3.2
         )
         roundLayer.path = bezierPath.cgPath
+        
+        
+         tab bar shadow
+        roundLayer.shadowColor = UIColor.viewBackgroundColor.cgColor
+        roundLayer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        roundLayer.shadowRadius = 5.0
+        roundLayer.shadowOpacity = 0.5
+        
+         add tab bar layer
         tabBar.layer.insertSublayer(roundLayer, at: 0)
-        tabBar.itemWidth = width / 5
+        
+         fix items positioning
+        tabBar.itemWidth = width / 3
         tabBar.itemPositioning = .centered
         
-        // Setting Tabbar colors
+         setting tab bar colors
         roundLayer.fillColor = UIColor.mainBackgroundColor.cgColor
+ */
         tabBar.unselectedItemTintColor = .unselectedTextColor
         tabBar.tintColor = .selectesTextColor
-        tabBar.barTintColor = .clear
         tabBar.layer.borderColor = UIColor.black.cgColor
-//        tabBar.standardAppearance.backgroundColor = .green
-//        tabBar.layer.backgroundColor = UIColor.blue.cgColor
+        
+        tabBar.barTintColor = .black
+        
+
     }
 }

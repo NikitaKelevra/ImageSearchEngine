@@ -29,8 +29,11 @@ class AdvancedViewController: UIViewController {
         DataManager.shared.fetchPhotos()
     }
     
+    // Change Collection View Layout
+    private var numberOfLayoutType = 1
+    
     private let allowSearchCharacters = ["#", "$", "!", "&","@"]
-
+    
     // MARK: - UIViewController lifecycle functions
     
     override func viewDidLoad() {
@@ -43,12 +46,35 @@ class AdvancedViewController: UIViewController {
     
     // MARK: - Configuring ViewController Elements
     
+    @objc func clickChangeViewButton() {
+        numberOfLayoutType += 1
+        collectionView.setCollectionViewLayout(setViewLayout(numberOfLayoutType), animated: true)
+    }
+    
+    private func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
+        var layout: UICollectionViewLayout
+        
+        switch layoutNumber {
+        case 2: layout = createSecondLayout()
+        case 3: layout = createThirdLayout()
+            
+        default: numberOfLayoutType = 1
+            layout = createFirstLayout()
+        }
+        return layout
+    }
+    
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
         /// `Navigation Bar` Setup
         title = "Photo Engine"
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(clickChangeViewButton))
         
         /// `seacrhController` settings
         let seacrhController = UISearchController(searchResultsController: nil)
@@ -58,7 +84,7 @@ class AdvancedViewController: UIViewController {
         seacrhController.searchBar.delegate = self
         
         /// `CollectionView` settings
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: setViewLayout(numberOfLayoutType))
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
 
@@ -83,12 +109,15 @@ class AdvancedViewController: UIViewController {
         ])
     }
     
+    // Fetch Photo Array
     private func fetchRandomImages(){
         self.networkDataFetcher.fetchRandomImages{ [weak self] (searchResults) in
             guard let fetchedPhotos = searchResults else { return }
             self?.photos = fetchedPhotos
         }
     }
+    
+    // MARK: - Navigation
     
     private func showPhotoDetailsVC(photo: Photo) {
         let detailsVC = DetailsViewController()
@@ -98,7 +127,7 @@ class AdvancedViewController: UIViewController {
     
     // MARK: - DataSource, Snapshot and Layout settings
     
-    private func reloadData() {
+    func reloadData() {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(photos, toSection: .main)
@@ -116,27 +145,6 @@ class AdvancedViewController: UIViewController {
         })
     }
 
-    private func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5,
-                                                              bottom: 5, trailing: 5)
-            // Group
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.3))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8,
-                                                                 bottom: 0, trailing: 8)
-            return section
-        }
-        return layout
-    }
 }
 
 // MARK: - UICollectionViewDelegate
