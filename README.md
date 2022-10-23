@@ -1,12 +1,15 @@
 # ImageSearchEngine
 
 
- ![mygif](https://i.ibb.co/TRZNdmX/Image-Engine-rec.gif)
-  
 
 
 `ImageSearchEngine` программа позволяет искать и сохранять фотографии по базе Unsplash.
 
+
+ <p></p>
+ <img src ="https://i.ibb.co/TRZNdmX/Image-Engine-rec.gif" align="right" width="386px" height="682px"      hspace="50px" vspace="20px"/>
+ 
+ 
   ### Возможности программы:
   + Поиск фотографий по запросу; 
   + Сохранение и просмотр понравившихся фотографий на устройстве;
