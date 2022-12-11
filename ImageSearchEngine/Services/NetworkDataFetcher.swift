@@ -11,7 +11,7 @@ class NetworkDataFetcher {
     
     private var networkService = NetworkService()
     
-    // MARK: -
+    // MARK: - Загрузка случайных картинок
     func fetchRandomImages(completion: @escaping ([Photo]?) -> ()) {
         networkService.ramdomPhotoRequest{ (data, error) in
             if let error = error {
@@ -23,7 +23,7 @@ class NetworkDataFetcher {
         }
     }
     
-    // MARK: -
+    // MARK: - Загрузка картинок по запросу
     func fetchSearchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
         networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
             if let error = error {
@@ -35,6 +35,7 @@ class NetworkDataFetcher {
         }
     }
     
+    // MARK: -
     private func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {
         let decoder = JSONDecoder()
         guard let data = from else { return nil }

@@ -8,7 +8,8 @@
 import UIKit
 
 extension AdvancedViewController {
-      
+    
+    // MARK: Первый вид отобраажения/расположения фотографий
     func createFirstLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
@@ -31,6 +32,7 @@ extension AdvancedViewController {
         return layout
     }
     
+    // MARK: Второй вид отобраажения/расположения фотографий
     func createSecondLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
@@ -41,7 +43,7 @@ extension AdvancedViewController {
                                                               bottom: 5, trailing: 5)
             // Group
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.3))
+                                                   heightDimension: .fractionalHeight(0.5))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                            subitems: [item])
             // Section
@@ -53,6 +55,7 @@ extension AdvancedViewController {
         return layout
     }
     
+    // MARK: Второй вид отобраажения/расположения фотографий
     func createThirdLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
