@@ -18,6 +18,15 @@ class AdvancedViewController: UIViewController {
     private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
     
+    // AdvancedViewControllerViewModel
+    var viewModel: AdvancedVCViewModelProtocol! {
+        didSet {
+            viewModel.fetchProducts {
+                self.reloadData()
+            }
+        }
+    }
+    
     // Main array of photo
     private var photos: [Photo] = [] {
         didSet{

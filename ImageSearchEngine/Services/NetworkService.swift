@@ -6,10 +6,83 @@
 //
 
 import Foundation
+import Alamofire
 
+// Варианты запросов
+enum networkURLS: String {
+    case userURL = "https://finback.finanse.space/api/user"
+    case balanceURL = "https://finback.finanse.space/api/balance"
+    case tradeURL = "https://finback.finanse.space/api/trade"
+    case historyURL = "https://finback.finanse.space/api/trade/history"
+    case ratingURL = "https://finback.finanse.space/api/rating"
+    case currencies = "https://finback.finanse.space/api/currencies/current"
+    case postsUrl = "https://finback.finanse.space/api/posts"
+    case addComment = "https://finback.finanse.space/api/posts/create/comment"
+    case eventsURL = "https://finback.finanse.space/api/fetch/events"
+    case addLike = "https://finback.finanse.space/api/posts/like"
+    case createPost = "https://finback.finanse.space/api/posts/create"
+    case updatePost = "https://finback.finanse.space/api/posts/update"
+}
+
+// Варианты ошибок
+enum ErrorDomain: Error {
+    case AFError(AFError?)
+    case errorGettingData
+}
 
 class NetworkService {
+    
+    typealias RandomResponseResult = (Result<SearchResults, AFError>) -> Void
+    
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
+    
+    
+    
+    // MARK: - Запрос баланса пользователя
+    func fetchUserBalance(userId: Int, completion: @escaping RandomResponseResult) {
+        guard var components = URLComponents(string: networkURLS.balanceURL.rawValue) else {
+            completion(.failure(.explicitlyCancelled))
+            return
+        }
+        components.queryItems = [
+//            .init(name: "token", value: token),
+            .init(name: "user_id", value: "\(userId)")
+        ]
+        guard let url = components.url else {
+            completion(.failure(.explicitlyCancelled))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.method = .get
+        performDecodableRequest(request: request, completion: completion)
+    }
+    
+    
+    private func performDecodableRequest<T: Decodable>(request: URLRequest,
+                                                       completion: @escaping ((Result<T, AFError>) -> Void)) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        AF.request(request)
+            .validate()
+            .responseDecodable(
+                of: T.self,
+                queue: .global(qos: .userInitiated),
+                decoder: decoder
+            ) { result in
+                guard let data = result.value else {
+                    if let error = result.error {
+                        print(error)
+                        completion(.failure(error))
+                    }
+                    return
+                }
+                completion(.success(data))
+            }
+    }
+    
     
 
     // MARK: - Search Request
@@ -84,3 +157,83 @@ class NetworkService {
     
 }
 
+
+    // MARK: - Внутренние методы
+        extension NetworkService {
+        // Создание запросов с загрузкой аватарки
+        private func performDecodableUploadRequest<T: Decodable>(requestData: (MultipartFormData, URL),
+                                                                 completion: @escaping ((Result<T, AFError>) -> Void)) {
+            let headers = [
+                "Content-Type": "multipart/form-data",
+                "Content-Disposition": "form-data"
+            ]
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(formatter)
+            
+            let mfObject = requestData.0
+            
+            print(mfObject)
+            
+            AF
+                .upload(multipartFormData: mfObject, to: requestData.1,
+                        method: .post, headers: .init(headers))
+                .validate()
+                .responseDecodable(
+                    of: T.self,
+                    queue: .global(qos: .userInitiated),
+                    decoder: decoder
+                ) { result in
+                    guard let data = result.value else {
+                        if let error = result.error {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    print(data)
+                    completion(.success(data))
+                    
+                }
+        }
+            
+        // Создание запроса без параметров
+        private func performRequest<T: Decodable>(request: URLRequest , // RequestProvider
+                                                  completion: @escaping (Result<T, ErrorDomain>) -> Void) {
+    //        let request = request.request
+            AF.request(request).validate().responseDecodable(of: T.self , queue: .global(qos: .userInitiated)) { data in
+                guard let data = data.value else {
+                    completion(.failure(.AFError(data.error)))
+                    return
+                }
+                completion(.success(data))
+            }
+        }
+        
+        // Создание запроса с приведением к типу Т
+        private func performDecodableRequest<T: Decodable>(request: URLRequest,
+                                                           completion: @escaping ((Result<T, AFError>) -> Void)) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(formatter)
+            AF.request(request)
+                .validate()
+                .responseDecodable(
+                    of: T.self,
+                    queue: .global(qos: .userInitiated),
+                    decoder: decoder
+                ) { result in
+                    guard let data = result.value else {
+                        if let error = result.error {
+                            print(error)
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    completion(.success(data))
+                }
+        }
+        
+    }

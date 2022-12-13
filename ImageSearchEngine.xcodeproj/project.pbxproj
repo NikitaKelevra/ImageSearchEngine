@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		608CBD20790C21A71347E293 /* Pods_ImageSearchEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */; };
+		68164B52294630E1005C3964 /* AdvancedViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68164B51294630E1005C3964 /* AdvancedViewControllerViewModel.swift */; };
 		689DC6C128FD733A003E4E8E /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DC6C028FD733A003E4E8E /* UILabel+Extensions.swift */; };
 		689DC6C328FE89F5003E4E8E /* AdvancedViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DC6C228FE89F5003E4E8E /* AdvancedViewController+Extension.swift */; };
 		68A4E72128F5CE0000AEF48C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E72028F5CE0000AEF48C /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		3A95BC830B5008D3B0BEE15B /* Pods-ImageSearchEngine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.debug.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.debug.xcconfig"; sourceTree = "<group>"; };
 		4CDE627CFF9BD783A3268A21 /* Pods-ImageSearchEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.release.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.release.xcconfig"; sourceTree = "<group>"; };
+		68164B51294630E1005C3964 /* AdvancedViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewControllerViewModel.swift; sourceTree = "<group>"; };
 		689DC6C028FD733A003E4E8E /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		689DC6C228FE89F5003E4E8E /* AdvancedViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdvancedViewController+Extension.swift"; sourceTree = "<group>"; };
 		68A4E71D28F5CE0000AEF48C /* ImageSearchEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageSearchEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 		68A4E75428FD480C00AEF48C /* AdvancedViewController */ = {
 			isa = PBXGroup;
 			children = (
+				68164B51294630E1005C3964 /* AdvancedViewControllerViewModel.swift */,
 				68A4E73628F5CFE600AEF48C /* AdvancedViewController.swift */,
 				689DC6C228FE89F5003E4E8E /* AdvancedViewController+Extension.swift */,
 			);
@@ -309,6 +312,7 @@
 				68A4E73C28F5D5D700AEF48C /* SearchResults.swift in Sources */,
 				68A4E72128F5CE0000AEF48C /* AppDelegate.swift in Sources */,
 				689DC6C128FD733A003E4E8E /* UILabel+Extensions.swift in Sources */,
+				68164B52294630E1005C3964 /* AdvancedViewControllerViewModel.swift in Sources */,
 				68A4E72328F5CE0000AEF48C /* SceneDelegate.swift in Sources */,
 				68A4E75028FAE9C600AEF48C /* DataManager.swift in Sources */,
 				689DC6C328FE89F5003E4E8E /* AdvancedViewController+Extension.swift in Sources */,
