@@ -9,20 +9,12 @@ import Foundation
 import Alamofire
 
 // Варианты запросов
-enum networkURLS: String {
-    case userURL = "https://finback.finanse.space/api/user"
-    case balanceURL = "https://finback.finanse.space/api/balance"
-    case tradeURL = "https://finback.finanse.space/api/trade"
-    case historyURL = "https://finback.finanse.space/api/trade/history"
-    case ratingURL = "https://finback.finanse.space/api/rating"
-    case currencies = "https://finback.finanse.space/api/currencies/current"
-    case postsUrl = "https://finback.finanse.space/api/posts"
-    case addComment = "https://finback.finanse.space/api/posts/create/comment"
-    case eventsURL = "https://finback.finanse.space/api/fetch/events"
-    case addLike = "https://finback.finanse.space/api/posts/like"
-    case createPost = "https://finback.finanse.space/api/posts/create"
-    case updatePost = "https://finback.finanse.space/api/posts/update"
-}
+//enum networkURLS: String {
+//    case randomPhotoURL = "https://api.unsplash.com/photos/random"
+//    case searchPhotoURL = "https://api.unsplash.com/search/photos"
+//
+//}
+
 
 // Варианты ошибок
 enum ErrorDomain: Error {
@@ -36,54 +28,45 @@ class NetworkService {
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
-    
-    
-    // MARK: - Запрос баланса пользователя
-    func fetchUserBalance(userId: Int, completion: @escaping RandomResponseResult) {
-        guard var components = URLComponents(string: networkURLS.balanceURL.rawValue) else {
-            completion(.failure(.explicitlyCancelled))
-            return
-        }
-        components.queryItems = [
-//            .init(name: "token", value: token),
-            .init(name: "user_id", value: "\(userId)")
-        ]
-        guard let url = components.url else {
-            completion(.failure(.explicitlyCancelled))
-            return
-        }
+    // MARK: - Запрос случайных фотографий
+    func fetchRandomPhotos(photoCount: Int, completion: @escaping RandomResponseResult) {
+
+        let parameters = self.prepareParaments(photoCount: photoCount)
+        let url = self.getRandomImageURL(params: parameters)
         
         var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = prepareHeader()
         request.method = .get
         performDecodableRequest(request: request, completion: completion)
     }
     
-    
-    private func performDecodableRequest<T: Decodable>(request: URLRequest,
-                                                       completion: @escaping ((Result<T, AFError>) -> Void)) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
-        AF.request(request)
-            .validate()
-            .responseDecodable(
-                of: T.self,
-                queue: .global(qos: .userInitiated),
-                decoder: decoder
-            ) { result in
-                guard let data = result.value else {
-                    if let error = result.error {
-                        print(error)
-                        completion(.failure(error))
-                    }
-                    return
-                }
-                completion(.success(data))
-            }
+    // MARK: - ramdomPhotoRequest
+    /// Построение запроса случайных фотографий
+    func ramdomPhotoRequest(completion: @escaping (Data?, Error?) -> Void)  {
+        let parameters = self.prepareParaments(photoCount: 30)
+        let url = self.getRandomImageURL(params: parameters)
+        var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = prepareHeader()
+        request.httpMethod = "get"
+        let task = createDataTask(from: request, completion: completion)
+        task.resume()
     }
     
-    
+    // Подготовка параметров запроса (Request)
+    private func prepareParaments(photoCount: Int) -> [String: String] {
+        var parameters = [String: String]()
+        parameters["count"] = String(photoCount)
+        return parameters
+    }
+    // Создание запроса с учетов параметроов
+    private func getRandomImageURL(params: [String: String]) -> URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.unsplash.com"
+        components.path = "/photos/random"
+        components.queryItems = params.map { URLQueryItem(name: $0, value: $1)}
+        return components.url!
+    }
 
     // MARK: - Search Request
     /// Построение запроса фотографий по вводимым данным
@@ -96,7 +79,7 @@ class NetworkService {
         let task = createDataTask(from: request, completion: completion)
         task.resume()
     }
-    
+    // Подготовка заголовка с ключом авторизации
     private func prepareHeader() -> [String: String]? {
         var headers = [String: String]()
         headers["Authorization"] = "Client-ID \(accessKey)"
@@ -128,112 +111,87 @@ class NetworkService {
         }
     }
     
-    // MARK: - ramdomPhotoRequest
-    /// Построение запроса случайных фотографий
-    func ramdomPhotoRequest(completion: @escaping (Data?, Error?) -> Void)  {
-        let parameters = self.prepareParaments()
-        let url = self.urlRandomImage(params: parameters)
-        var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = prepareHeader()
-        request.httpMethod = "get"
-        let task = createDataTask(from: request, completion: completion)
-        task.resume()
-    }
-    
-    private func prepareParaments() -> [String: String] {
-        var parameters = [String: String]()
-        parameters["count"] = String(30)
-        return parameters
-    }
-    
-    private func urlRandomImage(params: [String: String]) -> URL {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.unsplash.com"
-        components.path = "/photos/random"
-        components.queryItems = params.map { URLQueryItem(name: $0, value: $1)}
-        return components.url!
-    }
+
     
 }
 
 
-    // MARK: - Внутренние методы
-        extension NetworkService {
-        // Создание запросов с загрузкой аватарки
-        private func performDecodableUploadRequest<T: Decodable>(requestData: (MultipartFormData, URL),
-                                                                 completion: @escaping ((Result<T, AFError>) -> Void)) {
-            let headers = [
-                "Content-Type": "multipart/form-data",
-                "Content-Disposition": "form-data"
-            ]
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(formatter)
-            
-            let mfObject = requestData.0
-            
-            print(mfObject)
-            
-            AF
-                .upload(multipartFormData: mfObject, to: requestData.1,
-                        method: .post, headers: .init(headers))
-                .validate()
-                .responseDecodable(
-                    of: T.self,
-                    queue: .global(qos: .userInitiated),
-                    decoder: decoder
-                ) { result in
-                    guard let data = result.value else {
-                        if let error = result.error {
-                            completion(.failure(error))
-                        }
-                        return
+// MARK: - Внутренние методы
+extension NetworkService {
+    // Создание запросов с загрузкой аватарки
+    private func performDecodableUploadRequest<T: Decodable>(requestData: (MultipartFormData, URL),
+                                                             completion: @escaping ((Result<T, AFError>) -> Void)) {
+        let headers = [
+            "Content-Type": "multipart/form-data",
+            "Content-Disposition": "form-data"
+        ]
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        let mfObject = requestData.0
+        
+        print(mfObject)
+        
+        AF
+            .upload(multipartFormData: mfObject, to: requestData.1,
+                    method: .post, headers: .init(headers))
+            .validate()
+            .responseDecodable(
+                of: T.self,
+                queue: .global(qos: .userInitiated),
+                decoder: decoder
+            ) { result in
+                guard let data = result.value else {
+                    if let error = result.error {
+                        completion(.failure(error))
                     }
-                    print(data)
-                    completion(.success(data))
-                    
+                    return
                 }
+                print(data)
+                completion(.success(data))
+                
+            }
+    }
+    
+    // Создание запроса без параметров
+    private func performRequest<T: Decodable>(request: URLRequest , // RequestProvider
+                                              completion: @escaping (Result<T, ErrorDomain>) -> Void) {
+        //        let request = request.request
+        AF.request(request).validate().responseDecodable(of: T.self , queue: .global(qos: .userInitiated)) { data in
+            guard let data = data.value else {
+                completion(.failure(.AFError(data.error)))
+                return
+            }
+            completion(.success(data))
         }
-            
-        // Создание запроса без параметров
-        private func performRequest<T: Decodable>(request: URLRequest , // RequestProvider
-                                                  completion: @escaping (Result<T, ErrorDomain>) -> Void) {
-    //        let request = request.request
-            AF.request(request).validate().responseDecodable(of: T.self , queue: .global(qos: .userInitiated)) { data in
-                guard let data = data.value else {
-                    completion(.failure(.AFError(data.error)))
+    }
+    
+    // Создание запроса с приведением к типу Т
+    private func performDecodableRequest<T: Decodable>(request: URLRequest,
+                                                       completion: @escaping ((Result<T, AFError>) -> Void)) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        AF.request(request)
+            .validate()
+            .responseDecodable(
+                of: T.self,
+                queue: .global(qos: .userInitiated),
+                decoder: decoder
+            ) { result in
+                guard let data = result.value else {
+                    if let error = result.error {
+                        print(error)
+                        completion(.failure(error))
+                    }
                     return
                 }
                 completion(.success(data))
             }
-        }
-        
-        // Создание запроса с приведением к типу Т
-        private func performDecodableRequest<T: Decodable>(request: URLRequest,
-                                                           completion: @escaping ((Result<T, AFError>) -> Void)) {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(formatter)
-            AF.request(request)
-                .validate()
-                .responseDecodable(
-                    of: T.self,
-                    queue: .global(qos: .userInitiated),
-                    decoder: decoder
-                ) { result in
-                    guard let data = result.value else {
-                        if let error = result.error {
-                            print(error)
-                            completion(.failure(error))
-                        }
-                        return
-                    }
-                    completion(.success(data))
-                }
-        }
-        
     }
+    
+}
