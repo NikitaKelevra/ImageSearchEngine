@@ -10,27 +10,33 @@ import UIKit
 class NetworkDataFetcher {
     
     private var networkService = NetworkService()
+    private let photoCount = 30 // The number of photos to return. (Default: 1; max: 30)
     
-    // MARK: - Загрузка случайных картинок
-    func fetchRandomImages(completion: @escaping ([Photo]?) -> ()) {
-        networkService.ramdomPhotoRequest{ (data, error) in
-            if let error = error {
-                print("Error received requesting data: \(error.localizedDescription)")
-                completion(nil)
+    // MARK: - Загрузка данных (случайных фотографий)
+    func fetchRandomPhotos(completion: @escaping ([Photo]) -> ()) {
+        networkService.fetchRandomPhotos(photoCount: photoCount, completion: { result in
+            switch result {
+            case .failure(let error):
+                print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkDataFetcher")
+                print(error)
+                completion([])
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(response)
+//                    print(response)
+                }
             }
-            let decode = self.decodeJSON(type: [Photo].self, from: data)
-            completion(decode)
-        }
+        })
     }
     
     // MARK: - Загрузка картинок по запросу
-    func fetchSearchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
+    func fetchSearchImages(searchTerm: String, completion: @escaping (RandomPhotoResponse?) -> ()) {
         networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
             if let error = error {
                 print("Error received requesting data: \(error.localizedDescription)")
                 completion(nil)
             }    
-            let decode = self.decodeJSON(type: SearchResults.self, from: data)
+            let decode = self.decodeJSON(type: RandomPhotoResponse.self, from: data)
             completion(decode)
         }
     }

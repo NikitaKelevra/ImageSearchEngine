@@ -19,20 +19,22 @@ class AdvancedViewController: UIViewController {
     private var timer: Timer?
     
     // AdvancedViewControllerViewModel
-    var viewModel: AdvancedVCViewModelProtocol! {
+    var viewModel: AdvancedViewModelProtocol! {
         didSet {
-            viewModel.fetchProducts {
+            viewModel.fetchRandomPhotos {
                 self.reloadData()
             }
         }
     }
     
     // Main array of photo
-    private var photos: [Photo] = [] {
-        didSet{
-            reloadData()
-        }
+    private var photos: [Photo] {
+        viewModel.randomPhotos
+//        didSet {
+//            self.reloadData()
+//        }
     }
+    
     // Array of favorite photo
     private var favoritePhotos: [Photo] {
         DataManager.shared.fetchPhotos()
@@ -47,8 +49,11 @@ class AdvancedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = AdvancedViewModel()
+//        photos = viewModel.randomPhotos
+        
         setupElements()
-        fetchRandomImages()
+//        fetchRandomImages()
         createDataSource()
     }
     
@@ -119,12 +124,12 @@ class AdvancedViewController: UIViewController {
     }
     
     // Fetch Photo Array
-    private func fetchRandomImages(){
-        self.networkDataFetcher.fetchRandomImages{ [weak self] (searchResults) in
-            guard let fetchedPhotos = searchResults else { return }
-            self?.photos = fetchedPhotos
-        }
-    }
+//    private func fetchRandomImages(){
+//        self.networkDataFetcher.fetchRandomImages{ [weak self] (searchResults) in
+//            guard let fetchedPhotos = searchResults else { return }
+//            self?.photos = fetchedPhotos
+//        }
+//    }
     
     // MARK: - Navigation
     
@@ -180,7 +185,7 @@ extension AdvancedViewController: UISearchBarDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
             self.networkDataFetcher.fetchSearchImages(searchTerm: searchText) { [weak self] (searchResults) in
                 guard let fetchedPhotos = searchResults else { return }
-                self?.photos = fetchedPhotos.results
+//                self?.photos = fetchedPhotos.results
             }
         })
     }

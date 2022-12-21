@@ -8,14 +8,6 @@
 import Foundation
 import Alamofire
 
-// Варианты запросов
-//enum networkURLS: String {
-//    case randomPhotoURL = "https://api.unsplash.com/photos/random"
-//    case searchPhotoURL = "https://api.unsplash.com/search/photos"
-//
-//}
-
-
 // Варианты ошибок
 enum ErrorDomain: Error {
     case AFError(AFError?)
@@ -23,8 +15,8 @@ enum ErrorDomain: Error {
 }
 
 class NetworkService {
-    
-    typealias RandomResponseResult = (Result<SearchResults, AFError>) -> Void
+
+    typealias RandomResponseResult = (Result<[Photo], AFError>) -> Void
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
@@ -37,19 +29,9 @@ class NetworkService {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = prepareHeader()
         request.method = .get
+        print(request)
+        
         performDecodableRequest(request: request, completion: completion)
-    }
-    
-    // MARK: - ramdomPhotoRequest
-    /// Построение запроса случайных фотографий
-    func ramdomPhotoRequest(completion: @escaping (Data?, Error?) -> Void)  {
-        let parameters = self.prepareParaments(photoCount: 30)
-        let url = self.getRandomImageURL(params: parameters)
-        var request = URLRequest(url: url)
-        request.allHTTPHeaderFields = prepareHeader()
-        request.httpMethod = "get"
-        let task = createDataTask(from: request, completion: completion)
-        task.resume()
     }
     
     // Подготовка параметров запроса (Request)
@@ -110,9 +92,6 @@ class NetworkService {
             }
         }
     }
-    
-
-    
 }
 
 
@@ -185,6 +164,7 @@ extension NetworkService {
             ) { result in
                 guard let data = result.value else {
                     if let error = result.error {
+                        print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkService")
                         print(error)
                         completion(.failure(error))
                     }
