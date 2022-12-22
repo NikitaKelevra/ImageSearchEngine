@@ -1,5 +1,5 @@
 //
-//  AdvancedViewControllerViewModel.swift
+//  AdvancedViewModel.swift
 //  ImageSearchEngine
 //
 //  Created by Сперанский Никита on 11.12.2022.
@@ -9,29 +9,38 @@ import UIKit
 // MARK: - AdvancedViewController Protocol
 protocol AdvancedViewModelProtocol {
     
-    var randomPhotos: [Photo] { get set }
+    var photos: [Photo] { get set }
     var favoritePhotos: [Photo] { get set }
+//    var searchTerm: String { get set }
     /// Получение данных продукции из REST API
-    func fetchRandomPhotos(completion: @escaping() -> Void)
-
+    func getRandomPhotos(completion: @escaping() -> Void)
+    /// Получение массива фотографий по поисковому запросу
+    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void)
 }
 
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
-    var randomPhotos: [Photo] = []
+    var photos: [Photo] = []
     var favoritePhotos: [Photo] = []
-    
+//    var searchTerm: String = ""
     private var networkDataFetcher = NetworkDataFetcher()
     
     // Получение массива случайных фотографий
-    func fetchRandomPhotos(completion: @escaping() -> Void) {
+    func getRandomPhotos(completion: @escaping() -> Void) {
         self.networkDataFetcher.fetchRandomPhotos{ [weak self] (photos) in
-            self?.randomPhotos = photos
+            self?.photos = photos
             completion()
         }
     }
     
-    
+    // Получение массива фотографий по поисковому запросу
+    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) {
+        self.networkDataFetcher.fetchSearchPhotos(searchTerm: searchTerm,
+                                                  completion: { [weak self] (photos) in
+            self?.photos = photos
+            completion()
+        })
+    }
     
     
 }

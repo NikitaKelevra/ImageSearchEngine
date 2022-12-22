@@ -30,16 +30,33 @@ class NetworkDataFetcher {
     }
     
     // MARK: - Загрузка картинок по запросу
-    func fetchSearchImages(searchTerm: String, completion: @escaping (RandomPhotoResponse?) -> ()) {
-        networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
-            if let error = error {
-                print("Error received requesting data: \(error.localizedDescription)")
-                completion(nil)
-            }    
-            let decode = self.decodeJSON(type: RandomPhotoResponse.self, from: data)
-            completion(decode)
+    func fetchSearchPhotos(searchTerm: String, completion: @escaping ([Photo]) -> ()) {
+        networkService.fetchSearchRequest(searchTerm: searchTerm) { result in
+            switch result {
+            case .failure(let error):
+                print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkDataFetcher")
+                print(error)
+                completion([])
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(response.results)
+                    print(response)
+                }
+            }
         }
     }
+    
+
+//    func fetchSearchImages(searchTerm: String, completion: @escaping (RandomPhotoResponse?) -> ()) {
+//        networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
+//            if let error = error {
+//                print("Error received requesting data: \(error.localizedDescription)")
+//                completion(nil)
+//            }
+//            let decode = self.decodeJSON(type: RandomPhotoResponse.self, from: data)
+//            completion(decode)
+//        }
+//    }
     
     // MARK: -
     private func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {

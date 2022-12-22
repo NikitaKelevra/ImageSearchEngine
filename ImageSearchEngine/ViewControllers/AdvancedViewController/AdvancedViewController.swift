@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum PhotoListSection: Int {
+    case main
+}
+
 class AdvancedViewController: UIViewController {
     // MARK: - Propherties & typealias
     
@@ -19,9 +23,9 @@ class AdvancedViewController: UIViewController {
     private var timer: Timer?
     
     // AdvancedViewControllerViewModel
-    var viewModel: AdvancedViewModelProtocol! {
+    private var viewModel: AdvancedViewModelProtocol! {
         didSet {
-            viewModel.fetchRandomPhotos {
+            viewModel.getRandomPhotos {
                 self.reloadData()
             }
         }
@@ -29,10 +33,7 @@ class AdvancedViewController: UIViewController {
     
     // Main array of photo
     private var photos: [Photo] {
-        viewModel.randomPhotos
-//        didSet {
-//            self.reloadData()
-//        }
+        viewModel.photos
     }
     
     // Array of favorite photo
@@ -43,23 +44,20 @@ class AdvancedViewController: UIViewController {
     // Change Collection View Layout
     private var numberOfLayoutType = 1
     
-    private let allowSearchCharacters = ["#", "$", "!", "&","@"]
+//    private let allowSearchCharacters = ["#", "$", "!", "&","@"]
     
     // MARK: - UIViewController lifecycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AdvancedViewModel()
-//        photos = viewModel.randomPhotos
         
         setupElements()
-//        fetchRandomImages()
         createDataSource()
     }
     
     
-    // MARK: - Configuring ViewController Elements
-    
+    // MARK: - Change Layout Of Collection View
     @objc func clickChangeViewButton() {
         numberOfLayoutType += 1
         collectionView.setCollectionViewLayout(setViewLayout(numberOfLayoutType), animated: true)
@@ -78,6 +76,7 @@ class AdvancedViewController: UIViewController {
         return layout
     }
     
+    // MARK: - Configuring ViewController Elements
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
@@ -90,12 +89,14 @@ class AdvancedViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(clickChangeViewButton))
         
-        /// `seacrhController` settings
-        let seacrhController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = seacrhController
-        seacrhController.hidesNavigationBarDuringPresentation = false
-        seacrhController.obscuresBackgroundDuringPresentation = false
-        seacrhController.searchBar.delegate = self
+        /// `SeacrhController` settings
+        let searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
         
         /// `CollectionView` settings
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: setViewLayout(numberOfLayoutType))
@@ -122,14 +123,6 @@ class AdvancedViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    // Fetch Photo Array
-//    private func fetchRandomImages(){
-//        self.networkDataFetcher.fetchRandomImages{ [weak self] (searchResults) in
-//            guard let fetchedPhotos = searchResults else { return }
-//            self?.photos = fetchedPhotos
-//        }
-//    }
     
     // MARK: - Navigation
     
@@ -173,20 +166,19 @@ extension AdvancedViewController: UICollectionViewDelegate {
 extension AdvancedViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            
-        if searchText.contains(where: { char in
-            allowSearchCharacters.contains(String(char))
-        }) {
-            showAlert(with: "Incorrect input format",
-                      and: "Do not use the following characters: \(allowSearchCharacters)")
-            searchBar.text = ""
-        }
+            print(searchText)
+//        if searchText.contains(where: { char in
+//            allowSearchCharacters.contains(String(char))
+//        }) {
+//            showAlert(with: "Incorrect input format",
+//                      and: "Do not use the following characters: \(allowSearchCharacters)")
+//            searchBar.text = ""
+//        }
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
-            self.networkDataFetcher.fetchSearchImages(searchTerm: searchText) { [weak self] (searchResults) in
-                guard let fetchedPhotos = searchResults else { return }
-//                self?.photos = fetchedPhotos.results
-            }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in
+            self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
+                self?.reloadData()
+            })
         })
     }
 }

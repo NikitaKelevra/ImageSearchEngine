@@ -1,5 +1,5 @@
 //
-//  RandomPhotoResponse.swift
+//  PhotoResponse.swift
 //  ImageSearchEngine
 //
 //  Created by Сперанский Никита on 21.12.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RandomPhotoResponse: Codable, Hashable {
+struct PhotoResponse: Codable, Hashable {
     let total: Int
     let results: [Photo]
 }

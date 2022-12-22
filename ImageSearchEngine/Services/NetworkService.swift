@@ -17,6 +17,7 @@ enum ErrorDomain: Error {
 class NetworkService {
 
     typealias RandomResponseResult = (Result<[Photo], AFError>) -> Void
+    typealias SearchResponseResult = (Result<PhotoResponse, AFError>) -> Void
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
@@ -29,7 +30,7 @@ class NetworkService {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = prepareHeader()
         request.method = .get
-        print(request)
+//        print(request)
         
         performDecodableRequest(request: request, completion: completion)
     }
@@ -51,16 +52,29 @@ class NetworkService {
     }
 
     // MARK: - Search Request
-    /// Построение запроса фотографий по вводимым данным
-    func searchRequest(searchTerm: String, completion: @escaping (Data?, Error?) -> Void)  {
+    
+    /// Построение запроса фотографий по вводимым в поисковик данным
+    func fetchSearchRequest(searchTerm: String, completion: @escaping SearchResponseResult) {
         let parameters = self.prepareParaments(searchTerm: searchTerm)
-        let url = self.url(params: parameters)
+        let url = self.searchURL(params: parameters)
+        
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = prepareHeader()
-        request.httpMethod = "get"
-        let task = createDataTask(from: request, completion: completion)
-        task.resume()
+        request.method = .get
+        print(request)
+        
+        performDecodableRequest(request: request, completion: completion)
     }
+    
+//    func searchRequest(searchTerm: String, completion: @escaping (Data?, Error?) -> Void)  {
+//        let parameters = self.prepareParaments(searchTerm: searchTerm)
+//        let url = self.searchURL(params: parameters)
+//        var request = URLRequest(url: url)
+//        request.allHTTPHeaderFields = prepareHeader()
+//        request.httpMethod = "get"
+//        let task = createDataTask(from: request, completion: completion)
+//        task.resume()
+//    }
     // Подготовка заголовка с ключом авторизации
     private func prepareHeader() -> [String: String]? {
         var headers = [String: String]()
@@ -76,7 +90,7 @@ class NetworkService {
         return parameters
     }
     
-    private func url(params: [String: String]) -> URL {
+    private func searchURL(params: [String: String]) -> URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.unsplash.com"
