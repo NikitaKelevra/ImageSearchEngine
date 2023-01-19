@@ -7,15 +7,14 @@
  ### Фунционал приложения:
  + Поиск фотографий по запросу; 
  + Сохранение и просмотр понравившихся фотографий на устройстве;
+ + Возможность кастомизации интерфейса;
  + Возможность просмотра деталей каждой фотографии.
 
   ### Примененные технологии::
-  + `SWIFT 5` 
-  + `MVC`
-  + `UIKit`, `SDWebImage`  
+  + `SWIFT 5.0` `iOS 14.0` `UIKit` `MVC`
+  + `CollectionView` `Diffible Data Source` `SDWebImage` 
   + `UserDefaults` - сохранение любимых фотографий
   + `URLSession` `JSON` - парсинг данных API Unsplash
-  + `CollectionView` `Diffible Data Source`  
   + `Observers`  
   + `Singletone`
 
