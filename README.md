@@ -1,18 +1,15 @@
+<img src="https://user-images.githubusercontent.com/81251222/213521116-d1816bdf-8e68-4157-ac02-9d6b25de747f.gif" alt="Image-Engine-rec" border="0" align="right" >
+
 # ImageSearchEngine
 
-
-
-
-`ImageSearchEngine` программа позволяет искать и сохранять фотографии по базе Unsplash.
-
-<img src="https://i.ibb.co/TRZNdmX/Image-Engine-rec.gif" alt="Image-Engine-rec" border="0" align="right" >
+Приложение `ImageSearchEngine` позволяет искать и сохранять фотографии по базе Unsplash.com
  
-  ### Возможности программы:
-  + Поиск фотографий по запросу; 
-  + Сохранение и просмотр понравившихся фотографий на устройстве;
-  + Возможность просмотра деталей каждой фотографии.
+ ### Фунционал приложения:
+ + Поиск фотографий по запросу; 
+ + Сохранение и просмотр понравившихся фотографий на устройстве;
+ + Возможность просмотра деталей каждой фотографии.
 
-  ### Technology stack:
+  ### Примененные технологии::
   + `SWIFT 5` 
   + `MVC`
   + `UIKit`, `SDWebImage`  
