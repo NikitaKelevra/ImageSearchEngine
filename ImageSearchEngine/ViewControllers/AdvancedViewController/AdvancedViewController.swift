@@ -11,7 +11,8 @@ enum PhotoListSection: Int {
     case main
 }
 
-class AdvancedViewController: UIViewController {
+// Контроллер представения случайных фотографий
+final class AdvancedViewController: UIViewController {
     // MARK: - Propherties & typealias
     
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
@@ -22,7 +23,6 @@ class AdvancedViewController: UIViewController {
     private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
     
-    // AdvancedViewControllerViewModel
     private var viewModel: AdvancedViewModelProtocol! {
         didSet {
             viewModel.getRandomPhotos {
@@ -31,23 +31,17 @@ class AdvancedViewController: UIViewController {
         }
     }
     
-    // Main array of photo
     private var photos: [Photo] {
         viewModel.photos
     }
     
-    // Array of favorite photo
     private var favoritePhotos: [Photo] {
         DataManager.shared.fetchPhotos()
     }
     
-    // Change Collection View Layout
-    private var numberOfLayoutType = 1
-    
-//    private let allowSearchCharacters = ["#", "$", "!", "&","@"]
+    var numberOfLayoutType = 1
     
     // MARK: - UIViewController lifecycle functions
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AdvancedViewModel()
@@ -56,24 +50,10 @@ class AdvancedViewController: UIViewController {
         createDataSource()
     }
     
-    
-    // MARK: - Change Layout Of Collection View
-    @objc func clickChangeViewButton() {
+    // MARK: - Изменение Layout Of Collection View
+    @objc func changeLayoutButton() {
         numberOfLayoutType += 1
         collectionView.setCollectionViewLayout(setViewLayout(numberOfLayoutType), animated: true)
-    }
-    
-    private func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
-        var layout: UICollectionViewLayout
-        
-        switch layoutNumber {
-        case 2: layout = createSecondLayout()
-        case 3: layout = createThirdLayout()
-            
-        default: numberOfLayoutType = 1
-            layout = createFirstLayout()
-        }
-        return layout
     }
     
     // MARK: - Configuring ViewController Elements
@@ -87,14 +67,13 @@ class AdvancedViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"),
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(clickChangeViewButton))
+                                                            action: #selector(changeLayoutButton))
         
         /// `SeacrhController` settings
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.delegate = self
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         
@@ -125,7 +104,7 @@ class AdvancedViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    
+    // Переход на экран детальной информации
     private func showPhotoDetailsVC(photo: Photo) {
         let detailsVC = DetailsViewController()
         detailsVC.photo = photo
@@ -133,8 +112,7 @@ class AdvancedViewController: UIViewController {
     }
     
     // MARK: - DataSource, Snapshot and Layout settings
-    
-    func reloadData() {
+    private func reloadData() {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(photos, toSection: .main)
@@ -167,15 +145,17 @@ extension AdvancedViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             print(searchText)
-//        if searchText.contains(where: { char in
-//            allowSearchCharacters.contains(String(char))
-//        }) {
-//            showAlert(with: "Incorrect input format",
-//                      and: "Do not use the following characters: \(allowSearchCharacters)")
-//            searchBar.text = ""
-//        }
+        guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in
+            
+//            guard searchText == "" else {
+//                self?.viewModel.getRandomPhotos(completion: {
+//                    self?.reloadData()
+//                })
+//                return
+//            }
+            
             self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
                 self?.reloadData()
             })
@@ -183,12 +163,12 @@ extension AdvancedViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - Alert Controller
-extension AdvancedViewController {    
-    private func showAlert(with title: String, and message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-}
+//// MARK: - Alert Controller
+//extension AdvancedViewController {
+//    private func showAlert(with title: String, and message: String) {
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+//        alert.addAction(okAction)
+//        present(alert, animated: true)
+//    }
+//}

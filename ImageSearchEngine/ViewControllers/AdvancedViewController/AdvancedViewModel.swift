@@ -11,18 +11,16 @@ protocol AdvancedViewModelProtocol {
     
     var photos: [Photo] { get set }
     var favoritePhotos: [Photo] { get set }
-//    var searchTerm: String { get set }
-    /// Получение данных продукции из REST API
-    func getRandomPhotos(completion: @escaping() -> Void)
-    /// Получение массива фотографий по поисковому запросу
-    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void)
+    
+    
+    func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных продукции из REST API
+    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
 }
 
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
     var photos: [Photo] = []
     var favoritePhotos: [Photo] = []
-//    var searchTerm: String = ""
     private var networkDataFetcher = NetworkDataFetcher()
     
     // Получение массива случайных фотографий

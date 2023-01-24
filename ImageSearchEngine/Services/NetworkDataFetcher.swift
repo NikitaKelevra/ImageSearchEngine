@@ -23,7 +23,6 @@ class NetworkDataFetcher {
             case .success(let response):
                 DispatchQueue.main.async {
                     completion(response)
-//                    print(response)
                 }
             }
         })
@@ -45,31 +44,4 @@ class NetworkDataFetcher {
             }
         }
     }
-    
-
-//    func fetchSearchImages(searchTerm: String, completion: @escaping (RandomPhotoResponse?) -> ()) {
-//        networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
-//            if let error = error {
-//                print("Error received requesting data: \(error.localizedDescription)")
-//                completion(nil)
-//            }
-//            let decode = self.decodeJSON(type: RandomPhotoResponse.self, from: data)
-//            completion(decode)
-//        }
-//    }
-    
-    // MARK: -
-    private func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {
-        let decoder = JSONDecoder()
-        guard let data = from else { return nil }
-        
-        do {
-            let objects = try decoder.decode(type.self, from: data)
-            return objects
-        } catch let jsonError {
-            print("Failed to decode JSON", jsonError)
-            return nil
-        }
-    }
-    
 }

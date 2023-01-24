@@ -66,6 +66,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6820FDE4298047410089E27F /* DetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
+			);
+			path = DetailsVC;
+			sourceTree = "<group>";
+		};
+		6820FDE5298047680089E27F /* FavoritePhotoVС */ = {
+			isa = PBXGroup;
+			children = (
+				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
+			);
+			path = "FavoritePhotoVС";
+			sourceTree = "<group>";
+		};
 		68A4E71428F5CE0000AEF48C = {
 			isa = PBXGroup;
 			children = (
@@ -149,8 +165,8 @@
 			children = (
 				68A4E73828F5D0EB00AEF48C /* MainTabBarController.swift */,
 				68A4E75428FD480C00AEF48C /* AdvancedViewController */,
-				68A4E74A28F99ACF00AEF48C /* DetailsViewController.swift */,
-				68A4E73F28F5D84E00AEF48C /* FavoritePhotoViewController.swift */,
+				6820FDE4298047410089E27F /* DetailsVC */,
+				6820FDE5298047680089E27F /* FavoritePhotoVС */,
 				68A4E74628F5F04C00AEF48C /* PhotoCell.swift */,
 			);
 			path = ViewControllers;

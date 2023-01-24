@@ -9,8 +9,22 @@ import UIKit
 
 extension AdvancedViewController {
     
-    // MARK: Первый вид отобраажения/расположения фотографий
-    func createFirstLayout() -> UICollectionViewLayout {
+    // MARK: - Функция смены типа Layout
+    func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
+        var layout: UICollectionViewLayout
+        
+        switch layoutNumber {
+        case 2: layout = createSecondLayout()
+        case 3: layout = createThirdLayout()
+            
+        default: numberOfLayoutType = 1
+            layout = createFirstLayout()
+        }
+        return layout
+    }
+    
+    // MARK: - Первый тип Layout (отобраажения/расположения фотографий)
+    private func createFirstLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
@@ -32,8 +46,8 @@ extension AdvancedViewController {
         return layout
     }
     
-    // MARK: Второй вид отобраажения/расположения фотографий
-    func createSecondLayout() -> UICollectionViewLayout {
+    // MARK: Второй тип Layout (отобраажения/расположения фотографий)
+    private func createSecondLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -55,8 +69,8 @@ extension AdvancedViewController {
         return layout
     }
     
-    // MARK: Второй вид отобраажения/расположения фотографий
-    func createThirdLayout() -> UICollectionViewLayout {
+    // MARK: Третий тип Layout (отобраажения/расположения фотографий)
+    private func createThirdLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -77,5 +91,4 @@ extension AdvancedViewController {
         }
         return layout
     }
-
 }

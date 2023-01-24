@@ -7,11 +7,12 @@
 
 import Foundation
 
+// MARK: - PhotoResponse
 struct PhotoResponse: Codable, Hashable {
     let total: Int
     let results: [Photo]
 }
-
+// MARK: - Photo
 struct Photo: Codable, Hashable {
     let id: String
     let createdAt: String // Date
@@ -48,7 +49,6 @@ struct UserInfo: Codable, Hashable  {
     let id: String
     let name: String
 }
-
 
 // MARK: - Location
 struct Location: Codable, Hashable {
