@@ -10,8 +10,8 @@ import SDWebImage
 
 // MARK: - Protocol
 protocol PhotoCellViewModelProtocol {
-    var photoImageView: Data? { get }
     var isFavorite: Bool { get }
+    var photoImageView: Data? { get }
     
     init(photo: Photo, isFavorite: Bool)
     
@@ -36,17 +36,4 @@ final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     }
     
 
-}
-
-
-class ImageManager {
-    static let shared = ImageManager()
-    
-    private init() {}
-    
-    func fetchImageData(from link: String) -> Data? {
-        guard let url = URL(string: link) else { return nil }
-        guard let imageData = try? Data(contentsOf: url) else { return nil }
-        return imageData
-    }
 }

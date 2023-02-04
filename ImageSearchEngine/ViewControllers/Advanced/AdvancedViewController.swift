@@ -11,14 +11,15 @@ enum PhotoListSection: Int {
     case main
 }
 
-// Контроллер представения случайных фотографий
+// Стартовый контроллер представения случайных фотографий
 final class AdvancedViewController: UIViewController {
-    // MARK: - Propherties & typealias
+    // MARK: - Propherties & typealias / Свойства и объекты UI
     
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
     
-    private weak var collectionView: UICollectionView!
+    private lazy var collectionView = UICollectionView(frame: CGRect.zero,
+                                                       collectionViewLayout: UICollectionViewFlowLayout.init())
     private var dataSource: DataSource?
     private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
@@ -26,20 +27,11 @@ final class AdvancedViewController: UIViewController {
     private var viewModel: AdvancedViewModelProtocol! {
         didSet {
             viewModel.getRandomPhotos {
+                print("Обновление фоток")
                 self.reloadData()
             }
         }
     }
-    
-//    private var photos: [Photo] {
-//        viewModel.photos
-//    }
-    
-    private var favoritePhotos: [Photo] {
-        DataManager.shared.fetchPhotos()
-    }
-    
-    var numberOfLayoutType = 1
     
     // MARK: - UIViewController lifecycle functions
     override func viewDidLoad() {
@@ -52,8 +44,10 @@ final class AdvancedViewController: UIViewController {
     
     // MARK: - Изменение Layout Of Collection View
     @objc func changeLayoutButton() {
-        numberOfLayoutType += 1
-        collectionView.setCollectionViewLayout(setViewLayout(numberOfLayoutType), animated: true)
+        print("Прошла кнопка")
+//        print(viewModel.layoutType)
+        viewModel.layoutType += 1
+        collectionView.setCollectionViewLayout(setViewLayout(viewModel.layoutType), animated: true)
     }
     
     // MARK: - Configuring ViewController Elements
@@ -79,7 +73,7 @@ final class AdvancedViewController: UIViewController {
         
         /// `CollectionView` settings
         collectionView.frame = view.bounds
-        collectionView.collectionViewLayout = setViewLayout(numberOfLayoutType)
+        collectionView.collectionViewLayout = setViewLayout(viewModel.layoutType)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
 
@@ -122,11 +116,16 @@ final class AdvancedViewController: UIViewController {
     
     private func createDataSource() {
         dataSource = DataSource(collectionView: collectionView,
-                                cellProvider: { (collectionView, indexPath, photo) -> UICollectionViewCell? in
-            let isFavorite = self.favoritePhotos.contains(photo)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId,
-                                                          for: indexPath) as? PhotoCell
-            cell?.configure(with: photo, isFavorite: isFavorite)
+                                cellProvider: { [weak self] (collectionView, indexPath, photo) -> UICollectionViewCell? in
+//            let isFavorite = self.viewModel.favoritePhotos.contains(photo)
+            
+            
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId, for: indexPath) as? PhotoCell
+            cell?.viewModel = self?.viewModel.photoCellViewModel(at: indexPath)
+            
+            
+//            cell?.configure(with: photo, isFavorite: isFavorite)
             return cell
         })
     }
@@ -164,18 +163,6 @@ extension AdvancedViewController: UISearchBarDelegate {
     }
 }
 
-//// MARK: - Alert Controller
-//extension AdvancedViewController {
-//    private func showAlert(with title: String, and message: String) {
-//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
-//        alert.addAction(okAction)
-//        present(alert, animated: true)
-//    }
-//}
-
-
-
 // MARK: - Cмена типа UICollectionViewLayout
 extension AdvancedViewController {
     
@@ -187,7 +174,7 @@ extension AdvancedViewController {
         case 2: layout = createSecondLayout()
         case 3: layout = createThirdLayout()
             
-        default: numberOfLayoutType = 1
+        default: viewModel.layoutType = 1
             layout = createFirstLayout()
         }
         return layout

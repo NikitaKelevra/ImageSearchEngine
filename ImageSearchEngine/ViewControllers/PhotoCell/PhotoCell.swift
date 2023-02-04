@@ -10,36 +10,35 @@ import SDWebImage
 
 final class PhotoCell: UICollectionViewCell {
     
-    // MARK: - Property
-    static var reuseId: String = "PhotoCell"
+    // MARK: - Элементы PhotoCell
     
-    var cellPhoto: Photo!
-    private let photoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-       return imageView
-   }()
-    
-    private let cornerRadius: CGFloat = 10
-    
-    private let authorNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.highlightedTextColor = .black
-        label.layer.borderColor = UIColor.black.cgColor
-        label.layer.borderWidth = 0.8
-        label.backgroundColor = .clear.withAlphaComponent(0.5)
-        return label
-    }()
+    private let photoImageView = UIImageView()
+    private let authorNameLabel = UILabel.confAuthorNameLabel()
     
     private let isFavoriteButton: UIButton = {
         let button = UIButton(type: .system)
-
         button.setImage(UIImage(systemName: "heart.fill") , for: .normal)
         return button
     }()
+    
+    // MARK: - Свойства PhotoCell
+    static var reuseId: String = "PhotoCell"
+    
+//    var viewModel: PhotoCellViewModelProtocol! {
+//        
+//    }
+    
+    
+    
+    
+    var cellPhoto: Photo!
+    
+    
+    
+    
+    private let cornerRadius: CGFloat = 10
+    
+    
     
     private var isFavoritePhoto = false {
         didSet {
@@ -87,6 +86,8 @@ final class PhotoCell: UICollectionViewCell {
         layer.cornerRadius = cornerRadius
         authorNameLabel.clipsToBounds = true
         authorNameLabel.layer.cornerRadius = cornerRadius
+        
+        photoImageView.contentMode = .scaleAspectFill
         
         
         isFavoritePhoto = false

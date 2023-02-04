@@ -23,6 +23,7 @@ struct Photo: Codable, Hashable {
     let description: String?
     let location: Location?
     let user: UserInfo
+    var isFavorite = false
     
     enum CodingKeys: String, CodingKey {
         case id

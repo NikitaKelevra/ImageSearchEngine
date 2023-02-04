@@ -75,6 +75,7 @@ class NetworkService {
 //        let task = createDataTask(from: request, completion: completion)
 //        task.resume()
 //    }
+    
     // Подготовка заголовка с ключом авторизации
     private func prepareHeader() -> [String: String]? {
         var headers = [String: String]()
