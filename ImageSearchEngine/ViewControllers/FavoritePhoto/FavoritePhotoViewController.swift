@@ -104,12 +104,8 @@ class FavoritePhotoViewController: UIViewController {
     private func createDataSource() {
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView, indexPath, photo) -> UICollectionViewCell? in
-            
-            let isFavorite = self.photos.contains(photo)
-
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId,
-                                                          for: indexPath) as? PhotoCell
-            cell?.configure(with: photo, isFavorite: isFavorite)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId, for: indexPath) as? PhotoCell
+//            cell?.viewModel = self?.viewModel.photoCellViewModel(at: indexPath)
             return cell
         })
     }

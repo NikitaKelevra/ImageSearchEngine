@@ -117,19 +117,11 @@ final class AdvancedViewController: UIViewController {
     private func createDataSource() {
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { [weak self] (collectionView, indexPath, photo) -> UICollectionViewCell? in
-//            let isFavorite = self.viewModel.favoritePhotos.contains(photo)
-            
-            
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.reuseId, for: indexPath) as? PhotoCell
             cell?.viewModel = self?.viewModel.photoCellViewModel(at: indexPath)
-            
-            
-//            cell?.configure(with: photo, isFavorite: isFavorite)
             return cell
         })
     }
-
 }
 
 // MARK: - UICollectionViewDelegate
