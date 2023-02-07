@@ -19,6 +19,7 @@ class NetworkDataFetcher {
             case .failure(let error):
                 print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkDataFetcher")
                 print(error)
+                DataFetcherError.dataLoadingError
                 completion([])
             case .success(let response):
                 DispatchQueue.main.async {
@@ -35,6 +36,7 @@ class NetworkDataFetcher {
             case .failure(let error):
                 print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkDataFetcher")
                 print(error)
+                DataFetcherError.dataLoadingError
                 completion([])
             case .success(let response):
                 DispatchQueue.main.async {
@@ -44,7 +46,4 @@ class NetworkDataFetcher {
             }
         }
     }
-    
-    
-    
 }

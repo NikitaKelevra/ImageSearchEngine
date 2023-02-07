@@ -58,6 +58,7 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     
     // Получение массива фотографий по поисковому запросу
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) {
+        
         self.networkDataFetcher.fetchSearchPhotos(searchTerm: searchTerm,
                                                   completion: { [weak self] (photos) in
             self?.photos = photos

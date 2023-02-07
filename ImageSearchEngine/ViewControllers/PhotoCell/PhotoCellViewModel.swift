@@ -20,13 +20,13 @@ protocol PhotoCellViewModelProtocol {
 // MARK: - ViewModel PhotoCell
 final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     
+    
     var photoImage: UIImage {
-        Task.init {
+        Task {
             do {
-                let image = try await ImageManager.shared.fetchImage(from: photo.urls["regular"] ?? "")
-                return image
+                await ImageManager.shared.fetchImage(from: photo.urls["regular"] ?? "")
             } catch {
-                return UIImage()
+                print("Request failed with error: \(error)")
             }
         }
     }
@@ -40,6 +40,7 @@ final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     }
     
     var isFavorite: Bool
+    
     private let photo: Photo
     
     init(photo: Photo, isFavorite: Bool) {

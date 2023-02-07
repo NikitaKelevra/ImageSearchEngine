@@ -8,16 +8,10 @@
 import Foundation
 import Alamofire
 
-// Варианты ошибок
-enum ErrorDomain: Error {
-    case AFError(AFError?)
-    case errorGettingData
-}
-
 class NetworkService {
 
-    typealias RandomResponseResult = (Result<[Photo], AFError>) -> Void
-    typealias SearchResponseResult = (Result<PhotoResponse, AFError>) -> Void
+    typealias RandomResponseResult = (Result<[Photo], DataFetcherError>) -> Void
+    typealias SearchResponseResult = (Result<PhotoResponse, DataFetcherError>) -> Void
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
@@ -114,7 +108,7 @@ class NetworkService {
 extension NetworkService {
     // Создание запросов с загрузкой аватарки
     private func performDecodableUploadRequest<T: Decodable>(requestData: (MultipartFormData, URL),
-                                                             completion: @escaping ((Result<T, AFError>) -> Void)) {
+                                                             completion: @escaping ((Result<T, DataFetcherError>) -> Void)) {
         let headers = [
             "Content-Type": "multipart/form-data",
             "Content-Disposition": "form-data"
@@ -139,8 +133,8 @@ extension NetworkService {
                 decoder: decoder
             ) { result in
                 guard let data = result.value else {
-                    if let error = result.error {
-                        completion(.failure(error))
+                    if result.error != nil {
+                        completion(.failure(.dataLoadingError))
                     }
                     return
                 }
@@ -152,11 +146,11 @@ extension NetworkService {
     
     // Создание запроса без параметров
     private func performRequest<T: Decodable>(request: URLRequest , // RequestProvider
-                                              completion: @escaping (Result<T, ErrorDomain>) -> Void) {
+                                              completion: @escaping (Result<T, DataFetcherError>) -> Void) {
         //        let request = request.request
         AF.request(request).validate().responseDecodable(of: T.self , queue: .global(qos: .userInitiated)) { data in
             guard let data = data.value else {
-                completion(.failure(.AFError(data.error)))
+                completion(.failure(.dataLoadingError))
                 return
             }
             completion(.success(data))
@@ -165,7 +159,7 @@ extension NetworkService {
     
     // Создание запроса с приведением к типу Т
     private func performDecodableRequest<T: Decodable>(request: URLRequest,
-                                                       completion: @escaping ((Result<T, AFError>) -> Void)) {
+                                                       completion: @escaping ((Result<T, DataFetcherError>) -> Void)) {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         let decoder = JSONDecoder()
@@ -181,7 +175,7 @@ extension NetworkService {
                     if let error = result.error {
                         print("ОШИБКА ИЗВЛЕЧЕНИЯ NetworkService")
                         print(error)
-                        completion(.failure(error))
+                        completion(.failure(.decodingError))
                     }
                     return
                 }
