@@ -19,7 +19,9 @@ final class PhotoCell: UICollectionViewCell {
     
     var viewModel: PhotoCellViewModelProtocol! {
         didSet {
-            photoImageView.image = viewModel.photoImage
+            guard let imageData = viewModel.imageData else { return }
+
+            photoImageView.image = UIImage(data: imageData)
             authorNameLabel.text = viewModel.authorName
             isFavoritePhoto = viewModel.isFavorite
         }
@@ -30,8 +32,6 @@ final class PhotoCell: UICollectionViewCell {
             isFavoriteButton.tintColor = isFavoritePhoto ? redButtonColor : blackButtonColor
         }
     }
-    
-    
     
     private let cornerRadius: CGFloat = 10
     
@@ -60,7 +60,6 @@ final class PhotoCell: UICollectionViewCell {
         isFavoriteButton.shake()
         viewModel.changePhotoStatus()
     }
-    
     
     // MARK: - Настройка элементов
     private func setupElements() {

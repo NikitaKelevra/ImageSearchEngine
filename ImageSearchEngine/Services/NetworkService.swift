@@ -15,7 +15,7 @@ class NetworkService {
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
-    // MARK: - Запрос случайных фотографий
+    // MARK: - Запрос данных - массива случайных фотографий
     func fetchRandomPhotos(photoCount: Int, completion: @escaping RandomResponseResult) {
 
         let parameters = self.prepareParaments(photoCount: photoCount)
@@ -45,9 +45,7 @@ class NetworkService {
         return components.url!
     }
 
-    // MARK: - Search Request
-    
-    /// Построение запроса фотографий по вводимым в поисковик данным
+    // MARK: - Запрос данных - массива фотографий по поисковому запросу
     func fetchSearchRequest(searchTerm: String, completion: @escaping SearchResponseResult) {
         let parameters = self.prepareParaments(searchTerm: searchTerm)
         let url = self.searchURL(params: parameters)
@@ -59,16 +57,6 @@ class NetworkService {
         
         performDecodableRequest(request: request, completion: completion)
     }
-    
-//    func searchRequest(searchTerm: String, completion: @escaping (Data?, Error?) -> Void)  {
-//        let parameters = self.prepareParaments(searchTerm: searchTerm)
-//        let url = self.searchURL(params: parameters)
-//        var request = URLRequest(url: url)
-//        request.allHTTPHeaderFields = prepareHeader()
-//        request.httpMethod = "get"
-//        let task = createDataTask(from: request, completion: completion)
-//        task.resume()
-//    }
     
     // Подготовка заголовка с ключом авторизации
     private func prepareHeader() -> [String: String]? {
@@ -102,7 +90,6 @@ class NetworkService {
         }
     }
 }
-
 
 // MARK: - Внутренние методы
 extension NetworkService {
@@ -182,5 +169,4 @@ extension NetworkService {
                 completion(.success(data))
             }
     }
-    
 }

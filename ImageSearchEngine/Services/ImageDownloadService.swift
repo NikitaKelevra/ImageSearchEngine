@@ -39,23 +39,23 @@ final class ImageDownloader {
     @available(iOS 15, *) // Swift 5.5 / iOS 15 / async\await
     func fetchImage(from stringUrl: String) async throws -> UIImage {
 
-        
+
         guard let imageUrl = URL(string: stringUrl) else {
             throw DataFetcherError.invalidUrl
         }
-        
+
         let session = URLSession.shared
-        
+
         let (data, response) = try await session.data(from: imageUrl)
-        
+
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             throw DataFetcherError.dataLoadingError
         }
-        
+
         guard let image = UIImage(data: data) else {
             return UIImage()
         }
-        
+
         return image
     }
     

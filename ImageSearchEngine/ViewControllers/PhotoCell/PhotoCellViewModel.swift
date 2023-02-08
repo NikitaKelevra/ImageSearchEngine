@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Protocol PhotoCell
 protocol PhotoCellViewModelProtocol {
     var authorName: String { get }
-    var photoImage: UIImage { get }
+    var imageData: Data? { get }
     var isFavorite: Bool { get }
     func changePhotoStatus()
      
@@ -20,15 +20,8 @@ protocol PhotoCellViewModelProtocol {
 // MARK: - ViewModel PhotoCell
 final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     
-    
-    var photoImage: UIImage {
-        Task {
-            do {
-                await ImageManager.shared.fetchImage(from: photo.urls["regular"] ?? "")
-            } catch {
-                print("Request failed with error: \(error)")
-            }
-        }
+    var imageData: Data? {
+        networkDataFetcher.downloadedFrom(link: photo.urls["regular"])
     }
     
     var authorName: String {
@@ -42,6 +35,7 @@ final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     var isFavorite: Bool
     
     private let photo: Photo
+    private var networkDataFetcher = NetworkDataFetcher()
     
     init(photo: Photo, isFavorite: Bool) {
         self.photo = photo

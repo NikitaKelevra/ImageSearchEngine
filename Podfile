@@ -7,7 +7,6 @@ target 'ImageSearchEngine' do
 
   # Pods for ImageSearchEngine
 
-  pod 'SDWebImage', '~> 5.0'
   pod 'SnapKit'
   pod 'Alamofire', '~> 5.3'
 
