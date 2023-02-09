@@ -16,7 +16,8 @@ protocol AdvancedViewModelProtocol {
     
     func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных продукции из REST API
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
-    func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol
+    func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol /// Передача данных фотографии для отображении каждой ячейки
+    func detailsViewModel(at indexPath: IndexPath) -> DetailsViewModelProtocol /// Передача данных фотографии на экран детальной информации
 }
 
 // MARK: - AdvancedViewController View Model
@@ -46,6 +47,11 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
         let photo = photos[indexPath.row]
         let isFavorite = favoritePhotos.contains(photo)
         return PhotoCellViewModel(photo: photo, isFavorite: isFavorite)
+    }
+    
+    func detailsViewModel(at indexPath: IndexPath) -> DetailsViewModelProtocol {
+        let photo = photos[indexPath.row]
+        return DetailsViewModel(photo: photo)
     }
     
     // Получение массива случайных фотографий

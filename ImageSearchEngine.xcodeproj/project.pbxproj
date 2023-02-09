@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		608CBD20790C21A71347E293 /* Pods_ImageSearchEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */; };
 		6802C7362953100F000C2980 /* PhotoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802C7352953100F000C2980 /* PhotoResponse.swift */; };
 		68164B52294630E1005C3964 /* AdvancedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68164B51294630E1005C3964 /* AdvancedViewModel.swift */; };
 		6820FDE7298048530089E27F /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6820FDE6298048530089E27F /* DetailsViewModel.swift */; };
@@ -31,11 +30,12 @@
 		68A4E74D28FAE93800AEF48C /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */; };
 		68A4E75028FAE9C600AEF48C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E74F28FAE9C600AEF48C /* DataManager.swift */; };
 		68A4E75828FD535700AEF48C /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A4E75728FD535700AEF48C /* UIColor+Extensions.swift */; };
+		A189C87C939AEF2190E27AC9 /* Pods_ImageSearchEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630D577DBAA3ED9C64D9EF5B /* Pods_ImageSearchEngine.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3A95BC830B5008D3B0BEE15B /* Pods-ImageSearchEngine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.debug.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.debug.xcconfig"; sourceTree = "<group>"; };
-		4CDE627CFF9BD783A3268A21 /* Pods-ImageSearchEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.release.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.release.xcconfig"; sourceTree = "<group>"; };
+		5BE2F9F07B0219BBC6A4CF3B /* Pods-ImageSearchEngine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.debug.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.debug.xcconfig"; sourceTree = "<group>"; };
+		630D577DBAA3ED9C64D9EF5B /* Pods_ImageSearchEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearchEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6802C7352953100F000C2980 /* PhotoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResponse.swift; sourceTree = "<group>"; };
 		68164B51294630E1005C3964 /* AdvancedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewModel.swift; sourceTree = "<group>"; };
 		6820FDE6298048530089E27F /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		68A4E74C28FAE93800AEF48C /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		68A4E74F28FAE9C600AEF48C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		68A4E75728FD535700AEF48C /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageSearchEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8C40649281158DDDF7E163E /* Pods-ImageSearchEngine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageSearchEngine.release.xcconfig"; path = "Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				608CBD20790C21A71347E293 /* Pods_ImageSearchEngine.framework in Frameworks */,
+				A189C87C939AEF2190E27AC9 /* Pods_ImageSearchEngine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +117,7 @@
 				68A4E71F28F5CE0000AEF48C /* ImageSearchEngine */,
 				68A4E71E28F5CE0000AEF48C /* Products */,
 				FA8F787738A55199082C5EBF /* Pods */,
-				E6C4F43DC4C43DDEE9581DC9 /* Frameworks */,
+				B6FCCBAC353C22D78BCD4F91 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,10 +214,10 @@
 			path = Advanced;
 			sourceTree = "<group>";
 		};
-		E6C4F43DC4C43DDEE9581DC9 /* Frameworks */ = {
+		B6FCCBAC353C22D78BCD4F91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8045369A2C3CC5280175D324 /* Pods_ImageSearchEngine.framework */,
+				630D577DBAA3ED9C64D9EF5B /* Pods_ImageSearchEngine.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -225,8 +225,8 @@
 		FA8F787738A55199082C5EBF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3A95BC830B5008D3B0BEE15B /* Pods-ImageSearchEngine.debug.xcconfig */,
-				4CDE627CFF9BD783A3268A21 /* Pods-ImageSearchEngine.release.xcconfig */,
+				5BE2F9F07B0219BBC6A4CF3B /* Pods-ImageSearchEngine.debug.xcconfig */,
+				D8C40649281158DDDF7E163E /* Pods-ImageSearchEngine.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -238,11 +238,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68A4E73128F5CE0100AEF48C /* Build configuration list for PBXNativeTarget "ImageSearchEngine" */;
 			buildPhases = (
-				8621AC6295F95B7E5E77D19F /* [CP] Check Pods Manifest.lock */,
+				58B576BE10202A762121CC76 /* [CP] Check Pods Manifest.lock */,
 				68A4E71928F5CE0000AEF48C /* Sources */,
 				68A4E71A28F5CE0000AEF48C /* Frameworks */,
 				68A4E71B28F5CE0000AEF48C /* Resources */,
-				65DA39197D3AAE3178E7C651 /* [CP] Embed Pods Frameworks */,
+				7C7FE2DA1BCBE45FD411BCF6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -299,24 +299,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		65DA39197D3AAE3178E7C651 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8621AC6295F95B7E5E77D19F /* [CP] Check Pods Manifest.lock */ = {
+		58B576BE10202A762121CC76 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -336,6 +319,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C7FE2DA1BCBE45FD411BCF6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageSearchEngine/Pods-ImageSearchEngine-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -499,13 +499,14 @@
 		};
 		68A4E73228F5CE0100AEF48C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A95BC830B5008D3B0BEE15B /* Pods-ImageSearchEngine.debug.xcconfig */;
+			baseConfigurationReference = 5BE2F9F07B0219BBC6A4CF3B /* Pods-ImageSearchEngine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PK5GMP355X;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageSearchEngine/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -517,13 +518,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"SDWebImage\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.Kelevra.ImageSearchEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -537,13 +532,14 @@
 		};
 		68A4E73328F5CE0100AEF48C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4CDE627CFF9BD783A3268A21 /* Pods-ImageSearchEngine.release.xcconfig */;
+			baseConfigurationReference = D8C40649281158DDDF7E163E /* Pods-ImageSearchEngine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PK5GMP355X;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageSearchEngine/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -555,13 +551,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"SDWebImage\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.Kelevra.ImageSearchEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

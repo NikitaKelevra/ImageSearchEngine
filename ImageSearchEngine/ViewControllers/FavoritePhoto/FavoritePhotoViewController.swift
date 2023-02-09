@@ -42,15 +42,6 @@ class FavoritePhotoViewController: UIViewController {
         title = "Favorites Photo"
         navigationController?.navigationBar.prefersLargeTitles = false
         
-//        let navBarAppearance = UINavigationBarAppearance()
-//        navBarAppearance.configureWithOpaqueBackground()
-////        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.selectesTextColor]
-//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.unselectedTextColor]
-//        navBarAppearance.backgroundColor = .clear
-//
-//        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-//        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        
         /// `CollectionView` settings
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -59,10 +50,6 @@ class FavoritePhotoViewController: UIViewController {
         createDataSource()
         
         collectionView.delegate = self
-        
-//                collectionView.dragDelegate = self
-//                collectionView.dropDelegate = self
-//        collectionView.dragInteractionEnabled = true
         
         /// Registration of cells
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)
@@ -89,7 +76,7 @@ class FavoritePhotoViewController: UIViewController {
     
     private func showPhotoDetailsVC(photo: Photo) {
         let detailsVC = DetailsViewController()
-        detailsVC.photo = photo
+//        detailsVC.viewModel = DetailsViewModelProtocol(photo)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     

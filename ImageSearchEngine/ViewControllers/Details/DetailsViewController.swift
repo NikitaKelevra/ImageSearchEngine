@@ -6,50 +6,33 @@
 //
 
 import UIKit
-import SDWebImage
 
-class DetailsViewController: UIViewController {
+final class DetailsViewController: UIViewController {
     
-    // MARK: - Property
-    var photo: Photo? {
-        didSet {
-            configure()
-        }
-    }
+    // MARK: - Свойства и объекты UI
+    
+    var viewModel: DetailsViewModelProtocol!
     
     var barFrame:CGRect?
     
-    private let photoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-       return imageView
-   }()
-    
+    // MARK: Объекты UI
+    private let photoImageView = UIImageView()
     private var authorNameLabel = UILabel.configurationLabel(withTextAlpha: 1)
     private var creationDataLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
     private var photoLocationLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
     private var downloadCountLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
-    
-    /// Общий стек информации по фотографии
-    private let photoDetailsStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 5
-        return stackView
-    }()
+    private let photoDetailsStack = UIStackView()
     
     
-    // MARK: - VC lifecircle
+    // MARK: - Методы жиненного цикла view
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
+//        viewModel = DetailsViewModel()
+        configure()
         setupElements()
     }
     
+    /// Настройка плавного появления и исчезновения tabBar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if  let tabBar = self.tabBarController?.tabBar {
@@ -80,60 +63,74 @@ class DetailsViewController: UIViewController {
     }
     
     // MARK: - Function
-    private func configure(){
-        setupPhoto()
+    private func configure() {
         
-        guard let author = photo?.user.name else {
-            authorNameLabel.isEnabled = false
-            return
-        }
-        authorNameLabel.text = "Author: \(author)"
+        guard let imageData = viewModel.imageData else { return }
+        photoImageView.image = UIImage(data: imageData)
+        
+        authorNameLabel.text = viewModel.authorNameLabel
+        creationDataLabel.text = viewModel.creationDataLabel
+        photoLocationLabel.text = viewModel.photoLocationLabel
+        downloadCountLabel.text = viewModel.photoDownloadCount
+        
+//        if viewModel.authorNameLabel != nil {
+//            authorNameLabel.text = viewModel.authorNameLabel
+//        } else {
+//            authorNameLabel.isEnabled = false
+//        }
+            
+//        guard let author = photo?.user.name else {
+//            authorNameLabel.isEnabled = false
+//            return
+//        }
+//        authorNameLabel.text = "Author: \(author)"
         
         
-        guard let createdAt: String = photo?.createdAt else {
-            creationDataLabel.isEnabled = false
-            return
-        }
-        creationDataLabel.text = "Creation at: \(createdAt)"
+//        guard let createdAt: String = photo?.createdAt else {
+//            creationDataLabel.isEnabled = false
+//            return
+//        }
+//        creationDataLabel.text = "Creation at: \(createdAt)"
         
-        guard let city: String = photo?.location?.city else {
-            photoLocationLabel.isEnabled = false
-            return
-        }
-        photoLocationLabel.text = "Location: \(city)"
+//        guard let city: String = photo?.location?.city else {
+//            photoLocationLabel.isEnabled = false
+//            return
+//        }
+//        photoLocationLabel.text = "Location: \(city)"
         
-        guard let likes = photo?.likes else {
-            downloadCountLabel.isEnabled = false
-            return
-        }
-        downloadCountLabel.text = "Download count: \(likes)"
-    }
-    
-    private func setupPhoto() {
-        guard let imageURL = photo?.urls["regular"],
-                let url = URL(string: imageURL) else { return }
-        photoImageView.sd_setImage(with: url, completed: nil)
-        
-//        guard let imageURL = photo?.urls["full"],
-//                let url = URL(string: imageURL) else { return }
-//        photoImageView.sd_setImage(with: url, completed: nil)
+//        guard let likes = photo?.likes else {
+//            downloadCountLabel.isEnabled = false
+//            return
+//        }
+//        downloadCountLabel.text = "Download count: \(likes)"
     }
 
-    private func addSubviews() {
+
+    
+    private func setupElements() {
+        view.backgroundColor = .viewBackgroundColor
+        
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.clipsToBounds = true
+        photoImageView.layer.cornerRadius = 10
+        
+        photoDetailsStack.axis = .vertical
+        photoDetailsStack.alignment = .leading
+        photoDetailsStack.distribution = .fillProportionally
+        photoDetailsStack.spacing = 5
+        
+        /// Определение иерархии и добавление Subview
         photoDetailsStack.addArrangedSubview(authorNameLabel)
         photoDetailsStack.addArrangedSubview(creationDataLabel)
         photoDetailsStack.addArrangedSubview(photoLocationLabel)
         photoDetailsStack.addArrangedSubview(downloadCountLabel)
         view.addSubview(photoImageView)
         view.addSubview(photoDetailsStack)
-    }
-    
-    private func setupElements() {
-        view.backgroundColor = .viewBackgroundColor
         
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoDetailsStack.translatesAutoresizingMaskIntoConstraints = false
         
+        /// Настройка констрейнтов
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: view.topAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),

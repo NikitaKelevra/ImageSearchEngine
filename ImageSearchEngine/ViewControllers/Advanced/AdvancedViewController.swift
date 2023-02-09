@@ -37,7 +37,6 @@ final class AdvancedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AdvancedViewModel()
-        
         setupElements()
         createDataSource()
     }
@@ -88,8 +87,6 @@ final class AdvancedViewController: UIViewController {
         /// Setting up the location of elements on the screen
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-//        let safeAreaGuide = self.view.safeAreaLayoutGuide
-        
         NSLayoutConstraint.activate([
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -98,11 +95,11 @@ final class AdvancedViewController: UIViewController {
         ])
     }
     
-    // MARK: - Navigation
+    // MARK: - Навигация
     // Переход на экран детальной информации
-    private func showPhotoDetailsVC(photo: Photo) {
+    private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
         let detailsVC = DetailsViewController()
-        detailsVC.photo = photo
+        detailsVC.viewModel = viewModel
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     
@@ -128,7 +125,8 @@ final class AdvancedViewController: UIViewController {
 extension AdvancedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        showPhotoDetailsVC(photo: viewModel.photos[indexPath.row])
+        let detailsViewModel = viewModel.detailsViewModel(at: indexPath)
+        showPhotoDetailsVC(viewModel: detailsViewModel)
     }
 }
 
@@ -140,13 +138,6 @@ extension AdvancedViewController: UISearchBarDelegate {
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in
-            
-//            guard searchText == "" else {
-//                self?.viewModel.getRandomPhotos(completion: {
-//                    self?.reloadData()
-//                })
-//                return
-//            }
             
             self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
                 self?.reloadData()
