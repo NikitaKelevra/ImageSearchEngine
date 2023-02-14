@@ -6,14 +6,16 @@
 //
 
 import UIKit
+
 // MARK: - DetailsViewModel Protocol
 protocol DetailsViewModelProtocol {
     
-    var imageData: Data? { get }
     var authorNameLabel: String? { get }
     var creationDataLabel: String? { get }
     var photoLocationLabel: String? { get }
     var photoDownloadCount: String? { get }
+    
+    func getImage(completion: @escaping(UIImage) -> Void) /// Получение фотографии ячейки
     
     init(photo: Photo)
 }
@@ -21,10 +23,6 @@ protocol DetailsViewModelProtocol {
 
 // MARK: - DetailsVC View Model
 final class DetailsViewModel: DetailsViewModelProtocol {
-    
-    var imageData: Data? {
-        networkDataFetcher.downloadedFrom(link: photo.urls["regular"])
-    }
     
     var authorNameLabel: String? {
         "Author: \(photo.user.name)"
@@ -43,10 +41,16 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     private let photo: Photo
-    private var networkDataFetcher = NetworkDataFetcher()
+    private let networkDataFetcher = NetworkDataFetcher()
     init(photo: Photo) {
         self.photo = photo
     }
     
+    // Функция ассинхронной загрузки изображения ячейки
+    func getImage(completion: @escaping(UIImage) -> Void) {
+        networkDataFetcher.fetchPhotoImage(link: photo.urls["regular"]) { image in
+            completion(image)
+        }
+    }
     
 }

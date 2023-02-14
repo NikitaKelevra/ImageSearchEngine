@@ -65,44 +65,16 @@ final class DetailsViewController: UIViewController {
     // MARK: - Function
     private func configure() {
         
-        guard let imageData = viewModel.imageData else { return }
-        photoImageView.image = UIImage(data: imageData)
+        viewModel.getImage { image in
+            self.photoImageView.image = image
+        }
         
-        authorNameLabel.text = viewModel.authorNameLabel
-        creationDataLabel.text = viewModel.creationDataLabel
-        photoLocationLabel.text = viewModel.photoLocationLabel
-        downloadCountLabel.text = viewModel.photoDownloadCount
+        (viewModel.authorNameLabel == nil) ? (authorNameLabel.isEnabled = false) : (authorNameLabel.text = viewModel.authorNameLabel)
         
-//        if viewModel.authorNameLabel != nil {
-//            authorNameLabel.text = viewModel.authorNameLabel
-//        } else {
-//            authorNameLabel.isEnabled = false
-//        }
-            
-//        guard let author = photo?.user.name else {
-//            authorNameLabel.isEnabled = false
-//            return
-//        }
-//        authorNameLabel.text = "Author: \(author)"
-        
-        
-//        guard let createdAt: String = photo?.createdAt else {
-//            creationDataLabel.isEnabled = false
-//            return
-//        }
-//        creationDataLabel.text = "Creation at: \(createdAt)"
-        
-//        guard let city: String = photo?.location?.city else {
-//            photoLocationLabel.isEnabled = false
-//            return
-//        }
-//        photoLocationLabel.text = "Location: \(city)"
-        
-//        guard let likes = photo?.likes else {
-//            downloadCountLabel.isEnabled = false
-//            return
-//        }
-//        downloadCountLabel.text = "Download count: \(likes)"
+        (viewModel.creationDataLabel == nil) ? (creationDataLabel.isEnabled = false) : (creationDataLabel.text = viewModel.creationDataLabel)
+        (viewModel.photoLocationLabel == nil) ? (photoLocationLabel.isEnabled = false) : (photoLocationLabel.text = viewModel.photoLocationLabel)
+        (viewModel.photoDownloadCount == nil) ? (downloadCountLabel.isEnabled = false) : (downloadCountLabel.text = viewModel.photoDownloadCount)
+
     }
 
 

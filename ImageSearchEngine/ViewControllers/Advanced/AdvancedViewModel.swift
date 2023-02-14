@@ -12,8 +12,6 @@ protocol AdvancedViewModelProtocol {
     var photos: [Photo] { get set }
     var favoritePhotos: [Photo] { get }
     
-    var layoutType: Int { get set }
-    
     func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных продукции из REST API
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol /// Передача данных фотографии для отображении каждой ячейки
@@ -22,38 +20,31 @@ protocol AdvancedViewModelProtocol {
 
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
+    
     var photos: [Photo] = []
+    
     var favoritePhotos: [Photo] {
             DataManager.shared.fetchPhotos()
     }
     
-    private var defaultLayoutType = 1
-    var layoutType: Int {
-        get {
-            defaultLayoutType
-        }
-        set (newLayoutType) {
-            if newLayoutType > 3 {
-                self.defaultLayoutType = 1
-            }
-            print(" defaultLayoutType --- \(layoutType)")
-        }
-    }
-    
     private var networkDataFetcher = NetworkDataFetcher()
     
-    // MARK: -
+    // MARK: - Передача данных другим View Model
+    
+    /// Передача данных фотографии для каждой отдельной ячейки
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol {
         let photo = photos[indexPath.row]
         let isFavorite = favoritePhotos.contains(photo)
         return PhotoCellViewModel(photo: photo, isFavorite: isFavorite)
     }
     
+    /// Передача данных фотографии на экран детальной информации
     func detailsViewModel(at indexPath: IndexPath) -> DetailsViewModelProtocol {
         let photo = photos[indexPath.row]
         return DetailsViewModel(photo: photo)
     }
     
+    // MARK: - Работа с сетью
     // Получение массива случайных фотографий
     func getRandomPhotos(completion: @escaping() -> Void) {
         self.networkDataFetcher.fetchRandomPhotos{ [weak self] (photos) in
@@ -73,6 +64,5 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     }
     
     // MARK: -
-    
     
 }

@@ -12,6 +12,7 @@ class NetworkService {
 
     typealias RandomResponseResult = (Result<[Photo], DataFetcherError>) -> Void
     typealias SearchResponseResult = (Result<PhotoResponse, DataFetcherError>) -> Void
+    typealias DataResponseResult = (Result<Data, DataFetcherError>) -> Void
     
     private let accessKey = "F4j3Eu0xH5CIds0eXdq2ARPIUfmjDnUbKKw4r3JgXVw"
     
@@ -24,7 +25,6 @@ class NetworkService {
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = prepareHeader()
         request.method = .get
-//        print(request)
         
         performDecodableRequest(request: request, completion: completion)
     }
@@ -93,6 +93,7 @@ class NetworkService {
 
 // MARK: - Внутренние методы
 extension NetworkService {
+    
     // Создание запросов с загрузкой аватарки
     private func performDecodableUploadRequest<T: Decodable>(requestData: (MultipartFormData, URL),
                                                              completion: @escaping ((Result<T, DataFetcherError>) -> Void)) {
@@ -105,10 +106,7 @@ extension NetworkService {
         formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(formatter)
-        
         let mfObject = requestData.0
-        
-        print(mfObject)
         
         AF
             .upload(multipartFormData: mfObject, to: requestData.1,
@@ -125,16 +123,13 @@ extension NetworkService {
                     }
                     return
                 }
-                print(data)
                 completion(.success(data))
-                
             }
     }
     
     // Создание запроса без параметров
     private func performRequest<T: Decodable>(request: URLRequest , // RequestProvider
                                               completion: @escaping (Result<T, DataFetcherError>) -> Void) {
-        //        let request = request.request
         AF.request(request).validate().responseDecodable(of: T.self , queue: .global(qos: .userInitiated)) { data in
             guard let data = data.value else {
                 completion(.failure(.dataLoadingError))

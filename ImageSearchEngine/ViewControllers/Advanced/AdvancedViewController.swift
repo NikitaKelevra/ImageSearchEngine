@@ -11,7 +11,8 @@ enum PhotoListSection: Int {
     case main
 }
 
-// Стартовый контроллер представения случайных фотографий
+/// Стартовый контроллер представения
+/// с подгрузкой случайных фотографий и стройо поиска
 final class AdvancedViewController: UIViewController {
     // MARK: - Propherties & typealias / Свойства и объекты UI
     
@@ -33,20 +34,14 @@ final class AdvancedViewController: UIViewController {
         }
     }
     
+    private var currenLayoutType = 1
+    
     // MARK: - UIViewController lifecycle functions
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AdvancedViewModel()
         setupElements()
         createDataSource()
-    }
-    
-    // MARK: - Изменение Layout Of Collection View
-    @objc func changeLayoutButton() {
-        print("Прошла кнопка")
-//        print(viewModel.layoutType)
-        viewModel.layoutType += 1
-        collectionView.setCollectionViewLayout(setViewLayout(viewModel.layoutType), animated: true)
     }
     
     // MARK: - Configuring ViewController Elements
@@ -72,7 +67,7 @@ final class AdvancedViewController: UIViewController {
         
         /// `CollectionView` settings
         collectionView.frame = view.bounds
-        collectionView.collectionViewLayout = setViewLayout(viewModel.layoutType)
+        collectionView.collectionViewLayout = setViewLayout(currenLayoutType)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
 
@@ -93,6 +88,24 @@ final class AdvancedViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    // MARK: - Изменение Layout Of Collection View
+    @objc func changeLayoutButton() {
+        print("Прошла кнопка, currenLayoutType - " + "\(currenLayoutType)")
+        currenLayoutType == 3 ? (currenLayoutType = 1) : (currenLayoutType += 1)
+        collectionView.setCollectionViewLayout(setViewLayout(currenLayoutType), animated: true)
+    }
+    
+    private func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
+        var layout: UICollectionViewLayout
+        
+        switch layoutNumber {
+        case 2: layout = createSecondLayout()
+        case 3: layout = createThirdLayout()
+        default: layout = createFirstLayout()
+        }
+        return layout
     }
     
     // MARK: - Навигация
@@ -134,7 +147,7 @@ extension AdvancedViewController: UICollectionViewDelegate {
 extension AdvancedViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            print(searchText)
+//            print(searchText)
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in
@@ -149,21 +162,7 @@ extension AdvancedViewController: UISearchBarDelegate {
 // MARK: - Cмена типа UICollectionViewLayout
 extension AdvancedViewController {
     
-    // MARK: - Функция смены типа Layout
-    func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
-        var layout: UICollectionViewLayout
-        
-        switch layoutNumber {
-        case 2: layout = createSecondLayout()
-        case 3: layout = createThirdLayout()
-            
-        default: viewModel.layoutType = 1
-            layout = createFirstLayout()
-        }
-        return layout
-    }
-    
-    // MARK: - Первый тип Layout (отобраажения/расположения фотографий)
+    // MARK: Первый тип Layout (отобраажения/расположения фотографий)
     private func createFirstLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             // Item

@@ -19,11 +19,11 @@ final class PhotoCell: UICollectionViewCell {
     
     var viewModel: PhotoCellViewModelProtocol! {
         didSet {
-            guard let imageData = viewModel.imageData else { return }
-
-            photoImageView.image = UIImage(data: imageData)
             authorNameLabel.text = viewModel.authorName
             isFavoritePhoto = viewModel.isFavorite
+            viewModel.getImage { image in
+                self.photoImageView.image = image
+            }
         }
     }
     

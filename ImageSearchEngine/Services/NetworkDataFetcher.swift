@@ -10,6 +10,7 @@ import UIKit
 class NetworkDataFetcher {
     
     private var networkService = NetworkService()
+    private let imageDownloader = ImageDownloader.shared
     private let photoCount = 30 // The number of photos to return. (Default: 1; max: 30)
     
     // MARK: - Загрузка данных (массива случайных фотографий)
@@ -39,24 +40,34 @@ class NetworkDataFetcher {
             case .success(let response):
                 DispatchQueue.main.async {
                     completion(response.results)
-                    print(response)
                 }
             }
         }
     }
     
-    // MARK: - Загрузка фотографии по адресу URL/String
-    
-    func downloadedFrom(link:String?) -> Data? {
-        
+    // MARK: - Загрузка маccива фотографий по поисковому запросу
+    func fetchPhotoImage(link: String?, completion: @escaping (UIImage) -> ()) {
         guard let link = link,
               let url = URL(string: link) else {
             print(DataFetcherError.invalidUrl)
-            return nil
+            return
+        }        
+        imageDownloader.fetchImage(url: url) { result in
+            switch result {
+            case .failure(let error):
+                print(DataFetcherError.dataLoadingError)
+                print(error)
+            case .success(let data):
+                DispatchQueue.main.async {
+                    guard let image = UIImage(data: data) else {
+                        print(DataFetcherError.imageLoadingError)
+                        return
+                    }
+                    completion(image)
+                }
+            }
         }
-        guard let imageData = try? Data(contentsOf: url) else { return nil }
         
-        return imageData
+        
     }
 }
-
