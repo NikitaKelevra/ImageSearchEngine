@@ -8,11 +8,8 @@
 import UIKit
 
 final class DetailsViewController: UIViewController {
-    
     // MARK: - Свойства и объекты UI
-    
     var viewModel: DetailsViewModelProtocol!
-    
     var barFrame:CGRect?
     
     // MARK: Объекты UI
@@ -23,11 +20,9 @@ final class DetailsViewController: UIViewController {
     private var downloadCountLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
     private let photoDetailsStack = UIStackView()
     
-    
     // MARK: - Методы жиненного цикла view
     override func viewDidLoad() {
         super.viewDidLoad()
-//        viewModel = DetailsViewModel()
         configure()
         setupElements()
     }
@@ -62,23 +57,29 @@ final class DetailsViewController: UIViewController {
         }
     }
     
-    // MARK: - Function
+    // MARK: - Конфигурация элементов ViewController
     private func configure() {
-        
         viewModel.getImage { image in
             self.photoImageView.image = image
         }
         
-        (viewModel.authorNameLabel == nil) ? (authorNameLabel.isEnabled = false) : (authorNameLabel.text = viewModel.authorNameLabel)
-        
-        (viewModel.creationDataLabel == nil) ? (creationDataLabel.isEnabled = false) : (creationDataLabel.text = viewModel.creationDataLabel)
-        (viewModel.photoLocationLabel == nil) ? (photoLocationLabel.isEnabled = false) : (photoLocationLabel.text = viewModel.photoLocationLabel)
-        (viewModel.photoDownloadCount == nil) ? (downloadCountLabel.isEnabled = false) : (downloadCountLabel.text = viewModel.photoDownloadCount)
-
+        (viewModel.authorNameLabel == nil)
+        ? (authorNameLabel.isEnabled = false)
+        : (authorNameLabel.text = "Author: ".localize() + (viewModel.authorNameLabel ?? ""))
+                
+        (viewModel.creationDataLabel == nil)
+        ? (creationDataLabel.isEnabled = false)
+        : (creationDataLabel.text = "Creation at: ".localize() + (viewModel.creationDataLabel ?? ""))
+                
+        (viewModel.photoLocationLabel == nil)
+        ? (photoLocationLabel.isEnabled = false)
+        : (photoLocationLabel.text = "Creation at: ".localize() + (viewModel.photoLocationLabel ?? ""))
+           
+        (viewModel.photoDownloadCount == nil)
+        ? (downloadCountLabel.isEnabled = false)
+        : (downloadCountLabel.text = "Download count: ".localize() + (viewModel.photoDownloadCount ?? ""))
     }
 
-
-    
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
