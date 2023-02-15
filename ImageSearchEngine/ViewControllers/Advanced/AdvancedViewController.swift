@@ -7,44 +7,35 @@
 
 import UIKit
 
-enum PhotoListSection: Int {
-    case main
-}
-
 /// Стартовый контроллер представения
 /// с подгрузкой случайных фотографий и стройо поиска
 final class AdvancedViewController: UIViewController {
-    // MARK: - Propherties & typealias / Свойства и объекты UI
-    
+    // MARK: - Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
     
     private lazy var collectionView = UICollectionView(frame: CGRect.zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout.init())
     private var dataSource: DataSource?
-    private var networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
+    private var currenLayoutType = 1
     
     private var viewModel: AdvancedViewModelProtocol! {
         didSet {
             viewModel.getRandomPhotos {
-                print("Обновление фоток")
                 self.reloadData()
             }
         }
     }
     
-    private var currenLayoutType = 1
-    
-    // MARK: - UIViewController lifecycle functions
+    // MARK: - Методы жиненного цикла view controller
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = AdvancedViewModel()
         setupElements()
-        createDataSource()
     }
     
-    // MARK: - Configuring ViewController Elements
+    // MARK: - Конфигурация элементов ViewController
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
@@ -56,7 +47,6 @@ final class AdvancedViewController: UIViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(changeLayoutButton))
-        
         /// `SeacrhController` settings
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
@@ -70,8 +60,8 @@ final class AdvancedViewController: UIViewController {
         collectionView.collectionViewLayout = setViewLayout(currenLayoutType)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
-
         collectionView.delegate = self
+        createDataSource()
         
         /// Registration of cells
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)

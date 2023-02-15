@@ -8,7 +8,6 @@
 import UIKit
 
 final class PhotoCell: UICollectionViewCell {
-    
     // MARK: - Элементы PhotoCell
     private let photoImageView = UIImageView()
     private let authorNameLabel = UILabel.confAuthorNameLabel()
@@ -34,7 +33,6 @@ final class PhotoCell: UICollectionViewCell {
     }
     
     private let cornerRadius: CGFloat = 10
-    
     private var sizeOfFavoriteButton: Double = 50.0
     private let blackButtonColor = UIColor.black.withAlphaComponent(0.5)
     private let redButtonColor = UIColor.red.withAlphaComponent(0.8)
@@ -70,8 +68,6 @@ final class PhotoCell: UICollectionViewCell {
         authorNameLabel.layer.cornerRadius = cornerRadius
         
         photoImageView.contentMode = .scaleAspectFill
-        
-//        isFavoritePhoto = false
         
         isFavoriteButton.setImage(UIImage(systemName: "heart.fill") , for: .normal)
         isFavoriteButton.addAction(UIAction(handler: { _ in

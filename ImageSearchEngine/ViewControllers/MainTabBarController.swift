@@ -7,21 +7,20 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
-  
+// Контроллер панели вкладок
+final class MainTabBarController: UITabBarController {
+    // MARK: - Properties
+    private var layer = CAShapeLayer() /// Слой для `TabBar`
     
-    // MARK: - UIViewController lifecycle functions
-    
+    // MARK: - Методы жиненного цикла UITabBarController
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         generateTabBar()
         setTabBarAppearance()
-
     }
-    // MARK: - Functions
-    
+    // MARK: - Private functions
     private func generateTabBar() {
+        //Массив View Controller'ов для панели вкладок
         viewControllers = [
             generateNavigationController(rootViewController: AdvancedViewController(),
                                          title: "All Photos",
@@ -36,56 +35,51 @@ class MainTabBarController: UITabBarController {
         let navigationVC = UINavigationController(rootViewController: rootViewController)
         navigationVC.tabBarItem.title = title
         navigationVC.tabBarItem.image = image
-    
         navigationVC.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationVC.navigationBar.shadowImage = UIImage()
         navigationVC.navigationBar.tintColor = .black
-        
         return navigationVC
     }
     
+    // Настраиваем / кастомизируем внешний вид панели вкладок TabBar
     private func setTabBarAppearance() {
-/*
-        // Setting up tabbar rounding
+        /// Делаем `TabBar` прозрачным
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
+    
+        /// Настраиваем слой `TabBar`
         let x: CGFloat = 10
-        let y: CGFloat = 14
+        let y: CGFloat = 12
         let width = tabBar.bounds.width - x * 2
         let height = tabBar.bounds.height + y * 2
-
-        let roundLayer = CAShapeLayer()
 
         let bezierPath = UIBezierPath(
             roundedRect: CGRect(x: x,
                                 y: tabBar.bounds.minY - y,
                                 width: width,
                                 height: height),
-            cornerRadius: height / 3.2
+            cornerRadius: height / 3
         )
-        roundLayer.path = bezierPath.cgPath
+        layer.path = bezierPath.cgPath
         
+        /// Настраиваем тени `TabBar`
+        layer.shadowColor = UIColor.viewBackgroundColor.cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        layer.shadowRadius = 5.0
+        layer.shadowOpacity = 0.5
         
-         tab bar shadow
-        roundLayer.shadowColor = UIColor.viewBackgroundColor.cgColor
-        roundLayer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        roundLayer.shadowRadius = 5.0
-        roundLayer.shadowOpacity = 0.5
+        /// Добавляем слой `TabBar`
+        tabBar.layer.insertSublayer(layer, at: 0)
         
-         add tab bar layer
-        tabBar.layer.insertSublayer(roundLayer, at: 0)
-        
-         fix items positioning
+         /// Настраиваем элементы `TabBar`
         tabBar.itemWidth = width / 3
         tabBar.itemPositioning = .centered
         
-         setting tab bar colors
-        roundLayer.fillColor = UIColor.mainBackgroundColor.cgColor
- */
+         /// Настраиваем цвета `TabBar`
+        layer.fillColor = UIColor.mainBackgroundColor.cgColor
         tabBar.unselectedItemTintColor = .unselectedTextColor
         tabBar.tintColor = .selectesTextColor
         tabBar.layer.borderColor = UIColor.black.cgColor
-        
         tabBar.barTintColor = .black
-        
-
     }
 }
