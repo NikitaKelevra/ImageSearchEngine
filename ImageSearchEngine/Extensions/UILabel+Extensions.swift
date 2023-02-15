@@ -20,4 +20,18 @@ extension UILabel {
         label.backgroundColor = .clear.withAlphaComponent(0.5)
         return label
     }
+    
+    // Конфигурация лейбла автора в Photo Cell
+    static func confAuthorNameLabel() -> UILabel {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 15)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.highlightedTextColor = .black
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.borderWidth = 0.8
+        label.backgroundColor = .clear.withAlphaComponent(0.5)
+        return label
+    }
+    
 }

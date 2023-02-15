@@ -10,42 +10,64 @@ import UIKit
 class NetworkDataFetcher {
     
     private var networkService = NetworkService()
+    private let imageDownloader = ImageDownloader.shared
+    private let photoCount = 30 // The number of photos to return. (Default: 1; max: 30)
     
-    // MARK: -
-    func fetchRandomImages(completion: @escaping ([Photo]?) -> ()) {
-        networkService.ramdomPhotoRequest{ (data, error) in
-            if let error = error {
-                print("Error received requesting data: \(error.localizedDescription)")
-                completion(nil)
+    // MARK: - Загрузка данных (массива случайных фотографий)
+    func fetchRandomPhotos(completion: @escaping ([Photo]) -> ()) {
+        networkService.fetchRandomPhotos(photoCount: photoCount, completion: { result in
+            switch result {
+            case .failure(let error):
+                print(DataFetcherError.dataLoadingError)
+                print(error)
+                completion([])
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(response)
+                }
             }
-            let decode = self.decodeJSON(type: [Photo].self, from: data)
-            completion(decode)
+        })
+    }
+    
+    // MARK: - Загрузка маccива фотографий по поисковому запросу
+    func fetchSearchPhotos(searchTerm: String, completion: @escaping ([Photo]) -> ()) {
+        networkService.fetchSearchRequest(searchTerm: searchTerm) { result in
+            switch result {
+            case .failure(let error):
+                print(DataFetcherError.dataLoadingError)
+                print(error)
+                completion([])
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(response.results)
+                }
+            }
         }
     }
     
-    // MARK: -
-    func fetchSearchImages(searchTerm: String, completion: @escaping (SearchResults?) -> ()) {
-        networkService.searchRequest(searchTerm: searchTerm) { (data, error) in
-            if let error = error {
-                print("Error received requesting data: \(error.localizedDescription)")
-                completion(nil)
-            }    
-            let decode = self.decodeJSON(type: SearchResults.self, from: data)
-            completion(decode)
+    // MARK: - Загрузка маccива фотографий по поисковому запросу
+    func fetchPhotoImage(link: String?, completion: @escaping (UIImage) -> ()) {
+        guard let link = link,
+              let url = URL(string: link) else {
+            print(DataFetcherError.invalidUrl)
+            return
+        }        
+        imageDownloader.fetchImage(url: url) { result in
+            switch result {
+            case .failure(let error):
+                print(DataFetcherError.dataLoadingError)
+                print(error)
+            case .success(let data):
+                DispatchQueue.main.async {
+                    guard let image = UIImage(data: data) else {
+                        print(DataFetcherError.imageLoadingError)
+                        return
+                    }
+                    completion(image)
+                }
+            }
         }
-    }
-    
-    private func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {
-        let decoder = JSONDecoder()
-        guard let data = from else { return nil }
         
-        do {
-            let objects = try decoder.decode(type.self, from: data)
-            return objects
-        } catch let jsonError {
-            print("Failed to decode JSON", jsonError)
-            return nil
-        }
+        
     }
-    
 }
