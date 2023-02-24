@@ -73,7 +73,7 @@ final class DetailsViewController: UIViewController {
                 
         (viewModel.photoLocationLabel == nil)
         ? (photoLocationLabel.isEnabled = false)
-        : (photoLocationLabel.text = "Creation at: ".localize() + (viewModel.photoLocationLabel ?? ""))
+        : (photoLocationLabel.text = "Location at: ".localize() + (viewModel.photoLocationLabel ?? ""))
            
         (viewModel.photoDownloadCount == nil)
         ? (downloadCountLabel.isEnabled = false)

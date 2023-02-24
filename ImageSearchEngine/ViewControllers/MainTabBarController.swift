@@ -23,10 +23,10 @@ final class MainTabBarController: UITabBarController {
         //Массив View Controller'ов для панели вкладок
         viewControllers = [
             generateNavigationController(rootViewController: AdvancedViewController(),
-                                         title: "All Photos",
+                                         title: "All Photos".localize(),
                                          image: UIImage(systemName: "gear")),
             generateNavigationController(rootViewController: FavoritePhotoViewController(),
-                                         title: "My Favourites",
+                                         title: "My Favourites".localize(),
                                          image: UIImage(systemName: "heart"))
         ]
     }

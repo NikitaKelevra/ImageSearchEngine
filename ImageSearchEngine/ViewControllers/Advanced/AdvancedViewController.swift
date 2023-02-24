@@ -1,5 +1,5 @@
 //
-//  SearchPhotoViewController.swift
+//  AdvancedViewController.swift
 //  ImageSearchEngine
 //
 //  Created by Сперанский Никита on 11.10.2022.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// Стартовый контроллер представения
-/// с подгрузкой случайных фотографий и стройо поиска
+/// с подгрузкой случайных фотографий и строкой поиска
 final class AdvancedViewController: UIViewController {
     // MARK: - Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
@@ -40,7 +40,7 @@ final class AdvancedViewController: UIViewController {
         view.backgroundColor = .viewBackgroundColor
         
         /// `Navigation Bar` Setup
-        title = "Photo Engine"
+        title = "Photo Engine".localize()
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"),

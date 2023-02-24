@@ -39,7 +39,7 @@ final class FavoritePhotoViewController: UIViewController {
         view.backgroundColor = .viewBackgroundColor
         
         /// `Navigation Bar` Setup
-        title = "Favorites Photo"
+        title = "Favorites Photo".localize()
         navigationController?.navigationBar.prefersLargeTitles = false
         
         /// `CollectionView` settings

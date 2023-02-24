@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  ImageSearchEngine
+
+  Created by Сперанский Никита on 15.02.2023.
+  
+*/
+
+// MARK: - MainTabBarController
+
+"Photos" = "Фотки";
+"My Favourites" = "Избранные";
+
+// MARK: - AdvancedViewController
+"Photo Engine" = "Фото движок";
+
+// MARK: - DetailsViewController
+"Author: " = "Автор: ";
+"Creation at: " = "Дата создания: ";
+"Location at: " = "Место создания: ";
+"Download count: " = "Количество загрузок: ";
+
+// MARK: - FavoritePhotoViewController
+"Favorites Photo" = "Избранные";
+
+
