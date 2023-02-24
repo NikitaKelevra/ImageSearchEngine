@@ -11,12 +11,12 @@
  + Возможность просмотра деталей каждой фотографии.
 
   ### Примененные технологии::
-  + `SWIFT 5.0` `iOS 14.0` `UIKit` `MVC`
-  + `CollectionView` `Diffible Data Source` `SDWebImage` 
-  + `UserDefaults` - сохранение любимых фотографий
-  + `URLSession` `JSON` - парсинг данных API Unsplash
-  + `Observers`  
-  + `Singletone`
+  + `SWIFT 5.0` `iOS 16.0` `UIKit` `MVVM`
+  + `CollectionView` `Diffible Data Source` `SnapKit` 
+  + `UserDefaults` - сохранение любимых фотографий на устройстве
+  + `Alamofire` `URLSession` - парсинг данных API Unsplash
+  + `Observers` `Delegate` `Singletone`
+  + `Localize` - анлийская и русская локализация
 
   ____
   ### Contacts:
