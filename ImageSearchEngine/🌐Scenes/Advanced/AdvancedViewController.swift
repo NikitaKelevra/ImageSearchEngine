@@ -20,7 +20,7 @@ final class AdvancedViewController: UIViewController {
     private var timer: Timer?
     private var currenLayoutType = 1
     
-    private var viewModel: AdvancedViewModelProtocol! {
+    private var viewModel: AdvancedViewModelProtocol {
         didSet {
             viewModel.getRandomPhotos {
                 self.reloadData()
@@ -31,8 +31,16 @@ final class AdvancedViewController: UIViewController {
     // MARK: - Методы жиненного цикла view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = AdvancedViewModel()
         setupElements()
+    }
+    
+    init(viewModel: AdvancedViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Конфигурация элементов ViewController
@@ -100,11 +108,11 @@ final class AdvancedViewController: UIViewController {
     
     // MARK: - Навигация
     // Переход на экран детальной информации
-    private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
-        let detailsVC = DetailsViewController()
-        detailsVC.viewModel = viewModel
-        navigationController?.pushViewController(detailsVC, animated: true)
-    }
+//    private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
+//        let detailsVC = DetailsViewController(viewModel: viewModel)
+////        detailsVC.viewModel = viewModel
+//        navigationController?.pushViewController(detailsVC, animated: true)
+//    }
     
     // MARK: - DataSource, Snapshot and Layout settings
     private func reloadData() {
@@ -128,8 +136,7 @@ final class AdvancedViewController: UIViewController {
 extension AdvancedViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let detailsViewModel = viewModel.detailsViewModel(at: indexPath)
-        showPhotoDetailsVC(viewModel: detailsViewModel)
+        viewModel.navigateToPhotoDetailScreen(index: indexPath.row)
     }
 }
 

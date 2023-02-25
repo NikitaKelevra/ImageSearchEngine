@@ -6,16 +6,21 @@
 //
 
 import UIKit
+
 // MARK: - AdvancedViewController Protocol
 protocol AdvancedViewModelProtocol {
     
     var photos: [Photo] { get set }
     var favoritePhotos: [Photo] { get }
     
+    
     func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных из REST API
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol /// Передача данных фотографии для отображении каждой ячейки
-    func detailsViewModel(at indexPath: IndexPath) -> DetailsViewModelProtocol /// Передача данных фотографии на экран детальной информации
+    func navigateToPhotoDetailScreen(index: Int) /// Переход на экран детальной информации фотографии
+    
+    init(router: AdvancedRouterProtocol,
+         fetcher: NetworkDataFetcher)
 }
 
 // MARK: - AdvancedViewController View Model
@@ -27,19 +32,20 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
             DataManager.shared.fetchPhotos()
     }
     
-    private var networkDataFetcher = NetworkDataFetcher()
+    private var router: AdvancedRouterProtocol
+    private var networkDataFetcher: NetworkDataFetcher
+    
+    
+    init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher) {
+        self.router = router
+        self.networkDataFetcher = fetcher
+    }
     
     /// Передача данных фотографии для каждой отдельной ячейки
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol {
         let photo = photos[indexPath.row]
         let isFavorite = favoritePhotos.contains(photo)
         return PhotoCellViewModel(photo: photo, isFavorite: isFavorite)
-    }
-    
-    /// Передача данных фотографии на экран детальной информации
-    func detailsViewModel(at indexPath: IndexPath) -> DetailsViewModelProtocol {
-        let photo = photos[indexPath.row]
-        return DetailsViewModel(photo: photo)
     }
     
     // Получение массива случайных фотографий
@@ -57,5 +63,12 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
             self?.photos = photos
             completion()
         })
+    }
+    
+    /// Переход на экран детальной информации фотографии через протокол роутера
+    func navigateToPhotoDetailScreen(index: Int) {
+        let photo = self.photos[index]
+        let detailsViewModel = DetailsViewModel(photo: photo)
+        router.routeToDetail(viewModel: detailsViewModel)
     }
 }

@@ -20,9 +20,14 @@ final class MainTabBarController: UITabBarController {
     }
     // MARK: - Private functions
     private func generateTabBar() {
-        //Массив View Controller'ов для панели вкладок
+        /// Конфигурируем модуль для первой вкладки
+        let navigationController = UINavigationController()
+        let advanceVC = AdvancedModuleAssembly(navigationController: navigationController).createModule()
+        navigationController.viewControllers = [advanceVC]
+        
+        // Массив View Controller'ов для панели вкладок
         viewControllers = [
-            generateNavigationController(rootViewController: AdvancedViewController(),
+            generateNavigationController(rootViewController: advanceVC,
                                          title: "All Photos".localize(),
                                          image: UIImage(systemName: "gear")),
             generateNavigationController(rootViewController: FavoritePhotoViewController(),

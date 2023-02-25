@@ -72,8 +72,8 @@ final class FavoritePhotoViewController: UIViewController {
     // MARK: - Навигация
     // Переход на экран детальной информации
     private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
-        let detailsVC = DetailsViewController()
-        detailsVC.viewModel = viewModel
+        let detailsVC = DetailsViewController(viewModel: viewModel)
+//        detailsVC.viewModel = viewModel
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     

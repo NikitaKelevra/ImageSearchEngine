@@ -8,8 +8,8 @@
 import UIKit
 
 final class DetailsViewController: UIViewController {
-    // MARK: - Свойства и объекты UI
-    var viewModel: DetailsViewModelProtocol!
+    // MARK: - Свойства
+    var viewModel: DetailsViewModelProtocol
     var barFrame:CGRect?
     
     // MARK: Объекты UI
@@ -55,6 +55,16 @@ final class DetailsViewController: UIViewController {
                 self.tabBarController?.tabBar.frame = newBarFrame
             }
         }
+    }
+    
+    init(viewModel: DetailsViewModelProtocol) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Конфигурация элементов ViewController
