@@ -7,8 +7,8 @@
 
 import UIKit
 
-/// Стартовый контроллер представения
-/// с подгрузкой случайных фотографий и строкой поиска
+// Стартовый контроллер представения
+// с подгрузкой случайных фотографий и строкой поиска
 final class AdvancedViewController: UIViewController {
     // MARK: - Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
@@ -144,7 +144,6 @@ extension AdvancedViewController: UICollectionViewDelegate {
 extension AdvancedViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//            print(searchText)
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in

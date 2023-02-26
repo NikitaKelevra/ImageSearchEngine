@@ -6,17 +6,19 @@
 //
 
 import UIKit
+import SnapKit
 
+// Контроллер представения фотографий отмеченных лайком (избранных)
 final class FavoritePhotoViewController: UIViewController {
     // MARK: - Propherties & typealias / Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
     
-    private var dataSource: DataSource?
     private lazy var collectionView = UICollectionView(frame: CGRect.zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout.init())
+    private var dataSource: DataSource?
     
-    private var viewModel: FavoritePhotoViewModelProtocol! {
+    private var viewModel: FavoritePhotoViewModelProtocol {
         didSet {
             self.reloadData()
         }
@@ -25,13 +27,21 @@ final class FavoritePhotoViewController: UIViewController {
     // MARK: - Методы жиненного цикла view controller
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = FavoritePhotoViewModel()
         setupElements()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.reloadData()
+    }
+    
+    init(viewModel: FavoritePhotoViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Конфигурация элементов ViewController
@@ -56,25 +66,22 @@ final class FavoritePhotoViewController: UIViewController {
         /// Adding elements to the screen
         view.addSubview(collectionView)
         
+        
         /// Setting up the location of elements on the screen
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.snp.makeConstraints { make in
+            make.left.right.top.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
         
-        let safeAreaGuide = self.view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([
-            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
-        ])
-    }
-    
-    // MARK: - Навигация
-    // Переход на экран детальной информации
-    private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
-        let detailsVC = DetailsViewController(viewModel: viewModel)
-//        detailsVC.viewModel = viewModel
-        navigationController?.pushViewController(detailsVC, animated: true)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let safeAreaGuide = self.view.safeAreaLayoutGuide
+//
+//        NSLayoutConstraint.activate([
+//            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+//            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+//            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
+//        ])
     }
     
     // MARK: - DataSource, Snapshot and Layout settings
@@ -119,8 +126,7 @@ final class FavoritePhotoViewController: UIViewController {
 extension FavoritePhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let detailsViewModel = viewModel.detailsViewModel(at: indexPath)
-        showPhotoDetailsVC(viewModel: detailsViewModel)
+        viewModel.navigateToPhotoDetailScreen(index: indexPath.row)
     }
 }
 

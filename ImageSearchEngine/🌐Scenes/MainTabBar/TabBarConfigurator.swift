@@ -5,7 +5,6 @@
 //  Created by Сперанский Никита on 25.02.2023.
 //
 
-
 import UIKit
 
 //MARK: - Протокол конфигурации контроллера панели вкладок
@@ -14,26 +13,26 @@ protocol TabBarConfiguration {
     func generate(tabBar: UITabBarController)
 }
 
-/// #Конфигуратор TabBar
+/// Конфигуратор `TabBar`
 final class TabBarConfigurator {
-
-    private let navigationController: UINavigationController
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-
-    /// Настройка tabBarItem
+    
+    /// Создание и настройка tabBarItem
     /// - Parameters:
     ///  - viewController: Child-VC
+    ///  - title: название
     ///  - image: изображение
-    ///  - selectedImage: изображение при выбранной вкладке
-    /// - Returns: Child-VC
-    private func setupChildVC(_ viewController: UIViewController,
-                              image: UIImage? = nil) -> UIViewController {
-        viewController.tabBarItem.image = image
-//        viewController.tabBarItem.selectedImage = selectedImage
-        return viewController
+    /// - Returns: NavigationVC
+    private func generateNaviController(assenblyingModule: Assemblying,
+                                              title: String,
+                                              image: UIImage?) -> UIViewController {
+        /// Создаем модуль
+        let rootVC = assenblyingModule.createModule()
+        /// Оборачиваем в NavigationController
+        let navigationVC = UINavigationController(rootViewController: rootVC)
+        /// Настраиваем характеристики
+        navigationVC.tabBarItem.title = title
+        navigationVC.tabBarItem.image = image
+        return navigationVC
     }
 }
 
@@ -41,26 +40,19 @@ final class TabBarConfigurator {
 extension TabBarConfigurator: TabBarConfiguration {
 
     func generate(tabBar: UITabBarController) {
-        /// Конфигурируем модуль для первой вкладки
-        let navigationControllerOne = UINavigationController()
-        let AdvancedVC = AdvancedModuleAssembly(navigationController: navigationControllerOne).createModule()
-        navigationControllerOne.viewControllers = [AdvancedVC]
-
-        /// Конфигурируем модуль для второй вкладки
-//        let navigationControllerTwo = UINavigationController()
-//        let userProfileVC = UserProfileAssembly(navigationController: navigationControllerTwo).assembly()
-//        navigationControllerTwo.viewControllers = [userProfileVC]
-
-        /// Добавляем контроллеры и устанавливаем изображения
+        let navigationVC = UINavigationController()
+        /// Создаем дочерние контроллеры и настраиваем их
+        let advanceVC = generateNaviController(assenblyingModule: AdvancedModuleAssembly(navigationController: navigationVC),
+                                               title: "All Photos".localize(),
+                                               image: UIImage(systemName: "gear"))
+        
+        let favoriteVC = generateNaviController(assenblyingModule: FavoriteModuleAssembly(navigationController: navigationVC),
+                                                title: "My Favourites".localize(),
+                                                image: UIImage(systemName: "heart"))
+        /// Добавляем контроллеры во вкладки `TabBar`
         tabBar.viewControllers = [
-            setupChildVC(navigationControllerOne,
-                         image: UIImage(systemName: "gear")),
-
-            UIViewController(),
-
-            setupChildVC(navigationControllerTwo,
-                         image: Icons.person.image,
-                         selectedImage: Icons.personFill.image)
+            advanceVC,
+            favoriteVC
         ]
 
         tabBar.setViewControllers(tabBar.viewControllers, animated: false)

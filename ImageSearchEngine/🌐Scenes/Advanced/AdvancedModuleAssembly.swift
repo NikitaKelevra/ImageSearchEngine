@@ -7,17 +7,17 @@
 
 import UIKit
 
-// Advanced Module предназначен для создания экземпляра Advanced View Controller
+// Advanced Module Assembly предназначен для создания модуля Advanced View Controller
 final class AdvancedModuleAssembly {
     private let navigationController: UINavigationController
-    
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 }
 
 // MARK: - Assemblying
-extension AdvancedModuleAssembly {
+extension AdvancedModuleAssembly: Assemblying {
     func createModule() -> UIViewController {
         
         /// Менеджер для работы перехода на дрегие экраны

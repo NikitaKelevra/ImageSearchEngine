@@ -65,7 +65,7 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
         })
     }
     
-    /// Переход на экран детальной информации фотографии через протокол роутера
+    /// Переход на экран детальной информации фотографии через роутер
     func navigateToPhotoDetailScreen(index: Int) {
         let photo = self.photos[index]
         let detailsViewModel = DetailsViewModel(photo: photo)

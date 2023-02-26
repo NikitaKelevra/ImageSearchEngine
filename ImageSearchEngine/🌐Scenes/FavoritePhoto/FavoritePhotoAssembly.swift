@@ -7,26 +7,25 @@
 
 import UIKit
 
-// Favorite Module предназначен для создания экземпляра Favorite View Controller
+// Favorite Module предназначен для создания модуля Favorite Photos
 final class FavoriteModuleAssembly {
     private let navigationController: UINavigationController
-    
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 }
 
 // MARK: - Assemblying
-extension FavoriteModuleAssembly {
+extension FavoriteModuleAssembly: Assemblying {
     func createModule() -> UIViewController {
         
         /// Менеджер для работы перехода на дрегие экраны
         let router = FavoriteRouter(navigationController: navigationController)
         /// Менеджер для работы с сетью
-        let fetcher = NetworkDataFetcher()
+//        let fetcher = NetworkDataFetcher()
         
-        let viewModel = AdvancedViewModel(router: router,
-                                          fetcher: fetcher)
+        let viewModel = FavoritePhotoViewModel(router: router)
         let VC = FavoritePhotoViewController(viewModel: viewModel)
         return VC
     }
