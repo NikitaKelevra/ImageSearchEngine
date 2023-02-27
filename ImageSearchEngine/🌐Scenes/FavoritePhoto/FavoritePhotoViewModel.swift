@@ -47,7 +47,6 @@ final class FavoritePhotoViewModel: FavoritePhotoViewModelProtocol {
     /// Переход на экран детальной информации фотографии через роутер
     func navigateToPhotoDetailScreen(index: Int) {
         let photo = favoritePhotos[index]
-        let detailsViewModel = DetailsViewModel(photo: photo)
-        router.routeToDetail(viewModel: detailsViewModel)
+        router.routeToDetail(photo: photo)
     }
 }

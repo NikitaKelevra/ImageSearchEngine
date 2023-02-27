@@ -16,7 +16,7 @@ protocol DetailsViewModelProtocol {
     
     func getImage(completion: @escaping(UIImage) -> Void) /// Получение фотографии ячейки
     
-    init(photo: Photo)
+    init(fetcher: NetworkDataFetcher, photo: Photo)
 }
 
 // MARK: - DetailsVC View Model
@@ -35,14 +35,15 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     }
     
     private let photo: Photo
-    private let networkDataFetcher = NetworkDataFetcher()
+    private let fetcher: NetworkDataFetcher
     
-    init(photo: Photo) {
+    init(fetcher: NetworkDataFetcher, photo: Photo) {
         self.photo = photo
+        self.fetcher = fetcher
     }
     
     func getImage(completion: @escaping(UIImage) -> Void) {
-        networkDataFetcher.fetchPhotoImage(link: photo.urls["regular"]) { image in
+        fetcher.fetchPhotoImage(link: photo.urls["regular"]) { image in
             completion(image)
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class DetailsViewController: UIViewController {
     // MARK: - Свойства
@@ -23,8 +24,8 @@ final class DetailsViewController: UIViewController {
     // MARK: - Методы жиненного цикла view
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
         setupElements()
+        configure()
     }
     
     /// Настройка плавного появления и исчезновения tabBar
@@ -57,9 +58,9 @@ final class DetailsViewController: UIViewController {
         }
     }
     
+    /// Инициализатор
     init(viewModel: DetailsViewModelProtocol) {
         self.viewModel = viewModel
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -109,6 +110,18 @@ final class DetailsViewController: UIViewController {
         photoDetailsStack.addArrangedSubview(downloadCountLabel)
         view.addSubview(photoImageView)
         view.addSubview(photoDetailsStack)
+        
+        
+        /// Setting up the location of elements on the screen
+        /// 
+//        photoImageView.snp.makeConstraints { make in
+//            make.left.right.top.bottom.equalTo(view)
+//        }
+        
+//        photoDetailsStack.snp.makeConstraints { make in
+//            make.bottom.equalTo(view.bottomAnchor)
+//            make.left.equalTo(view.)
+//        }
         
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoDetailsStack.translatesAutoresizingMaskIntoConstraints = false

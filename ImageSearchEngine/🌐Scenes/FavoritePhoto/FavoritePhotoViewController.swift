@@ -66,22 +66,10 @@ final class FavoritePhotoViewController: UIViewController {
         /// Adding elements to the screen
         view.addSubview(collectionView)
         
-        
         /// Setting up the location of elements on the screen
         collectionView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let safeAreaGuide = self.view.safeAreaLayoutGuide
-//
-//        NSLayoutConstraint.activate([
-//            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-//            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-//            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor)
-//        ])
     }
     
     // MARK: - DataSource, Snapshot and Layout settings

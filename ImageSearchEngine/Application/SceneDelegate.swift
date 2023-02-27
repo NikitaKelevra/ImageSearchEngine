@@ -11,18 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
-    // Настройка сцены - окна window и стартового View Controller
+    // Настройка сцены - окна window и выбор стартового View Controller
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        
         window?.windowScene = windowScene
         
-        let userDefaults = UserDefaultsManager.shared
+        let rootVC = ApplicationCoordinator().chooseStartVC()
         
-        ApplicationCoordinator(window: window,
-                               userDefaults: userDefaults).start()
+        if let window = window {
+            window.rootViewController = rootVC
+            window.makeKeyAndVisible()
+        }
     }
 }
 

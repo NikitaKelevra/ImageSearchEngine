@@ -15,24 +15,20 @@ protocol TabBarConfiguration {
 
 /// Конфигуратор `TabBar`
 final class TabBarConfigurator {
-    
     /// Создание и настройка tabBarItem
     /// - Parameters:
-    ///  - viewController: Child-VC
+    ///  - assenblyingModule: создание VC через соответствующий модуль Assemblying
     ///  - title: название
     ///  - image: изображение
     /// - Returns: NavigationVC
     private func generateNaviController(assenblyingModule: Assemblying,
                                               title: String,
                                               image: UIImage?) -> UIViewController {
-        /// Создаем модуль
-        let rootVC = assenblyingModule.createModule()
-        /// Оборачиваем в NavigationController
-        let navigationVC = UINavigationController(rootViewController: rootVC)
-        /// Настраиваем характеристики
-        navigationVC.tabBarItem.title = title
-        navigationVC.tabBarItem.image = image
-        return navigationVC
+        
+        let vc = assenblyingModule.createModule() /// Создаем модуль View Controller'a
+        vc.tabBarItem.title = title
+        vc.tabBarItem.image = image
+        return vc
     }
 }
 
@@ -40,22 +36,25 @@ final class TabBarConfigurator {
 extension TabBarConfigurator: TabBarConfiguration {
 
     func generate(tabBar: UITabBarController) {
-        let navigationVC = UINavigationController()
-        /// Создаем дочерние контроллеры и настраиваем их
-        let advanceVC = generateNaviController(assenblyingModule: AdvancedModuleAssembly(navigationController: navigationVC),
+        /// Конфигурируем модуль для первой вкладки
+        let advanceNC = UINavigationController()
+        let advanceVC = generateNaviController(assenblyingModule: AdvancedModuleAssembly(navigationController: advanceNC),
                                                title: "All Photos".localize(),
                                                image: UIImage(systemName: "gear"))
+        advanceNC.viewControllers = [advanceVC]
         
-        let favoriteVC = generateNaviController(assenblyingModule: FavoriteModuleAssembly(navigationController: navigationVC),
+        /// Конфигурируем модуль для второй вкладки
+        let favoriteNC = UINavigationController()
+        let favoriteVC = generateNaviController(assenblyingModule: FavoriteModuleAssembly(navigationController: favoriteNC),
                                                 title: "My Favourites".localize(),
                                                 image: UIImage(systemName: "heart"))
+        favoriteNC.viewControllers = [favoriteVC]
+        
         /// Добавляем контроллеры во вкладки `TabBar`
         tabBar.viewControllers = [
-            advanceVC,
-            favoriteVC
+            advanceNC,
+            favoriteNC
         ]
-
-        tabBar.setViewControllers(tabBar.viewControllers, animated: false)
     }
 }
 

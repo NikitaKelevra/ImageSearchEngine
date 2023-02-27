@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 // Стартовый контроллер представения
 // с подгрузкой случайных фотографий и строкой поиска
@@ -20,17 +21,12 @@ final class AdvancedViewController: UIViewController {
     private var timer: Timer?
     private var currenLayoutType = 1
     
-    private var viewModel: AdvancedViewModelProtocol {
-        didSet {
-            viewModel.getRandomPhotos {
-                self.reloadData()
-            }
-        }
-    }
+    private var viewModel: AdvancedViewModelProtocol
     
     // MARK: - Методы жиненного цикла view controller
     override func viewDidLoad() {
         super.viewDidLoad()
+        getStartPhoto()
         setupElements()
     }
     
@@ -78,14 +74,9 @@ final class AdvancedViewController: UIViewController {
         view.addSubview(collectionView)
         
         /// Setting up the location of elements on the screen
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        collectionView.snp.makeConstraints { make in
+            make.left.right.top.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     // MARK: - Изменение Layout Of Collection View
@@ -106,13 +97,13 @@ final class AdvancedViewController: UIViewController {
         return layout
     }
     
-    // MARK: - Навигация
-    // Переход на экран детальной информации
-//    private func showPhotoDetailsVC(viewModel: DetailsViewModelProtocol) {
-//        let detailsVC = DetailsViewController(viewModel: viewModel)
-////        detailsVC.viewModel = viewModel
-//        navigationController?.pushViewController(detailsVC, animated: true)
-//    }
+    /// Стартовая загрузка данных
+    private func getStartPhoto() {
+        viewModel.getRandomPhotos {
+            print("______Обновление экрана")
+            self.reloadData()
+        }
+    }
     
     // MARK: - DataSource, Snapshot and Layout settings
     private func reloadData() {
@@ -134,6 +125,7 @@ final class AdvancedViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegate
 extension AdvancedViewController: UICollectionViewDelegate {
+    /// Действие при нажатии на ячейку
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         viewModel.navigateToPhotoDetailScreen(index: indexPath.row)
@@ -146,7 +138,7 @@ extension AdvancedViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] (_) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] (_) in
             
             self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
                 self?.reloadData()

@@ -11,8 +11,8 @@ import UIKit
 // Протокол управления слоем навигации модуля DetailsViewModelProtocol
 protocol FavoriteRouterProtocol {
     /// Переход к экрану детальной информации
-    ///  - Parameter model: модель фотографии
-    func routeToDetail(viewModel: DetailsViewModel)
+    ///  - Parameter photo: выбраная фотография
+    func routeToDetail(photo: Photo)
 }
 
 // MARK: - FavoriteRouter
@@ -27,9 +27,10 @@ final class FavoriteRouter {
 
 // MARK: - RecipeListRouting
 extension FavoriteRouter: FavoriteRouterProtocol {
-
-    func routeToDetail(viewModel: DetailsViewModel) {
-        let detailsVC = DetailsViewController(viewModel: viewModel)
-        navigationController?.pushViewController(detailsVC, animated: true)
+    /// Переход к экрану детальной информации конкретной фотографии
+    func routeToDetail(photo: Photo) {
+//        guard let navigationController = navigationController else { return }
+        let detailsVC = DetailsModuleAssembly(photo: photo).createModule()
+        UINavigationController().pushViewController(detailsVC, animated: true)
     }
 }

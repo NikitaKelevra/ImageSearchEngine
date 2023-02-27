@@ -9,64 +9,36 @@ import UIKit
 
 // MARK: - Протокол координатора
 protocol Coordinator {
-    func start()
+    func chooseStartVC() -> UIViewController
 }
 
 // MARK: - Координатор приложения
 final class ApplicationCoordinator: Coordinator {
 
-    private var rootViewController: UIViewController?
-    private var window: UIWindow?
-    private let userDefaults: UserDefaultsVerifable
+    private var rootViewController = UIViewController()
+    private let userDefaults = UserDefaultsManager.shared
 
-    init(window: UIWindow?,
-         userDefaults: UserDefaultsVerifable) {
-        self.window = window
-        self.userDefaults = userDefaults
-    }
-
-    func start() {
-        setupWindow()
+    func chooseStartVC() -> UIViewController {
         setupElementAppearence()
-    }
-
-    private func setupWindow() {
-
-        let navigationVC = UINavigationController()
-        let tabBarConfigurator = TabBarConfigurator()
-        let tabBarController = MainTabBarAssembly(navigationController: navigationVC,
-                                                  tabBarConfigurator: tabBarConfigurator).createModule()
-        navigationVC.viewControllers = [tabBarController]
-        rootViewController = navigationVC
         
+        let tabBarController = MainTabBarAssembly().createModule() /// Создаем Tab Bar
+        rootViewController = UINavigationController(rootViewController: tabBarController)
         
-        if userDefaults.checkReady() {
-            /// Если пользователь уже просматривал экран `Launch`
-            /// Устанавливаем зависимости и настраиваем TabBarController
-            
-        } else {
-            /// Если нет - настраиваем модуль `Launch`
-            ///
-//            let viewController = LaunchAssembly().assembly()
-//            rootViewController = viewController
-        }
-        
-        
-        window?.backgroundColor = .white
-        window?.rootViewController = rootViewController
-        window?.makeKeyAndVisible()
+        return rootViewController
     }
 
     // Настраиваем свойства UINavigationBar по дефолту в приложении
     private func setupElementAppearence() {
+//        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        navigationController.navigationBar.shadowImage = UIImage()
+//        navigationController.navigationBar.tintColor = .black
+        
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .black
-//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
-//        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-//        UINavigationBar.appearance().tintColor = .black
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.black]
 //        UINavigationBar.appearance().barTintColor = .white
-//        UINavigationBar.appearance().shadowImage = UIImage()
 //        UINavigationBar.appearance().isTranslucent = false
 //
 //        UITableView.appearance().tableHeaderView = .init(frame: CGRect(x: 0, y: 0, width: 0, height: CGFLOAT_MIN))

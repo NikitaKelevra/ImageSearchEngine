@@ -13,14 +13,12 @@ protocol AdvancedViewModelProtocol {
     var photos: [Photo] { get set }
     var favoritePhotos: [Photo] { get }
     
-    
     func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных из REST API
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol /// Передача данных фотографии для отображении каждой ячейки
     func navigateToPhotoDetailScreen(index: Int) /// Переход на экран детальной информации фотографии
     
-    init(router: AdvancedRouterProtocol,
-         fetcher: NetworkDataFetcher)
+    init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher)
 }
 
 // MARK: - AdvancedViewController View Model
@@ -34,7 +32,6 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     
     private var router: AdvancedRouterProtocol
     private var networkDataFetcher: NetworkDataFetcher
-    
     
     init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher) {
         self.router = router
@@ -68,7 +65,6 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     /// Переход на экран детальной информации фотографии через роутер
     func navigateToPhotoDetailScreen(index: Int) {
         let photo = self.photos[index]
-        let detailsViewModel = DetailsViewModel(photo: photo)
-        router.routeToDetail(viewModel: detailsViewModel)
+        router.routeToDetail(photo: photo)
     }
 }

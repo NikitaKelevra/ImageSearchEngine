@@ -7,18 +7,18 @@
 
 import UIKit
 
-// MARK: - AdvancedRouting Protocol
+// MARK: - Advanced Routing Protocol
 // Протокол управления слоем навигации модуля DetailsViewModelProtocol
 protocol AdvancedRouterProtocol {
     /// Переход к экрану детальной информации
-    ///  - Parameter model: модель фотографии
-    func routeToDetail(viewModel: DetailsViewModel)
+    ///  - Parameter photo: выбраная фотография
+    func routeToDetail(photo: Photo)
 }
 
-// MARK: - AdvancedRouter
+// MARK: - Advanced Router
 // Слой навигации модуля Advanced
 final class AdvancedRouter {
-    private weak var navigationController: UINavigationController?
+    private var navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -27,9 +27,11 @@ final class AdvancedRouter {
 
 // MARK: - RecipeListRouting
 extension AdvancedRouter: AdvancedRouterProtocol {
-
-    func routeToDetail(viewModel: DetailsViewModel) {
-        let detailsVC = DetailsViewController(viewModel: viewModel)
-        navigationController?.pushViewController(detailsVC, animated: true)
+    /// Переход к экрану детальной информации конкретной фотографии
+    func routeToDetail(photo: Photo) {
+//        guard let navigationController = navigationController else { return }
+        let detailsVC = DetailsModuleAssembly(photo: photo).createModule()
+        
+        navigationController.pushViewController(detailsVC, animated: true)
     }
 }
