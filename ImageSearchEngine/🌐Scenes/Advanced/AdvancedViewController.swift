@@ -8,8 +8,7 @@
 import UIKit
 import SnapKit
 
-// Стартовый контроллер представения
-// с подгрузкой случайных фотографий и строкой поиска
+// Основной контроллер представения с подгрузкой случайных фотографий и строкой поиска
 final class AdvancedViewController: UIViewController {
     // MARK: - Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>

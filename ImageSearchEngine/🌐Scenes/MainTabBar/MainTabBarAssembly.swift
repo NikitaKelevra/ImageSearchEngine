@@ -7,13 +7,7 @@
 
 import UIKit
 
-final class MainTabBarAssembly {
-
-}
-
-// MARK: - Assemblying
-extension MainTabBarAssembly: Assemblying {
-    
+final class MainTabBarAssembly: Assemblying {
     func createModule() -> UIViewController {
         let tabBarController = MainTabBarController()
         let tabBarConfigurator = TabBarConfigurator()

@@ -20,7 +20,7 @@ final class TabBarConfigurator {
     ///  - assenblyingModule: создание VC через соответствующий модуль Assemblying
     ///  - title: название
     ///  - image: изображение
-    /// - Returns: NavigationVC
+    /// - Returns: ViewController
     private func generateNaviController(assenblyingModule: Assemblying,
                                               title: String,
                                               image: UIImage?) -> UIViewController {

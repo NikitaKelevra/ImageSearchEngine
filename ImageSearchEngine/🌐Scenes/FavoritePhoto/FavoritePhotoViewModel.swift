@@ -21,7 +21,7 @@ final class FavoritePhotoViewModel: FavoritePhotoViewModelProtocol {
     
     // Загрузка массива любимых фотографий из памяти UserDefaults
     var favoritePhotos: [Photo] {
-            DataManager.shared.fetchPhotos()
+            LocalDataManager.shared.fetchPhotos()
     }
     
     private var router: FavoriteRouterProtocol

@@ -11,4 +11,5 @@ import Foundation
 enum UserDefaultsKeys: String {
     /// Готовность пользоваться приложением
     case isUserReady
+    case favoritePhotosKey = "newPhotosList"
 }

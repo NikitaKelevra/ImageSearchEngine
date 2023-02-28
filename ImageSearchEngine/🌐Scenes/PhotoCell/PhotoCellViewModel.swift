@@ -26,7 +26,7 @@ final class PhotoCellViewModel: PhotoCellViewModelProtocol {
     }
     
     func changePhotoStatus() {
-        DataManager.shared.changeFavoriteStatus(at: photo)
+        LocalDataManager.shared.changeFavoriteStatus(at: photo)
     }
     
     var isFavorite: Bool

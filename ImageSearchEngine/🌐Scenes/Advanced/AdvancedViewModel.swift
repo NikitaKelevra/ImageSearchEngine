@@ -10,42 +10,64 @@ import UIKit
 // MARK: - AdvancedViewController Protocol
 protocol AdvancedViewModelProtocol {
     
+    /// Основной массив фотографий Collection View
     var photos: [Photo] { get set }
+    
+    ///  Массив избранных/добавленных фотографий
     var favoritePhotos: [Photo] { get }
     
-    func getRandomPhotos(completion: @escaping() -> Void) /// Получение данных из REST API
-    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) /// Получение массива фотографий по поисковому запросу
-    func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol /// Передача данных фотографии для отображении каждой ячейки
-    func navigateToPhotoDetailScreen(index: Int) /// Переход на экран детальной информации фотографии
+    /// Получение массива рандомных фотографий
+    ///  - Parameters:
+    ///   - completion: захватывает массив фотографий / ошибку
+    func getRandomPhotos(completion: @escaping() -> Void)
     
-    init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher)
+    /// Получение массива фотографий по поисковому запросу
+    ///  - Parameters:
+    ///     - searchTerm: поисковый запрос пользователя
+    ///     - completion: захватывает массив фотографий / ошибку
+    func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void)
+    
+    /// Передача данных фотографии для отображении каждой ячейки
+    ///  - Parameters:
+    ///     - indexPath: индекс ячейки Collection View
+    /// - Returns: возвращает заполненую вью модель ячейки фотографии
+    func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol
+    
+    /// Переход на экран детальной информации фотографии выбранной ячейки
+    ///  - Parameters:
+    ///     - index: порядковый номер ячейки Collection View
+    func navigateToPhotoDetailScreen(index: Int)
+    
+    /// Инициализатор вью модели с необходимыми сервисами
+    init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher, localDM: LocalDataManagerProtocol)
 }
 
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
     
     var photos: [Photo] = []
-    
     var favoritePhotos: [Photo] {
-            DataManager.shared.fetchPhotos()
+        localDataManager.fetchPhotos()
     }
     
     private var router: AdvancedRouterProtocol
     private var networkDataFetcher: NetworkDataFetcher
+    private var localDataManager: LocalDataManagerProtocol
     
-    init(router: AdvancedRouterProtocol, fetcher: NetworkDataFetcher) {
+    init(router: AdvancedRouterProtocol,
+         fetcher: NetworkDataFetcher,
+         localDM: LocalDataManagerProtocol) {
         self.router = router
         self.networkDataFetcher = fetcher
+        self.localDataManager = localDM
     }
     
-    /// Передача данных фотографии для каждой отдельной ячейки
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol {
         let photo = photos[indexPath.row]
         let isFavorite = favoritePhotos.contains(photo)
         return PhotoCellViewModel(photo: photo, isFavorite: isFavorite)
     }
     
-    // Получение массива случайных фотографий
     func getRandomPhotos(completion: @escaping() -> Void) {
         self.networkDataFetcher.fetchRandomPhotos{ [weak self] (photos) in
             self?.photos = photos
@@ -53,7 +75,6 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
         }
     }
     
-    // Получение массива фотографий по поисковому запросу
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) {
         self.networkDataFetcher.fetchSearchPhotos(searchTerm: searchTerm,
                                                   completion: { [weak self] (photos) in
@@ -62,7 +83,6 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
         })
     }
     
-    /// Переход на экран детальной информации фотографии через роутер
     func navigateToPhotoDetailScreen(index: Int) {
         let photo = self.photos[index]
         router.routeToDetail(photo: photo)

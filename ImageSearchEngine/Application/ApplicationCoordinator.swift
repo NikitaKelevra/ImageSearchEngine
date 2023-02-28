@@ -9,39 +9,46 @@ import UIKit
 
 // MARK: - Протокол координатора
 protocol Coordinator {
-    func chooseStartVC() -> UIViewController
+    func start()
 }
 
 // MARK: - Координатор приложения
 final class ApplicationCoordinator: Coordinator {
 
-    private var rootViewController = UIViewController()
-    private let userDefaults = UserDefaultsManager.shared
+    private var rootVС: UIViewController?
+    private var window: UIWindow?
+    private let userDefaults: UserDefaultsVerifable
 
-    func chooseStartVC() -> UIViewController {
+    init(window: UIWindow?,
+         userDefaults: UserDefaultsVerifable) {
+        self.window = window
+        self.userDefaults = userDefaults
+    }
+    
+    func start() {
+        setupWindow()
         setupElementAppearence()
+    }
+
+    private func setupWindow() {
+        setupElementAppearence() /// Настройка элементов приложения
         
         let tabBarController = MainTabBarAssembly().createModule() /// Создаем Tab Bar
-        rootViewController = UINavigationController(rootViewController: tabBarController)
+        rootVС = UINavigationController(rootViewController: tabBarController)
         
-        return rootViewController
+        window?.rootViewController = rootVС
+        window?.makeKeyAndVisible()
     }
 
     // Настраиваем свойства UINavigationBar по дефолту в приложении
     private func setupElementAppearence() {
-//        navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        navigationController.navigationBar.shadowImage = UIImage()
-//        navigationController.navigationBar.tintColor = .black
-        
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().tintColor = .black
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-//        UINavigationBar.appearance().barTintColor = .white
 //        UINavigationBar.appearance().isTranslucent = false
-//
-//        UITableView.appearance().tableHeaderView = .init(frame: CGRect(x: 0, y: 0, width: 0, height: CGFLOAT_MIN))
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "Cancel".localize()
+
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "Cancel".localize()
     }
 }

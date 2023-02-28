@@ -19,14 +19,14 @@ final class AdvancedModuleAssembly {
 // MARK: - Assemblying
 extension AdvancedModuleAssembly: Assemblying {
     func createModule() -> UIViewController {
-        
-        /// Менеджер для работы перехода на дрегие экраны
+        /// Менеджер перехода на другие экраны
         let router = AdvancedRouter(navigationController: navigationController)
         /// Менеджер для работы с сетью
         let fetcher = NetworkDataFetcher()
+        /// Менеджер работы с UserDefaults
+        let localDM = LocalDataManager()
         
-        let viewModel = AdvancedViewModel(router: router,
-                                          fetcher: fetcher)
+        let viewModel = AdvancedViewModel(router: router, fetcher: fetcher, localDM: localDM)
         let VC = AdvancedViewController(viewModel: viewModel)
         return VC
     }
