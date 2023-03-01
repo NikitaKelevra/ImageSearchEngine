@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import SnapKit
 
 final class PhotoCell: UICollectionViewCell {
-    // MARK: - Элементы PhotoCell
+    
+    // MARK: - Свойства и Элементы ячейки
     private let photoImageView = UIImageView()
     private let authorNameLabel = UILabel.confAuthorNameLabel()
     private let isFavoriteButton = UIButton(type: .system)
     
-    // MARK: - Свойства PhotoCell
     static var reuseId: String = "PhotoCell"
     
     var viewModel: PhotoCellViewModelProtocol! {
@@ -37,7 +38,7 @@ final class PhotoCell: UICollectionViewCell {
     private let blackButtonColor = UIColor.black.withAlphaComponent(0.5)
     private let redButtonColor = UIColor.red.withAlphaComponent(0.8)
     
-    // MARK: - Initiation
+    // MARK: - Инициализатор
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupElements()
@@ -52,14 +53,15 @@ final class PhotoCell: UICollectionViewCell {
         photoImageView.image = nil
     }
     
-    // MARK: - Function
+    // MARK: - Приватные функции
+    ///Действия при нажатии на кнопку добавления в избранное (поставить лайк)
     private func favoriteButtonAction() {
         isFavoritePhoto.toggle()
         isFavoriteButton.shake()
         viewModel.changePhotoStatus()
     }
     
-    // MARK: - Настройка элементов
+    /// Настройка параметров элементов ячейки
     private func setupElements() {
         clipsToBounds = true
         layer.cornerRadius = cornerRadius
@@ -74,30 +76,23 @@ final class PhotoCell: UICollectionViewCell {
             self.favoriteButtonAction()
         }), for: .touchUpInside)
         
+        /// Добавление элементов `Subview` на основной экран `View`
         addSubview(photoImageView)
         addSubview(authorNameLabel)
         addSubview(isFavoriteButton)
         
-        photoImageView.translatesAutoresizingMaskIntoConstraints = false
-        authorNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        isFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        photoImageView.snp.makeConstraints { make in
+            make.leading.trailing.top.bottom.equalToSuperview()
+        }
         
-        /// Настройка констрейнтов
-        NSLayoutConstraint.activate([
-        photoImageView.topAnchor.constraint(equalTo: self.topAnchor),
-        photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+        authorNameLabel.snp.makeConstraints { make in
+            make.bottom.trailing.leading.equalToSuperview()
+            make.height.equalTo(20)
+        }
         
-        authorNameLabel.heightAnchor.constraint(equalToConstant: 20),
-        authorNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        authorNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        authorNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        
-        isFavoriteButton.topAnchor.constraint(equalTo: self.topAnchor),
-        isFavoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        isFavoriteButton.heightAnchor.constraint(equalToConstant: sizeOfFavoriteButton),
-        isFavoriteButton.widthAnchor.constraint(equalToConstant: sizeOfFavoriteButton)
-        ])
+        isFavoriteButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview()
+            make.height.width.equalTo(sizeOfFavoriteButton)
+        }
     }  
 }

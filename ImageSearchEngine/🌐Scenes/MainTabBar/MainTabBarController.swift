@@ -7,41 +7,19 @@
 
 import UIKit
 
-// Контроллер панели вкладок
+// Основной контроллер панели вкладок
 final class MainTabBarController: UITabBarController {
-    // MARK: - Properties
-    private var layer = CAShapeLayer() /// Слой для `TabBar`
+    // MARK: - Свойства
+    private var layer = CAShapeLayer() /// Слой внешнего вида `TabBar`
     
-    // MARK: - Методы жиненного цикла UITabBarController
+    // MARK: - Методы жиненного цикла
     override func viewDidLoad() {
         super.viewDidLoad()
-        generateTabBar()
         setTabBarAppearance()
     }
-    // MARK: - Private functions
-    private func generateTabBar() {
-        //Массив View Controller'ов для панели вкладок
-        viewControllers = [
-            generateNavigationController(rootViewController: AdvancedViewController(),
-                                         title: "All Photos".localize(),
-                                         image: UIImage(systemName: "gear")),
-            generateNavigationController(rootViewController: FavoritePhotoViewController(),
-                                         title: "My Favourites".localize(),
-                                         image: UIImage(systemName: "heart"))
-        ]
-    }
     
-    private func generateNavigationController(rootViewController: UIViewController, title: String, image: UIImage?) -> UIViewController {
-        let navigationVC = UINavigationController(rootViewController: rootViewController)
-        navigationVC.tabBarItem.title = title
-        navigationVC.tabBarItem.image = image
-        navigationVC.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationVC.navigationBar.shadowImage = UIImage()
-        navigationVC.navigationBar.tintColor = .black
-        return navigationVC
-    }
-    
-    // Настраиваем / кастомизируем внешний вид панели вкладок TabBar
+    // MARK: - Функции
+    /// Настраиваем / кастомизируем внешний вид панели вкладок `TabBar`
     private func setTabBarAppearance() {
         /// Делаем `TabBar` прозрачным
         tabBar.backgroundImage = UIImage()

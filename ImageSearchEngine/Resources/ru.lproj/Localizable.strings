@@ -7,12 +7,12 @@
 */
 
 // MARK: - MainTabBarController
-
+"Cancel" = "Отмена";
 "Photos" = "Фотки";
 "My Favourites" = "Избранные";
 
 // MARK: - AdvancedViewController
-"Photo Engine" = "Фото движок";
+"Photo Engine" = "Фотографии";
 
 // MARK: - DetailsViewController
 "Author: " = "Автор: ";
