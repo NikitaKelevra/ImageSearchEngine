@@ -7,29 +7,44 @@
 
 import UIKit
 
-// MARK: - DetailsViewModel Protocol
 protocol DetailsViewModelProtocol {
+    
+    /// Имя автора фотографии
     var authorNameLabel: String? { get }
+    
+    /// Дата создания фотографии
     var creationDataLabel: String? { get }
+    
+    /// Место создания фотографии
     var photoLocationLabel: String? { get }
+    
+    /// Количество скачиваний фотографии
     var photoDownloadCount: String? { get }
     
-    func getImage(completion: @escaping(UIImage) -> Void) /// Получение фотографии ячейки
+    /// Функция ассинхронной загрузки изображения ячейки
+    ///  - Parameters:
+    ///   - completion: захватывает фотографию / ошибку
+    func getImage(completion: @escaping(UIImage) -> Void)
     
-    init(fetcher: NetworkDataFetcher, photo: Photo)
+    /// Инициализатор вью модели с необходимыми сервисами
+    init(photo: Photo, fetcher: NetworkDataFetcher)
 }
 
 // MARK: - DetailsVC View Model
 final class DetailsViewModel: DetailsViewModelProtocol {
+    
     var authorNameLabel: String? {
         photo.user.name
     }
+    
     var creationDataLabel: String? {
         photo.createdAt
     }
+    
     var photoLocationLabel: String? {
         photo.location?.city
     }
+    
     var photoDownloadCount: String? {
         String(photo.likes)
     }
@@ -37,7 +52,7 @@ final class DetailsViewModel: DetailsViewModelProtocol {
     private let photo: Photo
     private let fetcher: NetworkDataFetcher
     
-    init(fetcher: NetworkDataFetcher, photo: Photo) {
+    init(photo: Photo, fetcher: NetworkDataFetcher) {
         self.photo = photo
         self.fetcher = fetcher
     }

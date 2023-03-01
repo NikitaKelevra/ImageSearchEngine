@@ -7,10 +7,10 @@
 
 import UIKit
 
-// Протокол управления слоем навигации модуля DetailsViewModelProtocol
+// Протокол управления слоем навигации модуля Details ViewModel 
 protocol AdvancedRouterProtocol {
     
-    /// Получение массива фотографий по поисковому запросу
+    /// Переход к экрану детальной информации
     ///  - Parameters:
     ///     - photo: выбраная фотография
     func routeToDetail(photo: Photo)
@@ -26,7 +26,7 @@ final class AdvancedRouter {
     }
 }
 
-// MARK: - RecipeListRouting
+// MARK: - AdvancedRouterProtocol
 extension AdvancedRouter: AdvancedRouterProtocol {
     /// Переход к экрану детальной информации конкретной фотографии
     func routeToDetail(photo: Photo) {

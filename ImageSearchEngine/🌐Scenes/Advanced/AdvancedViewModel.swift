@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: - AdvancedViewController Protocol
 protocol AdvancedViewModelProtocol {
     
     /// Основной массив фотографий Collection View
@@ -65,7 +64,10 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol {
         let photo = photos[indexPath.row]
         let isFavorite = favoritePhotos.contains(photo)
-        return PhotoCellViewModel(photo: photo, isFavorite: isFavorite)
+        return PhotoCellViewModel(photo: photo,
+                                  isFavorite: isFavorite,
+                                  fetcher: networkDataFetcher,
+                                  localDM: localDataManager)
     }
     
     func getRandomPhotos(completion: @escaping() -> Void) {

@@ -7,15 +7,24 @@
 
 import UIKit
 
-// MARK: - Protocol PhotoCell
 protocol PhotoCellViewModelProtocol {
+    
+    /// Имя автора фотографии
     var authorName: String { get }
+    
+    /// Отметка/статус - фотография в избранных(отмечена лайком) или нет
     var isFavorite: Bool { get }
+    
+    /// Изменить статус фотографии - поставить/убрать лайк
     func changePhotoStatus()
      
+    /// Функция ассинхронной загрузки изображения ячейки
+    ///  - Parameters:
+    ///   - completion: захватывает фотографию / ошибку
     func getImage(completion: @escaping(UIImage) -> Void) /// Получение фотографии ячейки
     
-    init(photo: Photo, isFavorite: Bool)
+    /// Инициализатор вью модели с необходимыми сервисами
+    init(photo: Photo, isFavorite: Bool, fetcher: NetworkDataFetcher, localDM: LocalDataManagerProtocol)
 }
 
 // MARK: - ViewModel PhotoCell
@@ -25,21 +34,23 @@ final class PhotoCellViewModel: PhotoCellViewModelProtocol {
         photo.user.name
     }
     
-    func changePhotoStatus() {
-        LocalDataManager.shared.changeFavoriteStatus(at: photo)
-    }
-    
     var isFavorite: Bool
     
     private var photo: Photo
-    private let networkDataFetcher = NetworkDataFetcher()
+    private var networkDataFetcher: NetworkDataFetcher
+    private var localDataManager: LocalDataManagerProtocol
     
-    init(photo: Photo, isFavorite: Bool) {
+    init(photo: Photo, isFavorite: Bool, fetcher: NetworkDataFetcher, localDM: LocalDataManagerProtocol) {
         self.photo = photo
         self.isFavorite = isFavorite
+        self.networkDataFetcher = fetcher
+        self.localDataManager = localDM
     }
     
-    // Функция ассинхронной загрузки изображения ячейки
+    func changePhotoStatus() {
+        localDataManager.changeFavoriteStatus(at: photo)
+    }
+    
     func getImage(completion: @escaping(UIImage) -> Void) {
         networkDataFetcher.fetchPhotoImage(link: photo.urls["regular"]) { image in
             completion(image)

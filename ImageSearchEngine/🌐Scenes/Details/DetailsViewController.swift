@@ -8,12 +8,13 @@
 import UIKit
 import SnapKit
 
+// Экран детальной информации конкретной фотографии
 final class DetailsViewController: UIViewController {
-    // MARK: - Свойства
+    
+    // MARK: - Свойства и элементы
     var viewModel: DetailsViewModelProtocol
     var barFrame:CGRect?
     
-    // MARK: Объекты UI
     private let photoImageView = UIImageView()
     private var authorNameLabel = UILabel.configurationLabel(withTextAlpha: 1)
     private var creationDataLabel = UILabel.configurationLabel(withTextAlpha: 0.8)
@@ -58,7 +59,7 @@ final class DetailsViewController: UIViewController {
         }
     }
     
-    /// Инициализатор
+    /// Инициализатор вью контроллера
     init(viewModel: DetailsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -94,48 +95,36 @@ final class DetailsViewController: UIViewController {
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
+        /// Настройка параметров фотографии`photoImageView`
         photoImageView.contentMode = .scaleAspectFill
         photoImageView.clipsToBounds = true
         photoImageView.layer.cornerRadius = 10
         
+        /// Настройка параметров стека информации о фото
         photoDetailsStack.axis = .vertical
         photoDetailsStack.alignment = .leading
         photoDetailsStack.distribution = .fillProportionally
         photoDetailsStack.spacing = 5
         
-        /// Определение иерархии и добавление Subview
+        /// Добавление элементов `Subview` на основной экран `View`
         photoDetailsStack.addArrangedSubview(authorNameLabel)
         photoDetailsStack.addArrangedSubview(creationDataLabel)
         photoDetailsStack.addArrangedSubview(photoLocationLabel)
         photoDetailsStack.addArrangedSubview(downloadCountLabel)
+        
         view.addSubview(photoImageView)
         view.addSubview(photoDetailsStack)
         
         
-        /// Setting up the location of elements on the screen
-        /// 
-//        photoImageView.snp.makeConstraints { make in
-//            make.left.right.top.bottom.equalTo(view)
-//        }
+        /// Настройка расположения элементов на экране
+        photoImageView.snp.makeConstraints { make in
+            make.leading.trailing.top.bottom.equalToSuperview()
+        }
         
-//        photoDetailsStack.snp.makeConstraints { make in
-//            make.bottom.equalTo(view.bottomAnchor)
-//            make.left.equalTo(view.)
-//        }
-        
-        photoImageView.translatesAutoresizingMaskIntoConstraints = false
-        photoDetailsStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        /// Настройка констрейнтов
-        NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        
-            photoDetailsStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            photoDetailsStack.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
-            photoDetailsStack.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        photoDetailsStack.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(80)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview()
+        }
     }
 }

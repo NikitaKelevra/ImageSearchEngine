@@ -10,6 +10,7 @@ import SnapKit
 
 // Основной контроллер представения с подгрузкой случайных фотографий и строкой поиска
 final class AdvancedViewController: UIViewController {
+    
     // MARK: - Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
@@ -17,9 +18,10 @@ final class AdvancedViewController: UIViewController {
     private lazy var collectionView = UICollectionView(frame: CGRect.zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout.init())
     private var dataSource: DataSource?
-    private var timer: Timer?
-    private var currenLayoutType = 1
+    private var collectionViewLayout: CollViewLayoutModuleProtocol
     
+    private var timer: Timer?
+
     private var viewModel: AdvancedViewModelProtocol
     
     // MARK: - Методы жиненного цикла view controller
@@ -29,8 +31,9 @@ final class AdvancedViewController: UIViewController {
         setupElements()
     }
     
-    init(viewModel: AdvancedViewModelProtocol) {
+    init(viewModel: AdvancedViewModelProtocol, layout: CollViewLayoutModuleProtocol) {
         self.viewModel = viewModel
+        self.collectionViewLayout = layout
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,7 +45,7 @@ final class AdvancedViewController: UIViewController {
     private func setupElements() {
         view.backgroundColor = .viewBackgroundColor
         
-        /// `Navigation Bar` Setup
+        /// Настройка параметров `Navigation Bar`
         title = "Photo Engine".localize()
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -50,7 +53,7 @@ final class AdvancedViewController: UIViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(changeLayoutButton))
-        /// `SeacrhController` settings
+        /// Настройка параметров `SeacrhController`
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         searchController.hidesNavigationBarDuringPresentation = false
@@ -58,42 +61,29 @@ final class AdvancedViewController: UIViewController {
         searchController.searchBar.delegate = self
         definesPresentationContext = true
         
-        /// `CollectionView` settings
+        /// Настройка параметров `CollectionView`
         collectionView.frame = view.bounds
-        collectionView.collectionViewLayout = setViewLayout(currenLayoutType)
+        collectionView.collectionViewLayout = collectionViewLayout.getLayout()
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         createDataSource()
         
-        /// Registration of cells
+        /// Регистрация ячеек
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.reuseId)
         
-        /// Adding elements to the screen
+        /// Добавление элементов `Subview` на основной экран `View`
         view.addSubview(collectionView)
         
-        /// Setting up the location of elements on the screen
+        /// Настройка расположения элементов на экране
         collectionView.snp.makeConstraints { make in
             make.left.right.top.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
-    // MARK: - Изменение Layout Of Collection View
+    /// Изменение Layout Of Collection View
     @objc func changeLayoutButton() {
-        print("Прошла кнопка, currenLayoutType - " + "\(currenLayoutType)")
-        currenLayoutType == 3 ? (currenLayoutType = 1) : (currenLayoutType += 1)
-        collectionView.setCollectionViewLayout(setViewLayout(currenLayoutType), animated: true)
-    }
-    
-    private func setViewLayout(_ layoutNumber: Int) -> UICollectionViewLayout {
-        var layout: UICollectionViewLayout
-        
-        switch layoutNumber {
-        case 2: layout = createSecondLayout()
-        case 3: layout = createThirdLayout()
-        default: layout = createFirstLayout()
-        }
-        return layout
+        collectionView.setCollectionViewLayout(collectionViewLayout.getLayout(), animated: true)
     }
     
     /// Стартовая загрузка данных
@@ -133,7 +123,7 @@ extension AdvancedViewController: UICollectionViewDelegate {
 
 // MARK: - UISearchBarDelegate
 extension AdvancedViewController: UISearchBarDelegate {
-    
+    /// Настройка логики поисковой строки Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
         timer?.invalidate()
@@ -143,78 +133,5 @@ extension AdvancedViewController: UISearchBarDelegate {
                 self?.reloadData()
             })
         })
-    }
-}
-
-// MARK: - Cмена типа UICollectionViewLayout
-extension AdvancedViewController {
-    
-    // MARK: Первый тип Layout (отобраажения/расположения фотографий)
-    private func createFirstLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5,
-                                                              bottom: 5, trailing: 5)
-            // Group
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.3))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8,
-                                                                 bottom: 0, trailing: 8)
-            return section
-        }
-        return layout
-    }
-    
-    // MARK: Второй тип Layout (отобраажения/расположения фотографий)
-    private func createSecondLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5,
-                                                              bottom: 5, trailing: 5)
-            // Group
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.5))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8,
-                                                                 bottom: 0, trailing: 8)
-            return section
-        }
-        return layout
-    }
-    
-    // MARK: Третий тип Layout (отобраажения/расположения фотографий)
-    private func createThirdLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5,
-                                                              bottom: 5, trailing: 5)
-            // Group
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(1.0))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitems: [item])
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8,
-                                                                 bottom: 0, trailing: 8)
-            return section
-        }
-        return layout
     }
 }

@@ -10,6 +10,7 @@ import SnapKit
 
 // Контроллер представения фотографий отмеченных лайком (избранных)
 final class FavoritePhotoViewController: UIViewController {
+    
     // MARK: - Propherties & typealias / Свойства и объекты UI
     typealias DataSource = UICollectionViewDiffableDataSource<PhotoListSection, Photo>
     typealias Snapshot = NSDiffableDataSourceSnapshot<PhotoListSection, Photo>
@@ -17,12 +18,9 @@ final class FavoritePhotoViewController: UIViewController {
     private lazy var collectionView = UICollectionView(frame: CGRect.zero,
                                                        collectionViewLayout: UICollectionViewFlowLayout.init())
     private var dataSource: DataSource?
+    private var collectionViewLayout: CollViewLayoutModuleProtocol
     
-    private var viewModel: FavoritePhotoViewModelProtocol {
-        didSet {
-            self.reloadData()
-        }
-    }
+    private var viewModel: FavoritePhotoViewModelProtocol
     
     // MARK: - Методы жиненного цикла view controller
     override func viewDidLoad() {
@@ -35,8 +33,9 @@ final class FavoritePhotoViewController: UIViewController {
         self.reloadData()
     }
     
-    init(viewModel: FavoritePhotoViewModelProtocol) {
+    init(viewModel: FavoritePhotoViewModelProtocol, layout: CollViewLayoutModuleProtocol) {
         self.viewModel = viewModel
+        self.collectionViewLayout = layout
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,7 +53,7 @@ final class FavoritePhotoViewController: UIViewController {
         
         /// `CollectionView` settings
         collectionView.frame = view.bounds
-        collectionView.collectionViewLayout = createLayout()
+        collectionView.collectionViewLayout = collectionViewLayout.getLayout()
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -87,26 +86,6 @@ final class FavoritePhotoViewController: UIViewController {
             cell?.viewModel = self?.viewModel.photoCellViewModel(at: indexPath)
             return cell
         })
-    }
-
-    private func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets.init(top: 5, leading: 5, bottom: 5, trailing: 5)
-            
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(0.5))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 10, leading: 8, bottom: 0, trailing: 8)
-            
-            return section
-        }
-        return layout
     }
 }
 

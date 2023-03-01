@@ -7,7 +7,7 @@
 
 import UIKit
 
-// Favorite Module предназначен для создания модуля Favorite Photos
+// Details Module Assembly предназначен для создания модуля Details View Controller
 final class DetailsModuleAssembly {
     private let photo: Photo
 
@@ -19,11 +19,9 @@ final class DetailsModuleAssembly {
 // MARK: - Assemblying
 extension DetailsModuleAssembly: Assemblying {
     func createModule() -> UIViewController {
-        
         /// Менеджер для работы с сетью
         let fetcher = NetworkDataFetcher()
-        
-        let viewModel = DetailsViewModel(fetcher: fetcher, photo: photo)
+        let viewModel = DetailsViewModel(photo: photo, fetcher: fetcher)
         let VC = DetailsViewController(viewModel: viewModel)
         return VC
     }

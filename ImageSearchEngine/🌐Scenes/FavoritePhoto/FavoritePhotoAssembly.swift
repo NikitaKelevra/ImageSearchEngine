@@ -19,14 +19,16 @@ final class FavoriteModuleAssembly {
 // MARK: - Assemblying
 extension FavoriteModuleAssembly: Assemblying {
     func createModule() -> UIViewController {
-        
-        /// Менеджер для работы перехода на дрегие экраны
-        let router = FavoriteRouter(navigationController: navigationController)
+        /// Менеджер перехода на другие экраны
+        let router = AdvancedRouter(navigationController: navigationController)
         /// Менеджер для работы с сетью
-//        let fetcher = NetworkDataFetcher()
-        
-        let viewModel = FavoritePhotoViewModel(router: router)
-        let VC = FavoritePhotoViewController(viewModel: viewModel)
+        let fetcher = NetworkDataFetcher()
+        /// Менеджер работы с UserDefaults
+        let localDM = LocalDataManager()
+        /// Менеджер выбора Layout Collection View (размера ячеек)
+        let CVLayout = CollViewLayoutModule()
+        let viewModel = FavoritePhotoViewModel(router: router, fetcher: fetcher, localDM: localDM)
+        let VC = FavoritePhotoViewController(viewModel: viewModel, layout: CVLayout)
         return VC
     }
 }
