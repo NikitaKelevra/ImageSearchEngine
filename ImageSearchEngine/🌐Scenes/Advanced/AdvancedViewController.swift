@@ -47,7 +47,7 @@ final class AdvancedViewController: UIViewController {
         
         /// Настройка параметров `Navigation Bar`
         title = "Photo Engine".localize()
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"),
                                                             style: .plain,
@@ -77,7 +77,7 @@ final class AdvancedViewController: UIViewController {
         
         /// Настройка расположения элементов на экране
         collectionView.snp.makeConstraints { make in
-            make.left.right.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.top.bottom.equalToSuperview()
         }
     }
     
