@@ -10,6 +10,10 @@ import Foundation
 
 protocol LocalDataManagerProtocol {
     
+    /// Проверка наличия залогинившегося пользователя
+    /// - Returns: Bool Данные о пользователе  сохранены/ отсутствуют
+    func checkReady() -> Bool
+    
     /// Добавление/удаление элемента в массиве `Favorite Photos`
     ///  - Parameters:
     ///     - photo: фотография, у когорой нужно изменить статус favorite
@@ -32,11 +36,14 @@ final class LocalDataManager {
     
     private let userDefaults = UserDefaults.standard
     private let favPhotosKey = UserDefaultsKeys.favoritePhotosKey.rawValue
-//    static let shared = LocalDataManager()
 }
 
 // MARK: - LocalDataManagerProtocol
 extension LocalDataManager: LocalDataManagerProtocol {
+    
+    func checkReady() -> Bool {
+        UserDefaults.standard.bool(forKey: UserDefaultsKeys.isUserReady.rawValue)
+    }
     
     func changeFavoriteStatus(at photo: Photo) {
         var channels = fetchPhotos()
@@ -68,4 +75,5 @@ extension LocalDataManager: LocalDataManagerProtocol {
         guard let data = try? JSONEncoder().encode(favPhotos) else { return }
         userDefaults.set(data, forKey: favPhotosKey)
     }
+    
 }
