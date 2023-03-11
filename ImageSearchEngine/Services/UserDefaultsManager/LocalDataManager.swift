@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol LocalDataManagerProtocol {
     
     /// Проверка наличия залогинившегося пользователя

@@ -115,7 +115,7 @@ final class DetailsViewController: UIViewController {
         view.addSubview(photoImageView)
         view.addSubview(photoDetailsStack)
         
-        
+
         /// Настройка расположения элементов на экране
         photoImageView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()

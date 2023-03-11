@@ -26,32 +26,32 @@ final class MainTabBarController: UITabBarController {
         tabBar.shadowImage = UIImage()
     
         /// Настраиваем слой `TabBar`
-        let x: CGFloat = 10
-        let y: CGFloat = 12
-        let width = tabBar.bounds.width - x * 2
-        let height = tabBar.bounds.height + y * 2
+        let positionOnX: CGFloat = 10
+        let positionOnY: CGFloat = 12
+        let width = tabBar.bounds.width - positionOnX * 2
+        let height = tabBar.bounds.height + positionOnY * 2
 
         let bezierPath = UIBezierPath(
-            roundedRect: CGRect(x: x,
-                                y: tabBar.bounds.minY - y,
+            roundedRect: CGRect(x: positionOnX,
+                                y: tabBar.bounds.minY - positionOnY,
                                 width: width,
                                 height: height),
             cornerRadius: height / 3
         )
         layer.path = bezierPath.cgPath
         
+        /// Добавляем слой `TabBar`
+        tabBar.layer.insertSublayer(layer, at: 0)
+        
+        /// Настраиваем элементы `TabBar`
+        tabBar.itemWidth = width / 3
+        tabBar.itemPositioning = .centered
+        
         /// Настраиваем тени `TabBar`
         layer.shadowColor = UIColor.viewBackgroundColor.cgColor
         layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         layer.shadowRadius = 5.0
         layer.shadowOpacity = 0.5
-        
-        /// Добавляем слой `TabBar`
-        tabBar.layer.insertSublayer(layer, at: 0)
-        
-         /// Настраиваем элементы `TabBar`
-        tabBar.itemWidth = width / 3
-        tabBar.itemPositioning = .centered
         
          /// Настраиваем цвета `TabBar`
         layer.fillColor = UIColor.mainBackgroundColor.cgColor

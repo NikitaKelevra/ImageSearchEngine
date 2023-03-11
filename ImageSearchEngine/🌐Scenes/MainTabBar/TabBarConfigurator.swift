@@ -38,6 +38,7 @@ extension TabBarConfigurator: TabBarConfiguration {
     func generate(tabBar: UITabBarController) {
         /// Конфигурируем модуль для первой вкладки
         let advanceNC = UINavigationController()
+        advanceNC.view.backgroundColor = UIColor.clear
         let advanceVC = generateNaviController(assenblyingModule: AdvancedModuleAssembly(navigationController: advanceNC),
                                                title: "All Photos".localize(),
                                                image: UIImage(systemName: "gear"))

@@ -47,8 +47,6 @@ final class ApplicationCoordinator: Coordinator {
         UINavigationBar.appearance().tintColor = .black
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-//        UINavigationBar.appearance().isTranslucent = false
-
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "Cancel".localize()
     }
 }
