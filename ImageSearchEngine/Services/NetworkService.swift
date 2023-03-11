@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class NetworkService {
+final class NetworkService {
 
     typealias RandomResponseResult = (Result<[Photo], DataFetcherError>) -> Void
     typealias SearchResponseResult = (Result<PhotoResponse, DataFetcherError>) -> Void

@@ -16,7 +16,6 @@
 		681D5C9329AA47C700CC5DFD /* FavoritePhotoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5C9229AA47C700CC5DFD /* FavoritePhotoRouter.swift */; };
 		681D5C9729AA516F00CC5DFD /* MainTabBarAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5C9629AA516F00CC5DFD /* MainTabBarAssembly.swift */; };
 		681D5C9929AA594900CC5DFD /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5C9829AA594900CC5DFD /* ApplicationCoordinator.swift */; };
-		681D5C9B29AA5AAB00CC5DFD /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5C9A29AA5AAB00CC5DFD /* UserDefaultsManager.swift */; };
 		681D5C9D29AA5B3500CC5DFD /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5C9C29AA5B3500CC5DFD /* UserDefaultsKeys.swift */; };
 		681D5CA129AA63BA00CC5DFD /* Assemblying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5CA029AA63BA00CC5DFD /* Assemblying.swift */; };
 		681D5CA329AB56D600CC5DFD /* DetailsModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681D5CA229AB56D600CC5DFD /* DetailsModuleAssembly.swift */; };
@@ -59,7 +58,6 @@
 		681D5C9229AA47C700CC5DFD /* FavoritePhotoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoRouter.swift; sourceTree = "<group>"; };
 		681D5C9629AA516F00CC5DFD /* MainTabBarAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarAssembly.swift; sourceTree = "<group>"; };
 		681D5C9829AA594900CC5DFD /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
-		681D5C9A29AA5AAB00CC5DFD /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		681D5C9C29AA5B3500CC5DFD /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		681D5CA029AA63BA00CC5DFD /* Assemblying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assemblying.swift; sourceTree = "<group>"; };
 		681D5CA229AB56D600CC5DFD /* DetailsModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModuleAssembly.swift; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				68A4E74F28FAE9C600AEF48C /* LocalDataManager.swift */,
-				681D5C9A29AA5AAB00CC5DFD /* UserDefaultsManager.swift */,
 				681D5C9C29AA5B3500CC5DFD /* UserDefaultsKeys.swift */,
 			);
 			path = UserDefaultsManager;
@@ -421,7 +418,6 @@
 				681D5C9329AA47C700CC5DFD /* FavoritePhotoRouter.swift in Sources */,
 				68A4E74728F5F04C00AEF48C /* PhotoCell.swift in Sources */,
 				68A4E74B28F99ACF00AEF48C /* DetailsViewController.swift in Sources */,
-				681D5C9B29AA5AAB00CC5DFD /* UserDefaultsManager.swift in Sources */,
 				6820FDF9299CC9EC0089E27F /* PhotoListSection.swift in Sources */,
 				681D5C8529A8A52200CC5DFD /* AdvancedRouter.swift in Sources */,
 				68A4E74528F5DD1200AEF48C /* NetworkService.swift in Sources */,
