@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import SnapKit
 
 // Основной контроллер представения с подгрузкой случайных фотографий и строкой поиска
@@ -20,7 +21,7 @@ final class AdvancedViewController: UIViewController {
     private var dataSource: DataSource?
     private var collectionViewLayout: CollViewLayoutModuleProtocol
     
-    private var timer: Timer?
+//    private var timer: Timer?
 
     private var viewModel: AdvancedViewModelProtocol
     
@@ -126,12 +127,15 @@ extension AdvancedViewController: UISearchBarDelegate {
     /// Настройка логики поисковой строки Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.trimmingCharacters(in: .whitespaces) != "" else { return }
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] (_) in
-            
-            self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
-                self?.reloadData()
-            })
-        })
+        viewModel.searchTerm = searchText
+        
+        
+//        timer?.invalidate()
+//        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] (_) in
+//
+//            self?.viewModel.getSearchPhotos(searchTerm: searchText, completion: {
+//                self?.reloadData()
+//            })
+//        })
     }
 }

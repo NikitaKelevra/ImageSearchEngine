@@ -7,7 +7,8 @@
 
 import UIKit
 
-class NetworkDataFetcher {
+// Сервис принимающий data, принятую с сервера
+final class NetworkDataFetcher {
     
     private var networkService = NetworkService()
     private let imageDownloader = ImageDownloader.shared
@@ -70,4 +71,9 @@ class NetworkDataFetcher {
         
         
     }
+}
+
+extension NetworkDataFetcher {
+    
+    
 }

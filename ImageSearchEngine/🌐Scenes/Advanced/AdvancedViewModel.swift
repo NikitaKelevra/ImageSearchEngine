@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 protocol AdvancedViewModelProtocol {
+    
+    /// Текст поискового запроса фотографий
+    var searchTerm: String { get set }
     
     /// Основной массив фотографий Collection View
     var photos: [Photo] { get set }
@@ -44,10 +48,14 @@ protocol AdvancedViewModelProtocol {
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
     
-    var photos: [Photo] = []
+    @Published var photos: [Photo] = []
     var favoritePhotos: [Photo] {
         localDataManager.fetchPhotos()
     }
+    
+    @Published var searchTerm = ""
+    
+    private var netServ = NetworkManager()
     
     private var router: AdvancedRouterProtocol
     private var networkDataFetcher: NetworkDataFetcher
@@ -59,7 +67,18 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
         self.router = router
         self.networkDataFetcher = fetcher
         self.localDataManager = localDM
+        
+        $searchTerm
+            .debounce(for: 0.3, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .flatMap { [self] (searchTerm: String) -> AnyPublisher <[Photo], Never> in
+                netServ.fetchPhotos(for: searchTerm)
+              }
+             .assign(to: \.photos , on: self) // подписка на «выходное» @Published свойство
+            .store(in: &self.cancellableSet)
     }
+    
+    private var cancellableSet: Set<AnyCancellable> = [] /// Переменная которая хранит "подписчиков"
     
     func photoCellViewModel(at indexPath: IndexPath) -> PhotoCellViewModelProtocol {
         let photo = photos[indexPath.row]
@@ -71,18 +90,18 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
     }
     
     func getRandomPhotos(completion: @escaping() -> Void) {
-        self.networkDataFetcher.fetchRandomPhotos{ [weak self] (photos) in
-            self?.photos = photos
-            completion()
-        }
+//        self.networkDataFetcher.fetchRandomPhotos{ [weak self] (photos) in
+//            self?.photos = photos
+//            completion()
+//        }
     }
     
     func getSearchPhotos(searchTerm: String, completion: @escaping() -> Void) {
-        self.networkDataFetcher.fetchSearchPhotos(searchTerm: searchTerm,
-                                                  completion: { [weak self] (photos) in
-            self?.photos = photos
-            completion()
-        })
+//        self.networkDataFetcher.fetchSearchPhotos(searchTerm: searchTerm,
+//                                                  completion: { [weak self] (photos) in
+//            self?.photos = photos
+//            completion()
+//        })
     }
     
     func navigateToPhotoDetailScreen(index: Int) {
