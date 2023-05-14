@@ -7,7 +7,6 @@
 
 import Foundation
 import Alamofire
-import Combine
 
 // Сервис делающий запрос информации на сервере
 final class NetworkService {

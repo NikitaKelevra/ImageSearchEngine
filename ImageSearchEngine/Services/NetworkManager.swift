@@ -27,8 +27,9 @@ final class NetworkManager {
         print(request)
         
         return URLSession.shared.dataTaskPublisher(for: request)
-            .map { $0.data }
-            .decode(type: PhotoResponse.self, decoder: JSONDecoder())
+            .map { $0.data }                       /// выбирает data из (Data, URLResponse)
+            .decode(type: PhotoResponse.self,
+                    decoder: JSONDecoder())
             .map {$0.results}
             .catch { error in Just([])}
             .receive(on: RunLoop.main)

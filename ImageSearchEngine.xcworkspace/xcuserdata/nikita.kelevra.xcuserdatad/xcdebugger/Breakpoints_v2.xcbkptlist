@@ -3,4 +3,54 @@
    uuid = "F593121D-229A-4232-9AA6-7823E90B7CD4"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7EC965B4-0A38-497E-A32F-2B64E710C5A5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageSearchEngine/Services/NetworkManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "fetchPhotos(for:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7EC965B4-0A38-497E-A32F-2B64E710C5A5 - d3d813459085fa89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ImageSearchEngine.NetworkManager.fetchPhotos(for: Swift.String) -&gt; Combine.AnyPublisher&lt;Swift.Array&lt;ImageSearchEngine.Photo&gt;, Swift.Never&gt;"
+                  moduleName = "ImageSearchEngine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita.kelevra/!%20Swift%20Programming/My%20Progects/ImageSearchEngine/ImageSearchEngine/Services/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "1584">
+               </Location>
+               <Location
+                  uuid = "7EC965B4-0A38-497E-A32F-2B64E710C5A5 - 8c84ee87e34505ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (ImageSearchEngine.PhotoResponse) -&gt; Swift.Array&lt;ImageSearchEngine.Photo&gt; in ImageSearchEngine.NetworkManager.fetchPhotos(for: Swift.String) -&gt; Combine.AnyPublisher&lt;Swift.Array&lt;ImageSearchEngine.Photo&gt;, Swift.Never&gt;"
+                  moduleName = "ImageSearchEngine"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikita.kelevra/!%20Swift%20Programming/My%20Progects/ImageSearchEngine/ImageSearchEngine/Services/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

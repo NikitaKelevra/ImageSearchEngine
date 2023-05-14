@@ -48,12 +48,13 @@ protocol AdvancedViewModelProtocol {
 // MARK: - AdvancedViewController View Model
 final class AdvancedViewModel: AdvancedViewModelProtocol {
     
+    @Published var searchTerm = ""
+    
     @Published var photos: [Photo] = []
     var favoritePhotos: [Photo] {
         localDataManager.fetchPhotos()
     }
     
-    @Published var searchTerm = ""
     
     private var netServ = NetworkManager()
     
@@ -73,8 +74,8 @@ final class AdvancedViewModel: AdvancedViewModelProtocol {
             .removeDuplicates()
             .flatMap { [self] (searchTerm: String) -> AnyPublisher <[Photo], Never> in
                 netServ.fetchPhotos(for: searchTerm)
-              }
-             .assign(to: \.photos , on: self) // подписка на «выходное» @Published свойство
+            }
+            .assign(to: \.photos , on: self) // подписка на «выходное» @Published свойство
             .store(in: &self.cancellableSet)
     }
     
