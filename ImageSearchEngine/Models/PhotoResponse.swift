@@ -12,7 +12,7 @@ struct PhotoResponse: Codable, Hashable {
     let total: Int
     let results: [Photo]
 }
-// MARK: - Photo
+// MARK: - Модель изображения
 struct Photo: Codable, Hashable {
     let id: String
     let createdAt: String // Date
@@ -45,13 +45,13 @@ enum PhotoSize: String, Codable, Hashable {
     case small
     case thumb
 }
-// MARK: - UserInfo
+// MARK: - Модель автора изображения
 struct UserInfo: Codable, Hashable  {
     let id: String
     let name: String
 }
 
-// MARK: - Location
+// MARK: - Модель локации изображения
 struct Location: Codable, Hashable {
     let city, country: String?
     let position: Position?
