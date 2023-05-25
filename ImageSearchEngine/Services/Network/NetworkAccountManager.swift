@@ -12,45 +12,52 @@ protocol NetworkAccountManagment {
     
     
     /// Запрос профиля
-    /// - Parameter complition: handler по результату (success, message?, AccountModel?)
-    func requestActualAccountModel(complition: @escaping (Bool, String?, AccountModel?)-> Void)
+    /// - Parameter complition: handler по результату (success, error code, message?, AccountModel?)
+    func requestActualAccountModel(complition: @escaping (Bool, Int?, String?, AccountModel?)-> Void)
     
-    /// <#Description#>
+    /// Обновление профиля
     /// - Parameters:
     ///   - newModel: новая модель
     ///   - complition: handler по результату (success, message?, AccountModel?)
     func updateAccountModel(newModel: AccountModel,
-                            complition: @escaping (Bool, String?, AccountModel?)-> Void)
+                            complition: @escaping (Bool, Int?, String?, AccountModel?)-> Void)
     
-    /// <#Description#>
+    /// Синхронизация локального и удаленного профиля
     /// - Parameters:
     ///   - currentModel: локальная модель
     ///   - complition: handler по результату (success, message?, AccountModel?)
+    ///   - priority: выбор приоритетной версии аккаунта (сервер или устройство)
     func syncAccountModel(currentModel: AccountModel,
-                            complition: @escaping (Bool, String?, AccountModel?)-> Void)
+                          priority: NetworkAccountManager.SyncPriority ,
+                            complition: @escaping (Bool, Int?, String?, AccountModel?)-> Void)
 }
 
 /// Сетевой менеджер
 final class NetworkAccountManager {
+    
+    enum SyncPriority {
+        case local
+        case server
+    }
     
 }
 
 // MARK: - NetworkAccountManagment
 extension NetworkAccountManager: NetworkAccountManagment {
     
-    func requestActualAccountModel(complition: @escaping (Bool, String?, AccountModel?) -> Void) {
+    func requestActualAccountModel(complition: @escaping (Bool, Int?, String?, AccountModel?) -> Void) {
         
     }
     
-    func updateAccountModel(newModel: AccountModel,
-                            complition: @escaping (Bool, String?, AccountModel?) -> Void) {
+    func updateAccountModel(newModel: AccountModel, complition: @escaping (Bool, Int?, String?, AccountModel?) -> Void) {
         
     }
     
-    func syncAccountModel(currentModel: AccountModel,
-                          complition: @escaping (Bool, String?, AccountModel?) -> Void) {
+    func syncAccountModel(currentModel: AccountModel, priority: SyncPriority, complition: @escaping (Bool, Int?, String?, AccountModel?) -> Void) {
         
     }
+    
+
     
     
 }

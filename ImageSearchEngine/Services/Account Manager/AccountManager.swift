@@ -10,7 +10,7 @@ import Foundation
 
 /// Протокол изменения данных об аккаунте
 protocol AccountChangable {
-    
+    var accountModel: AccountModel {get set}
 }
 
 /// Протокол наблюдения за изменениями данных об аккаунте
@@ -18,28 +18,59 @@ protocol AccountObservable {
     
 }
 
-// MARK: - Менеджер пользовательского аккаунта
-final class AccountManager {
+/// Менеджер пользовательского аккаунта
+final class AccountManager: AccountChangable  {
     
-    static let shared: AccountChangable = AccountManager()
-    
-    var delegates: [AccountObservable?] = [] // сделать weak
-    
+    // MARK: - AccountChangable
     var accountModel: AccountModel {
         didSet {
             if accountModel != oldValue {
-                
+                networkAccountManager.syncAccountModel(currentModel: accountModel,
+                                                       priority: .local) { [weak self] success, errCode, message, model in
+                    
+                    self?.handleAPIResult(success: success,
+                                          errCode: errCode,
+                                          message: message,
+                                          accountModel: model)
+                    
+                }
             }
         }
     }
     
     
-    private init() { }
+    static let shared: AccountChangable = AccountManager()
+    
+    var delegates: [AccountObservable?] = [] // сделать weak
+    
+    let networkAccountManager: NetworkAccountManagment
     
     
+    
+    private init() {
+        networkAccountManager = NetworkAccountManager()
+        accountModel = AccountModel.emptyModel()
+    }
+
 }
 
-// MARK: - AccountChangable
-extension AccountManager: AccountChangable {
+private extension AccountManager {
+    
+    private func handleAPIResult(success: Bool,
+                                 errCode: Int?,
+                                 message: String?,
+                                 accountModel: AccountModel?) {
+        
+        
+        if success {
+            assert(self.accountModel == accountModel)
+        } else if let message = message {
+            print(message)
+            /// Здесь стоит передать ошибку наблюдателю
+        } else {
+            /// Здесь стоит передать неизвестную ошибку наблюдателю
+        }
+
+    }
     
 }

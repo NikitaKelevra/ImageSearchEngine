@@ -7,36 +7,42 @@
 
 import Foundation
 
-/// Модель персональных данных пользователя
-struct PersonalInfo: Equatable {
-    var isDarkMode: Bool
-}
-
 /// Модель пользовательских настроек
 struct AccountSettings: Equatable {
+    var isDarkMode: Bool
+    
+    init() {
+        self.isDarkMode = false // системный
+    }
+}
+
+/// Модель персональных данных пользователя
+struct PersonalInfo: Equatable {
     var nickname: String
     var name: String
     var email: String
 }
 
 /// Модель аккаунта пользователя
-struct AccountModel: Equatable {
-    var id: Int
+struct AccountModel {
+    var id: Int?
+    var personalInfo: PersonalInfo?
+    var favoritesPhoto: [Photo] = []     /// Массив избранных фотографий пользователя
+    var settings: AccountSettings = AccountSettings()
     
-    
-    var personalInfo: PersonalInfo
-
-    var favoritesPhoto: [Photo]     /// Массив избранных фотографий пользователя
-
-    var settings: AccountSettings
-    
-
+    static func emptyModel() -> AccountModel {
+        return AccountModel(id: nil,
+                            personalInfo: nil,
+                            favoritesPhoto: [],
+                            settings: AccountSettings())
+    }
 }
 
 // MARK: - Equatable
 extension AccountModel: Equatable {
     static func == (lhs: AccountModel, rhs: AccountModel) -> Bool {
-        return lhs.id == rhs.id &&
+        return
+        lhs.id == rhs.id &&
         lhs.personalInfo == rhs.personalInfo &&
         lhs.favoritesPhoto == rhs.favoritesPhoto &&
         lhs.settings == rhs.settings
