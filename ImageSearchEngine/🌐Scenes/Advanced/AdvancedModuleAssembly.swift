@@ -28,7 +28,7 @@ extension AdvancedModuleAssembly: Assemblying {
         /// Менеджер выбора Layout Collection View (размера ячеек)
         let CVLayout = CollViewLayoutModule()
         let viewModel = AdvancedViewModel(router: router, fetcher: fetcher, localDM: localDM)
-        let VC = AdvancedViewController(viewModel: viewModel, layout: CVLayout)
-        return VC
+        let vc = AdvancedViewController(viewModel: viewModel, layout: CVLayout)
+        return vc
     }
 }
