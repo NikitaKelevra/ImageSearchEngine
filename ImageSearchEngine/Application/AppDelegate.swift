@@ -12,17 +12,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    
-    
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         window = UIWindow()
-        let userDefaults = LocalDataManager()
-
-        ApplicationCoordinator(window: window,
-                               userDefaults: userDefaults).start()
+        
+        /// Настройка и запуск стартового экрана приложения
+        ApplicationCoordinator(window: window).start()
+        
         return true
     }
-    
-    
 }
