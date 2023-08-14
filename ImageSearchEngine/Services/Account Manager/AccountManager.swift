@@ -10,7 +10,7 @@ import Foundation
 
 /// Протокол изменения данных об аккаунте
 protocol AccountChangable {
-    var accountModel: AccountModel {get set}
+    var accountModel: AccountModel { get set }
 }
 
 /// Протокол наблюдения за изменениями данных об аккаунте
@@ -54,8 +54,10 @@ final class AccountManager: AccountChangable  {
 
 }
 
+// MARK: - AccountManager private func
 private extension AccountManager {
     
+    /// Обработка данных аккаунта пользователя с API сервера
     private func handleAPIResult(success: Bool,
                                  errCode: Int?,
                                  message: String?,
@@ -63,12 +65,15 @@ private extension AccountManager {
         
         
         if success {
+            /// Можем упасть на этапе тестирования
             assert(self.accountModel == accountModel)
+            
+            
         } else if let message = message {
             print(message)
-            /// Здесь стоит передать ошибку наблюдателю
+            /// Здесь стоит передать ошибку наблюдателю если известен номер ошибки или есть сообщения в ответе
         } else {
-            /// Здесь стоит передать неизвестную ошибку наблюдателю
+            /// Здесь стоит передать неизвестную ошибку наблюдателю если ничего не вернулось
         }
 
     }

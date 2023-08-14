@@ -43,6 +43,9 @@ final class NetworkAccountManager {
 }
 
 // MARK: - NetworkAccountManagment
+
+// MARK: Мок объект - замена работы с API сервисом. Пока проект работает без бека.
+
 extension NetworkAccountManager: NetworkAccountManagment {
     
     func requestActualAccountModel(complition: @escaping (Bool, Int?, String?, AccountModel?) -> Void) {
